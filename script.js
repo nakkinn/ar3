@@ -78,8 +78,8 @@ let indices = [];
 
 for(let i=0; i<=30; i++){
 
-    let t = 2*Math.PI/30.05*i;
-    let t2 = t + 2*Math.PI/30.05;
+    let t = 2*Math.PI/30*i;
+    let t2 = t + 2*Math.PI/30;
     let a = 5;
     let b = 2;
 
@@ -107,12 +107,13 @@ const vertices = new Float32Array(vts);
 geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices), 1))
 
-const material = new THREE.MeshNormalMaterial( {side:THREE.DoubleSide} );
+const material = new THREE.MeshNormalMaterial( {side:THREE.DoubleSide, flatShading:true} );
 
 geometry.computeVertexNormals();
 
 const mesh = new THREE.Mesh( geometry, material );
 mesh.scale.set(0.2, 0.2, 0.2);
+
 
 scene.add(mesh);
 
@@ -143,7 +144,7 @@ function animate() {
 
     requestAnimationFrame(animate); //この関数を繰り返し実行する
 
-    let cdist = 2.6 //原点とカメラの距離
+    let cdist = 4; //原点とカメラの距離
 
     //原点からy軸方向にcdist持ち上げた点に、スマホのオイラー角を適用して原点中心で回転させた移動先の点をv1とする（後にv1をもとにしてカメラ位置を定める）
     //v2は同じく(0, cdist, -0.01)を回転させた移動先, カメラのヘッドの位置を求めるために使用
