@@ -113,6 +113,7 @@ geometry.computeVertexNormals();
 
 const mesh = new THREE.Mesh( geometry, material );
 mesh.scale.set(0.2, 0.2, 0.2);
+mesh.rotation.x = Math.PI/2;
 
 
 scene.add(mesh);
@@ -144,7 +145,7 @@ function animate() {
 
     requestAnimationFrame(animate); //この関数を繰り返し実行する
 
-    let cdist = 4; //原点とカメラの距離
+    let cdist = 3.5; //原点とカメラの距離
 
     //原点からy軸方向にcdist持ち上げた点に、スマホのオイラー角を適用して原点中心で回転させた移動先の点をv1とする（後にv1をもとにしてカメラ位置を定める）
     //v2は同じく(0, cdist, -0.01)を回転させた移動先, カメラのヘッドの位置を求めるために使用
