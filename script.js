@@ -44,7 +44,7 @@ function handleOrientation(event) {
 
 // シーン、カメラ、レンダラーの設定
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer({
     canvas:this.document.querySelector('#canvas1'),
@@ -55,7 +55,7 @@ let width = window.innerWidth;  //スクリーンサイズ
 let height = window.innerHeight;
 
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(Math.min(width,height), Math.min(width,height));   //スクリーンの短辺を1辺とする正方形
+renderer.setSize(window.innerWidth, window.innerHeight);   //スクリーンの短辺を1辺とする正方形
 
 
 
@@ -112,7 +112,7 @@ const material = new THREE.MeshNormalMaterial( {side:THREE.DoubleSide} );
 geometry.computeVertexNormals();
 
 const mesh = new THREE.Mesh( geometry, material );
-mesh.scale.set(0.3, 0.3, 0.3);
+mesh.scale.set(0.2, 0.2, 0.2);
 
 scene.add(mesh);
 
