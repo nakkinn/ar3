@@ -33,3 +33,8 @@ button{
     top:10px;
 }
 
+#canvas2{
+    position:absolute;
+    top:0px;
+    z-index:-1;
+}

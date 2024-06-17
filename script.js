@@ -242,3 +242,31 @@ function animate() {
 
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('webcam');
+    const canvas = document.getElementById('canvas2');
+    const context = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // ウェブカメラにアクセス
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+            video.srcObject = stream;
+        })
+        .catch((err) => {
+            console.error('Error accessing the webcam: ', err);
+        });
+
+    // ビデオの映像をキャンバスに描画する関数
+    const drawToCanvas = () => {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        requestAnimationFrame(drawToCanvas); // 連続して描画するために再度呼び出す
+    };
+
+    // ビデオが再生され始めたらキャンバスに描画を開始する
+    video.addEventListener('loadeddata', () => {
+        drawToCanvas();
+    });
+});
