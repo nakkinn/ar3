@@ -73,7 +73,7 @@ let height = window.innerHeight;
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);   
-renderer.setSize(100, 100);
+
 
 document.getElementById('canvas1').style.touchAction = 'none';
 
@@ -232,7 +232,7 @@ function animate() {
 
     angularvelocity.lerp(va1, 0.2);
     let axis = angularvelocity.clone().normalize();
-    let rad = angularvelocity.length()*0.015;
+    let rad = angularvelocity.length()*0.003;
 
     if(mouseIsPressed)  mesh.rotateOnWorldAxis(axis, rad);
     
@@ -241,14 +241,3 @@ function animate() {
 }
 
 
-
-const video = document.getElementById('video')
-navigator.mediaDevices.getUserMedia({
-    video:{width:300,height:300},
-    audio:false,
-}).then(stream => {
-    video.srcObject = stream;
-    video.play()
-}).catch(e => {
-    console.log(e)
-})
