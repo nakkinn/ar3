@@ -205,3 +205,9 @@ function animate() {
 
 }
 
+
+document.addEventListener('contextmenu', function(event) {
+    // イベントをキャンセルし、右クリック禁止を実現
+    event.preventDefault();
+});
+
