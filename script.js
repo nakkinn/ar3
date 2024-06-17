@@ -232,7 +232,7 @@ function animate() {
 
     angularvelocity.lerp(va1, 0.2);
     let axis = angularvelocity.clone().normalize();
-    let rad = angularvelocity.length()*0.003;
+    let rad = angularvelocity.length()*0.006;
 
     if(mouseIsPressed)  mesh.rotateOnWorldAxis(axis, rad);
     
