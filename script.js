@@ -14,6 +14,22 @@ let beta = Math.PI/2;     //x軸回り
 let gamma = 0;            //y軸回り
 
 
+//マウスが押されているか
+let mouseIsPressed = false;
+document.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+
+let mousemovementX=0, mousemovementY=0;
+document.addEventListener('pointermove',(event)=>{
+    mousemovementX = event.movementX;
+    mousemovementY = event.movementY;
+});
+
+let angularvelocity = new THREE.Vector3(0,0,0);
+let clock1 = new THREE.Clock();
+let dummymesh = new THREE.Mesh();
+
+
 //動作と方向へのアクセス許可のボタンが押されたとき、ポップを出す
 function permission_request() {
 
@@ -142,7 +158,6 @@ scene.add(mesh);
 
 
 
-
 // アニメーションループ
 animate();
 
@@ -200,6 +215,26 @@ function animate() {
         camera.up.z = 0;
     }
 
+
+    let movetheta = Math.atan2(mousemovementY, mousemovementX);
+    let moveamount = Math.sqrt(mousemovementY**2 + mousemovementX**2);
+
+    mousemovementX = 0;
+    mousemovementY = 0;
+
+    let e1 = new THREE.Vector3(-camera.position.x, -camera.position.y, -camera.position.z).normalize();
+    let e2 = new THREE.Vector3(camera.up.x, camera.up.y, camera.up.z).normalize();
+    let e3 = e1.clone().cross(e2);
+
+    let va1 = new THREE.Vector3(e2.x*Math.cos(movetheta)+e3.x*Math.sin(movetheta), e2.y*Math.cos(movetheta)+e3.y*Math.sin(movetheta), e2.z*Math.cos(movetheta)+e3.z*Math.sin(movetheta));
+    va1.multiplyScalar(moveamount);
+    
+
+    angularvelocity.lerp(va1, 0.2);
+    let axis = angularvelocity.clone().normalize();
+    let rad = angularvelocity.length()*0.015;
+
+    if(mouseIsPressed)  mesh.rotateOnWorldAxis(axis, rad);
     
     renderer.render(scene, camera); //レンダリング
 
@@ -207,7 +242,3 @@ function animate() {
 
 
 
-document.addEventListener('contextmenu', function(event) {
-    // イベントをキャンセルし、右クリック禁止を実現
-    event.preventDefault();
-});
