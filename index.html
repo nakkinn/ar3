@@ -14,7 +14,7 @@
     <br>
 
     <!--スマホのジャイロセンサ使用許可するためのボタン-->
-    <button onclick="permission_request();">動作と方向へのアクセス許可</button>
+    <button onclick="permission_request();" id="button_permission">動作と方向へのアクセス許可</button>
 
     <br>
 
@@ -23,9 +23,9 @@
 
     <br>
 
-    <div style="margin:100px 20px 30px 20px">
+    <div style="margin:100px 20px 30px 20px" id="container1">
       <input type="checkbox" id="check1" checked=true>
-      <label for="chekc1" style="font-size:30px">　カメラの上方向ベクトルを指定</label>
+      <label for="chekc1" style="font-size:30px;">　カメラの上方向ベクトルを指定</label>
     </div>
   
     <!--ライブラリ-->

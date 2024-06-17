@@ -44,6 +44,7 @@ function handleOrientation(event) {
 
 // シーン、カメラ、レンダラーの設定
 const scene = new THREE.Scene();
+
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer({
@@ -55,8 +56,12 @@ let width = window.innerWidth;  //スクリーンサイズ
 let height = window.innerHeight;
 
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);   //スクリーンの短辺を1辺とする正方形
+renderer.setSize(window.innerWidth, window.innerHeight);   
 
+
+document.getElementById('canvas1').style.touchAction = 'none';
+
+console.log(canvas1.style);
 
 
 //glTF形式の3Dデータインポート
@@ -199,5 +204,4 @@ function animate() {
     renderer.render(scene, camera); //レンダリング
 
 }
-
 
