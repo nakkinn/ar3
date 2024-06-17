@@ -73,7 +73,7 @@ let height = window.innerHeight;
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);   
-
+renderer.setSize(100, 100);
 
 document.getElementById('canvas1').style.touchAction = 'none';
 
