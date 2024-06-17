@@ -242,31 +242,17 @@ function animate() {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    const video = document.getElementById('webcam');
-    const canvas = document.getElementById('canvas2');
-    const context = canvas.getContext('2d');
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // ウェブカメラにアクセス
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then((stream) => {
-            video.srcObject = stream;
-        })
-        .catch((err) => {
-            console.error('Error accessing the webcam: ', err);
-        });
-
-    // ビデオの映像をキャンバスに描画する関数
-    const drawToCanvas = () => {
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        requestAnimationFrame(drawToCanvas); // 連続して描画するために再度呼び出す
-    };
-
-    // ビデオが再生され始めたらキャンバスに描画を開始する
-    video.addEventListener('loadeddata', () => {
-        drawToCanvas();
-    });
+//動画流す準備
+var video = document.getElementById("video");
+// getUserMedia によるカメラ映像の取得
+var media = navigator.mediaDevices.getUserMedia({
+    video: true,//ビデオを取得する
+    //使うカメラをインカメラか背面カメラかを指定する場合には
+    //video: { facingMode: "environment" },//背面カメラ
+    //video: { facingMode: "user" },//インカメラ
+    audio: false,//音声が必要な場合はture
+});
+//リアルタイムに再生（ストリーミング）させるためにビデオタグに流し込む
+media.then((stream) => {
+    video.srcObject = stream;
 });
