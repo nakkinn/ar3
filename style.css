@@ -1,4 +1,6 @@
-/*スマホ用に拡大*/
+html,body,canvas{
+    -webkit-touch-callout:none;
+}
 
 #slider1{
     position:absolute;
