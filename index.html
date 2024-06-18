@@ -1,31 +1,46 @@
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    * {
-      font-size: 1.5rem;
-    }
-  </style>
-</head>
- 
-<body>
-  <label for="environment">environmentの場合:</label>
-  <br>
-  <input
-    type="file"
-    id="environment"
-    capture="environment"
-    accept="video/*"
-  >
-  <br><br>
-  <label for="user">userの場合:</label>
-  <br>
-  <input
-    type="file"
-    id="user"
-    capture="user"
-    accept="image/*"
-  >
-</body>
- 
+<!Doctype html>
+<html>
+  <head>
+    <title>Camera Test</title>
+    <script type="text/javascript">
+
+
+      function videoStart(){
+        var constraints = { audio: false, video: { facingMode: "environment" } };
+
+        navigator.mediaDevices.getUserMedia( constraints )
+        .then(
+          function( stream ) {
+            var video = document.querySelector( 'video' );
+            video.srcObject = stream;
+            video.onloadedmetadata = function( e ) {
+              video.play();
+            };
+          }
+        )
+      };
+
+
+      function videoStop(){
+        var constraints = { audio: false, video: { facingMode: "environment" } };
+
+        navigator.mediaDevices.getUserMedia( constraints )
+        .then(
+          function( stream ) {
+            var video = document.querySelector( 'video' );
+            video.srcObject = stream;
+            video.onloadedmetadata = function( e ) {
+              stream.getVideoTracks()[0].stop();
+            };
+          }
+        )
+      };
+
+    </script>
+  </head>
+  <body>
+    <div><video id="myVideo" autoplay="1" ></video></div> 
+    <div><button type="button" onclick="videoStart()">撮影</button>　
+    <button type="button" onclick="videoStop()">停止</button></div>
+  </body>
 </html>
