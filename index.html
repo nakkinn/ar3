@@ -2,8 +2,26 @@
 <html>
   <head>
     <title>Camera Test</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <p>ver1.01</p>
+    
+    
+    <div><video id="myVideo" autoplay="1" playsinline hidden></video></div> 
+    <div><button type="button" onclick="videoStart()">撮影</button>　
+    <button type="button" onclick="videoStop()">停止</button></div>
+    <canvas id="canvas1"></canvas>
+
     <script type="text/javascript">
 
+      const canvas1 = document.getElementById('canvas1');
+      const context1 = canvas1.getContext('2d');
+
+      const video = document.querySelector( 'video' );
+
+      canvas1.width = window.innerWidth;
+      canvas1.height = window.innerHeight;
 
       function videoStart(){
         var constraints = { audio: false, video: { facingMode: "environment" } };
@@ -11,7 +29,6 @@
         navigator.mediaDevices.getUserMedia( constraints )
         .then(
           function( stream ) {
-            var video = document.querySelector( 'video' );
             video.srcObject = stream;
             video.onloadedmetadata = function( e ) {
               video.play();
@@ -36,12 +53,13 @@
         )
       };
 
+      function animate(){
+        requestAnimationFrame(animate);
+        context1.drawImage(video, 0, 0, canvas1.width, canvas1.height);
+      }
+
+      animate();
+
     </script>
-  </head>
-  <body>
-    <p>ver1.01</p>
-    <div><video id="myVideo" autoplay="1" playsinline></video></div> 
-    <div><button type="button" onclick="videoStart()">撮影</button>　
-    <button type="button" onclick="videoStop()">停止</button></div>
   </body>
 </html>

@@ -1,44 +1,9 @@
-html,body,canvas{
-    -webkit-touch-callout:none;
-}
-
-#slider1{
-    position:absolute;
-    left:210px;
-    top:160px;
-    transform:scale(3);
-    width:200px;
-}
-
-p{
-    font-size:40px;
-}
-
-button{
-    zoom:300%;
-}
-
-#check1{
-    transform:scale(3);
-
-}
-
-#container1{
-    position:absolute;
-    top:20px;
-}
-
-#button_permission{
-    position:absolute;
-    top:10px;
-}
-
-#canvas2{
+canvas{
     position:absolute;
     top:0px;
     z-index:-1;
 }
 
-#canvas1{
-    background:#ffffff00;
+html,body{
+    margin:0px;
 }
