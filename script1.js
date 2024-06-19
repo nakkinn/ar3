@@ -5,6 +5,9 @@ const curve = [[[0.0011,0.0000,-1.0004],[0.1005,0.0003,-0.8895],[0.1801,0.0005,-
 const canvas1 = document.getElementById('canvas1');
 canvas1.style.touchAction = 'none';
 
+canvas1.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+});
 
 //シーン
 const scene1 = new THREE.Scene();
@@ -70,6 +73,9 @@ document.addEventListener('pointermove',(event)=>{
 let angularvelocity = new THREE.Vector3(0,0,0);
 
 
+documtn.addEventListener('touchstart',()=>{
+    console.log(123);
+});
 
 
 //レンダリングを繰り返す
