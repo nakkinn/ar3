@@ -84,6 +84,8 @@ let angularvelocity = new THREE.Vector3(0,0,0);
 
 //2本指操作
 let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1; 
+let twofinger = false;
+
 //document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
 document.addEventListener('touchend', handleTouchEnd, false);
@@ -100,6 +102,8 @@ function handleTouchStart(event){
 function handleTouchMove(event){
 
     if(event.touches.length==2){
+
+        twofinger = true;
 
         if(mpx1==-1 || mpy1==-1 || mpx2==-1 || mpy2==-1){
 
@@ -141,6 +145,7 @@ function handleTouchEnd(event){
     mpy1 = -1;
     mpx2 = -1;
     mpy2 = -1;
+    twofinger = false;
 }
 
 
@@ -150,7 +155,7 @@ function animate(){
 
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
-    if(mouseIsPressed)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
+    if(mouseIsPressed && !twofinger)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
     let axis = angularvelocity.clone().normalize();
     let rad = angularvelocity.length()*0.005;
 
