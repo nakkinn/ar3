@@ -30,7 +30,6 @@ renderer1.setClearColor(0x000000);   //背景色
 const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,30);  //カメラ初期位置
 
-
 //画面サイズが変わったとき
 window.addEventListener('resize',()=>{
     renderer1.setSize(window.innerWidth, window.innerHeight);
@@ -82,6 +81,47 @@ document.addEventListener('pointermove',(event)=>{
 
 let angularvelocity = new THREE.Vector3(0,0,0);
 
+
+//2本指操作
+let mpx1=0, mpy1=0, mpx2=0, mpy2=0; 
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchmove', handleTouchMove, false);
+
+function handleTouchStart(event){
+    if(event.touchs.length==2){
+        mpx1 = event.touches[0].clientX;
+        mpy1 = event.touches[0].clientY;
+        mpx2 = event.touches[1].clientX;
+        mpy2 = event.touches[1].clientY;
+    }
+}
+
+function handleTouchMove(event){
+
+    if(event.touches.length==2){
+
+        let mx1, my1, mx2, my2;
+        mx1 = event.touches[0].clientX;
+        my1 = event.touches[0].clientY;
+        mx2 = event.touches[1].clientX;
+        my2 = event.touches[1].clientY;
+
+        let d1, d2;
+        d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
+        d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
+
+        let v1n = camera1.position.clone().normalize();
+        let v1l = camera1.position.length();
+
+        v1l += (d2-d1)*0.001;
+        camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
+
+        mpx1 = mx1;
+        mpy1 = my1;
+        mpx2 = mx2;
+        mpy2 = my2;
+    }
+}
 
 
 
