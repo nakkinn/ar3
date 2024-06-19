@@ -18,3 +18,11 @@ cnavas{
     transform:scale(3.5);
     width:200px;
 }
+
+
+#container1{
+    position:absolute;
+    top:50px;
+    right:160px;
+    transform:scale(3.5);
+}

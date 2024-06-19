@@ -21,10 +21,20 @@ slider1.addEventListener('pointerup',()=>{
 });
 slider1.addEventListener('input',()=>{
     scene1.remove(meshgroup[index]);
+    scene1.remove(mesh_surface_group[index]);
     index = Number(slider1.value);
     scene1.add(meshgroup[index]);
+    scene1.add(mesh_surface_group[index]);
 });
 
+
+const check1 = document.getElementById('check1');
+check1.addEventListener('change',(event)=>{
+    console.log(event.target.checked);
+    for(let i=0; i<mesh_surface_group.length; i++){
+        mesh_surface_group[i].visible = event.target.checked;
+    }
+});
 
 //シーン
 const scene1 = new THREE.Scene();
@@ -36,7 +46,7 @@ const renderer1 = new THREE.WebGLRenderer({
     antialias: true
 });
 renderer1.setSize(window.innerWidth, window.innerHeight); //キャンバスサイズ
-renderer1.setClearColor(0x000000);   //背景色
+renderer1.setClearColor(0xffffff);   //背景色
 
 
 // カメラ
@@ -68,7 +78,7 @@ scene1.add(light1);
 //オブジェクト
 let path, geometry, mesh, meshgroup;
 
-const material1 = new THREE.MeshLambertMaterial({ color: 0xffffff, side:THREE.DoubleSide});
+const material1 = new THREE.MeshLambertMaterial({ color: 0x57a9fa, side:THREE.DoubleSide});
 
 meshgroup = new Array(curve_group.length);
 for(let i=0; i<meshgroup.length; i++)   meshgroup[i] = new THREE.Mesh();
@@ -86,12 +96,36 @@ for(let i=0; i<curve_group.length; i++){
 
 }
 
+scene1.add(meshgroup[index]);
 
 let dummymesh = new THREE.Mesh();
 
-scene1.add(meshgroup[index]);
 
 
+let geometry_surface, material_surface, mesh_surface;
+let mesh_surface_group = new Array(vts2.length);
+
+material_surface = new THREE.MeshNormalMaterial({side:THREE.DoubleSide});
+material_surface = new THREE.MeshPhongMaterial({color:0xeeeeee,side:THREE.DoubleSide, transparent:true, opacity:0.7});
+
+for(let i=0; i<vts2.length; i++){
+
+    geometry_surface = new THREE.BufferGeometry();
+    geometry_surface.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts2[i]), 3));
+    geometry_surface.setIndex(new THREE.BufferAttribute(new Uint16Array(index1),1));
+    geometry_surface.computeVertexNormals();
+
+    mesh_surface_group[i] = new THREE.Mesh(geometry_surface, material_surface);
+    mesh_surface_group[i].scale.set(5,5,5);
+
+}
+
+
+
+
+
+
+scene1.add(mesh_surface_group[index]);
 
 
 //マウスイベント
@@ -198,7 +232,7 @@ function animate(){
     //meshgroup.rotateOnWorldAxis(axis, rad);
     dummymesh.rotateOnWorldAxis(axis, rad);
     meshgroup[index].rotation.set(dummymesh.rotation.x, dummymesh.rotation.y, dummymesh.rotation.z);
-
+    mesh_surface_group[index].rotation.set(dummymesh.rotation.x, dummymesh.rotation.y, dummymesh.rotation.z);
 
     //クリッピング
     renderer1.clippingPlanes = [];

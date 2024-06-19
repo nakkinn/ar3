@@ -4,7 +4,8 @@ let vts1 = [];
 
 let output = [];
 let output2 = [];
-
+let output3 = [];
+let output4 = [];
 
 function setup(){
     createCanvas(windowWidth, windowHeight, WEBGL);
@@ -64,8 +65,24 @@ function setup(){
 
         output2.push(output);
 
+        let tmp = [];
+
+        for(let i=0; i<=40; i++)    for(let j=0; j<=40; j++){
+            tmp.push(vts1[i][j].x.toFixed(4), vts1[i][j].y.toFixed(4), vts1[i][j].z.toFixed(4));
+        }
+
+        output3.push(tmp);
+        
+
+
 
     }
+
+
+    for(let i=0; i<40; i++)    for(let j=0; j<40; j++){
+        output4.push(i*41+j, i*41+j+1, (i+1)*41+j, (i+1)*41+j+1, (i+1)*41+j, i*41+j+1);
+    }
+
 
     output = JSON.stringify(output);
     output = output.split('"').join('');
@@ -73,8 +90,15 @@ function setup(){
     output2 = JSON.stringify(output2);
     output2 = output2.split('"').join('');
 
-    console.log(output2);
+    //console.log(output2);
 
+    output3 = JSON.stringify(output3);
+    output3 = output3.split('"').join('');
+
+    console.log(output3);
+    
+
+    //console.log(JSON.stringify(output4));
 
 }
 
