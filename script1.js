@@ -13,10 +13,10 @@ canvas1.addEventListener('contextmenu', (event) => {
 
 
 const slider1 = document.getElementById('slider1');
-slider1.addEventListener('mousedown',()=>{
+slider1.addEventListener('pointerdown',()=>{
     twofinger = true;
 });
-slider1.addEventListener('mouseup',()=>{
+slider1.addEventListener('pointerup',()=>{
     twofinger = false;
 });
 slider1.addEventListener('input',()=>{
