@@ -10,3 +10,11 @@ cnavas{
     -webkit-user-select: none; 
     -moz-user-select: none; 
 }
+
+#slider1{
+    position:absolute;
+    bottom:100px;
+    left:200px;
+    transform:scale(3);
+    width:200px;
+}
