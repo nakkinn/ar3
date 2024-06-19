@@ -73,9 +73,7 @@ document.addEventListener('pointermove',(event)=>{
 let angularvelocity = new THREE.Vector3(0,0,0);
 
 
-documtn.addEventListener('touchstart',()=>{
-    console.log(123);
-});
+
 
 
 //レンダリングを繰り返す
