@@ -1,3 +1,9 @@
 html,body{
     margin:0px;
 }
+
+cnavas{
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+}
