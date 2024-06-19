@@ -9,6 +9,9 @@ canvas1.addEventListener('contextmenu', (event) => {
     event.preventDefault();
 });
 
+
+
+
 //シーン
 const scene1 = new THREE.Scene();
 
@@ -22,11 +25,18 @@ renderer1.setSize(window.innerWidth, window.innerHeight); //キャンバスサ�
 renderer1.setClearColor(0x000000);   //背景色
 
 
-
 // カメラ
 //const camera1 = new THREE.OrthographicCamera(-2, 2, 2, -2, 1, 10);   //直交投影カメラ
 const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,30);  //カメラ初期位置
+
+
+//画面サイズが変わったとき
+window.addEventListener('resize',()=>{
+    renderer1.setSize(window.innerWidth, window.innerHeight);
+    camera1.aspect = window.innerWidth / window.innerHeight;
+    camera1.updateProjectionMatrix();
+});
 
 
 //環境光ライト
