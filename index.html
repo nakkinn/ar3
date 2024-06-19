@@ -1,65 +1,26 @@
-<!Doctype html>
-<html>
+<html lang="ja">
+
   <head>
-    <title>Camera Test</title>
+    <title>公開講座2024 ver1.0</title>
     <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
   </head>
+
   <body>
-    <p>ver1.01</p>
-    
-    
-    <div><video id="myVideo" autoplay="1" playsinline hidden></video></div> 
-    <div><button type="button" onclick="videoStart()">撮影</button>　
-    <button type="button" onclick="videoStop()">停止</button></div>
+
+
     <canvas id="canvas1"></canvas>
 
-    <script type="text/javascript">
+    <script src="p5.js"></script>
+    
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+    <!--three.js追加アドオン　マウスドラッグによる視点操作-->
+    <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
 
-      const canvas1 = document.getElementById('canvas1');
-      const context1 = canvas1.getContext('2d');
+    <!--メインのプログラム-->
+    <script src='script1.js'></script>
 
-      const video = document.querySelector( 'video' );
-
-      canvas1.width = window.innerWidth;
-      canvas1.height = window.innerHeight;
-
-      function videoStart(){
-        var constraints = { audio: false, video: { facingMode: "environment" } };
-
-        navigator.mediaDevices.getUserMedia( constraints )
-        .then(
-          function( stream ) {
-            video.srcObject = stream;
-            video.onloadedmetadata = function( e ) {
-              video.play();
-            };
-          }
-        )
-      };
-
-
-      function videoStop(){
-        var constraints = { audio: false, video: { facingMode: "environment" } };
-
-        navigator.mediaDevices.getUserMedia( constraints )
-        .then(
-          function( stream ) {
-            var video = document.querySelector( 'video' );
-            video.srcObject = stream;
-            video.onloadedmetadata = function( e ) {
-              stream.getVideoTracks()[0].stop();
-            };
-          }
-        )
-      };
-
-      function animate(){
-        requestAnimationFrame(animate);
-        context1.drawImage(video, 0, 0, canvas1.width, canvas1.height);
-      }
-
-      animate();
-
-    </script>
   </body>
+
 </html>
