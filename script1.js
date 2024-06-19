@@ -127,7 +127,7 @@ function handleTouchMove(event){
             let v1n = camera1.position.clone().normalize();
             let v1l = camera1.position.length();
 
-            v1l += (d1-d2)*0.1;
+            v1l = Math.max(v1l +(d1-d2)*0.1, 1);
             camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
 
             mpx1 = mx1;
