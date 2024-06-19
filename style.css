@@ -1,5 +1,8 @@
 html,body{
     margin:0px;
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
 }
 
 cnavas{
