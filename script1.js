@@ -3,6 +3,7 @@ const curve = [[[0.0011,0.0000,-1.0004],[0.1005,0.0003,-0.8895],[0.1801,0.0005,-
 
 
 const canvas1 = document.getElementById('canvas1');
+canvas1.style.touchAction = 'none';
 
 
 //シーン
