@@ -15,8 +15,10 @@ cnavas{
     position:absolute;
     bottom:100px;
     left:300px;
-    /* transform:scale(3.5); */
+    transform:scale(3.5); 
     width:200px;
+    border:none;
+    outline:none;
 }
 
 
@@ -24,5 +26,7 @@ cnavas{
     position:absolute;
     top:50px;
     right:160px;
-    /* transform:scale(3.5); */
+    transform:scale(3.5);
+    border:none;
+    outline:none;
 }
