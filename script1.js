@@ -49,10 +49,10 @@ renderer1.setSize(window.innerWidth, window.innerHeight); //キャンバスサ�
 renderer1.setClearColor(0xffffff);   //背景色
 
 
-for(let i=0; i<spherecut100.length; i++){
-    let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);
-    renderer1.clippingPlanes.push(new THREE.Plane(vc1,18));
-}
+// for(let i=0; i<spherecut100.length; i++){
+//     let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);
+//     renderer1.clippingPlanes.push(new THREE.Plane(vc1,18));
+// }
 
 
 // カメラ

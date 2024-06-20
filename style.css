@@ -13,9 +13,9 @@ cnavas{
 
 #slider1{
     position:absolute;
-    bottom:100px;
-    left:100px;
-    width:400px;
+    bottom:20px;
+    left:20px;
+    width:200px;
     border:none;
     outline:none;
 }
