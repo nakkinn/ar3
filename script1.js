@@ -49,6 +49,12 @@ renderer1.setSize(window.innerWidth, window.innerHeight); //キャンバスサ�
 renderer1.setClearColor(0xffffff);   //背景色
 
 
+for(let i=0; i<spherecut100.length; i++){
+    let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);
+    renderer1.clippingPlanes.push(new THREE.Plane(vc1,18));
+}
+
+
 // カメラ
 //const camera1 = new THREE.OrthographicCamera(-2, 2, 2, -2, 1, 10);   //直交投影カメラ
 const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
@@ -87,7 +93,7 @@ for(let i=0; i<curve_group.length; i++){
 
     for(let k=0; k<curve_group[i].length; k++){
         let thick = 0.1;
-        if(k==0||k==20)    thick = 0.16;
+        if(k==0||k==20)    thick = 0.2;
         path = new THREE.CatmullRomCurve3(veclist(curve_group[i][k],5));
         geometry = new THREE.TubeGeometry(path, 64, thick, 8, false);
         mesh = new THREE.Mesh(geometry, material1);
@@ -235,30 +241,30 @@ function animate(){
     mesh_surface_group[index].rotation.set(dummymesh.rotation.x, dummymesh.rotation.y, dummymesh.rotation.z);
 
     //クリッピング
-    renderer1.clippingPlanes = [];
+    // renderer1.clippingPlanes = [];
 
-    let vc1 = new THREE.Vector3(1, 0, 0);
-    let vc2 = new THREE.Vector3(-1, 0, 0);
-    let vc3 = new THREE.Vector3(0, 1, 0);
-    let vc4 = new THREE.Vector3(0, -1, 0);
-    let vc5 = new THREE.Vector3(0, 0, 1);
-    let vc6 = new THREE.Vector3(0, 0, -1);
+    // let vc1 = new THREE.Vector3(1, 0, 0);
+    // let vc2 = new THREE.Vector3(-1, 0, 0);
+    // let vc3 = new THREE.Vector3(0, 1, 0);
+    // let vc4 = new THREE.Vector3(0, -1, 0);
+    // let vc5 = new THREE.Vector3(0, 0, 1);
+    // let vc6 = new THREE.Vector3(0, 0, -1);
 
-    vc1.applyEuler(dummymesh.rotation);
-    vc2.applyEuler(dummymesh.rotation);
-    vc3.applyEuler(dummymesh.rotation);
-    vc4.applyEuler(dummymesh.rotation);
-    vc5.applyEuler(dummymesh.rotation);
-    vc6.applyEuler(dummymesh.rotation);
+    // vc1.applyEuler(dummymesh.rotation);
+    // vc2.applyEuler(dummymesh.rotation);
+    // vc3.applyEuler(dummymesh.rotation);
+    // vc4.applyEuler(dummymesh.rotation);
+    // vc5.applyEuler(dummymesh.rotation);
+    // vc6.applyEuler(dummymesh.rotation);
 
-    let a1 = 16;
+    // let a1 = 16;
 
-    renderer1.clippingPlanes.push(new THREE.Plane(vc1, a1));
-    renderer1.clippingPlanes.push(new THREE.Plane(vc2, a1));
-    renderer1.clippingPlanes.push(new THREE.Plane(vc3, a1));
-    renderer1.clippingPlanes.push(new THREE.Plane(vc4, a1));
-    renderer1.clippingPlanes.push(new THREE.Plane(vc5, a1));
-    renderer1.clippingPlanes.push(new THREE.Plane(vc6, a1));
+    // renderer1.clippingPlanes.push(new THREE.Plane(vc1, a1));
+    // renderer1.clippingPlanes.push(new THREE.Plane(vc2, a1));
+    // renderer1.clippingPlanes.push(new THREE.Plane(vc3, a1));
+    // renderer1.clippingPlanes.push(new THREE.Plane(vc4, a1));
+    // renderer1.clippingPlanes.push(new THREE.Plane(vc5, a1));
+    // renderer1.clippingPlanes.push(new THREE.Plane(vc6, a1));
 
     renderer1.render(scene1, camera1);  //レンダリング（CG描画）
 }

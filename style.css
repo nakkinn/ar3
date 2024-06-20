@@ -14,9 +14,8 @@ cnavas{
 #slider1{
     position:absolute;
     bottom:100px;
-    left:300px;
-    transform:scale(3.5); 
-    width:200px;
+    left:100px;
+    width:400px;
     border:none;
     outline:none;
 }
@@ -26,7 +25,6 @@ cnavas{
     position:absolute;
     top:50px;
     right:160px;
-    transform:scale(3.5);
     border:none;
     outline:none;
 }
