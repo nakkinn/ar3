@@ -13,6 +13,7 @@ canvas1.addEventListener('contextmenu', (event) => {
 
 
 const slider1 = document.getElementById('slider1');
+slider1.style.touchAction = 'none';
 slider1.addEventListener('pointerdown',()=>{
     twofinger = true;
 });
@@ -49,7 +50,7 @@ renderer1.setSize(window.innerWidth, window.innerHeight); //キャンバスサ�
 renderer1.setClearColor(0xffffff);   //背景色
 
 
-for(let i=0; i<spherecut100.length; i++){
+for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
     let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);
     renderer1.clippingPlanes.push(new THREE.Plane(vc1,18));
 }
@@ -127,7 +128,12 @@ for(let i=0; i<vts2.length; i++){
 }
 
 
-
+// for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
+//     let geometry_sphere = new THREE.BoxGeometry();
+//     let box = new THREE.Mesh(geometry_sphere, material1);
+//     box.position.set(spherecut100[i][0]*10, spherecut100[i][1]*10, spherecut100[i][2]*10)
+//     scene1.add(box);
+// }
 
 
 
@@ -266,6 +272,15 @@ function animate(){
     // renderer1.clippingPlanes.push(new THREE.Plane(vc5, a1));
     // renderer1.clippingPlanes.push(new THREE.Plane(vc6, a1));
 
+
+    renderer1.clippingPlanes = [];
+    for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
+        let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);
+        vc1.applyEuler(dummymesh.rotation);
+        renderer1.clippingPlanes.push(new THREE.Plane(vc1,18));
+    }
+
+
     renderer1.render(scene1, camera1);  //レンダリング（CG描画）
 }
 animate();
@@ -280,3 +295,21 @@ function veclist(arg, sc){
     }
     return result;
 }
+
+// マウスホイールイベントのリスナーを追加
+document.addEventListener('wheel', function(event) {
+
+    let v1n = camera1.position.clone().normalize();
+    let v1l = camera1.position.length();
+
+    
+
+    if (event.deltaY > 0) {
+        v1l = Math.min(Math.max(v1l*1.1, 1), 100);
+        
+    } else {
+        v1l = Math.min(Math.max(v1l*0.9, 1), 100);
+    }
+    camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
+    //camera1.updateProjectionMatrix();
+});
