@@ -1,0 +1,36 @@
+html,body{
+    margin:0px;
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+}
+
+cnavas{
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+}
+
+#slider1{
+    position:absolute;
+    bottom:6%;
+    left:35%;
+    width:27%;
+    transform:scale(3);
+}
+
+
+#container1{
+    position:absolute;
+    top:50px;
+    right:160px;
+    background-color:#ffffff88;
+    transform:scale(2.5);
+}
+
+#link1{
+    position:absolute;
+    top:3%;
+    left:3%;
+    font-size:26px;
+}
