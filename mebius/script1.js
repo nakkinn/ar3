@@ -1,5 +1,5 @@
 let tubecolor1 = 0xd36922;  //tubeの色　uカーブ
-let tubecolor2 = 0x1aa81d;  //tubeの色　vカーブ
+let tubecolor2 = 0x009e3d;  //tubeの色　vカーブ
 let surfacecolor = 0xe9fe95;    //曲面の色
 let surfacealpha = 0.7; //曲面の透明度
 let backgroundcolor = 0xeeeeee; //背景色
@@ -50,7 +50,8 @@ window.addEventListener('resize',()=>{
 const lighta = new THREE.AmbientLight(0xffffff, 0.3);   //第1引数：光の色, 第2引数：光の強さ
 scene1.add(lighta);
 
-const light1 = new THREE.DirectionalLight(new THREE.Vector3(1,1,1), 1);
+const light1 = new THREE.DirectionalLight(0xffffff, 0.7);
+light1.position.set(1,1,1);
 scene1.add(light1);
 
 
