@@ -59,3 +59,11 @@ cnavas{
     left:3%;
     font-size:30px;
 }
+
+#select1{
+    position:absolute;
+    top:3%;
+    right:5%;
+    width:33%;
+    font-size:40px;
+}

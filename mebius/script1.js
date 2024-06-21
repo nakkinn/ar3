@@ -1,5 +1,5 @@
-let tubecolor1 = 0xd18143;  //tubeの色　uカーブ
-let tubecolor2 = 0x47bf9b;  //tubeの色　vカーブ
+let tubecolor1 = 0xd36922;  //tubeの色　uカーブ
+let tubecolor2 = 0x1aa81d;  //tubeの色　vカーブ
 let surfacecolor = 0xe9fe95;    //曲面の色
 let surfacealpha = 0.7; //曲面の透明度
 let backgroundcolor = 0xeeeeee; //背景色
@@ -90,6 +90,31 @@ dummymesh.rotation.set(0.3, 0, 0);
 
 let geometry_surface, material_surface, mesh_surface;
 let mesh_surface_group = new Array(vts2.length);
+
+let index0 = [];
+let index2 = [];
+let index3 = [];
+
+
+for(let i=0; i<index1.length; i+=3){
+
+    let a1 = 240*4;
+    if(9600/2-a1<=i && i<9600/2+a1){
+        index2.push(index1[i]);
+        index2.push(index1[i+1]);
+        index2.push(index1[i+2]);
+    }
+
+
+    let a2 = 240*8;
+    if((a2<=i&&i<9600/2-a2) || (9600/2+a2<=i&&i<9600-a2)){
+        index3.push(index1[i]);
+        index3.push(index1[i+1]);
+        index3.push(index1[i+2]);
+    }
+}
+
+
 
 
 material_surface = new THREE.MeshPhongMaterial({color:surfacecolor, side:THREE.DoubleSide, transparent:true, opacity:surfacealpha});
@@ -222,11 +247,51 @@ slider1.addEventListener('input',()=>{
 });
 
 
-const check1 = document.getElementById('check1');
-check1.addEventListener('change',(event)=>{
-    console.log(event.target.checked);
-    for(let i=0; i<mesh_surface_group.length; i++){
-        mesh_surface_group[i].visible = event.target.checked;
+// const check1 = document.getElementById('check1');
+// check1.addEventListener('change',(event)=>{
+//     // console.log(event.target.checked);
+//     // for(let i=0; i<mesh_surface_group.length; i++){
+//     //     mesh_surface_group[i].visible = event.target.checked;
+//     // }
+
+
+//     for(let i=0; i<vts2.length; i++){
+//         mesh_surface_group[i].geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(index1),1));
+//         mesh_surface_group[i].geometry.computeVertexNormals();
+//     }
+
+// });
+
+
+const select1 = document.getElementById('select1');
+select1.value = 'option2';
+select1.addEventListener('change',(event)=>{
+    if(event.target.value=='option1'){
+        for(let i=0; i<vts2.length; i++){
+            mesh_surface_group[i].geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(index0),1));
+            mesh_surface_group[i].geometry.computeVertexNormals();
+        }
+    }
+    if(event.target.value=='option2'){
+        for(let i=0; i<vts2.length; i++){
+            mesh_surface_group[i].geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(index1),1));
+            mesh_surface_group[i].geometry.computeVertexNormals();
+            mesh_surface_group[i].material.opacity=0.7;
+        }
+    }
+    if(event.target.value=='option3'){
+        for(let i=0; i<vts2.length; i++){
+            mesh_surface_group[i].geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(index2),1));
+            mesh_surface_group[i].geometry.computeVertexNormals();
+            mesh_surface_group[i].material.opacity=1;
+        }
+    }
+    if(event.target.value=='option4'){
+        for(let i=0; i<vts2.length; i++){
+            mesh_surface_group[i].geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(index3),1));
+            mesh_surface_group[i].geometry.computeVertexNormals();
+            mesh_surface_group[i].material.opacity=1;
+        }
     }
 });
 

@@ -11,17 +11,24 @@
 
     <a href="../" id="link1">HOME</a>
 
-    <input type="color" id="colorpicker1">
-    <input type="color" id="colorpicker2">
-    <input type="color" id="colorpicker3">
+    <input type="color" id="colorpicker1" hidden="true">
+    <input type="color" id="colorpicker2" hidden="true">
+    <input type="color" id="colorpicker3" hidden="true">
 
     <canvas id="canvas1"></canvas>
     
     <input type="range" id="slider1" min="0" max="20" value="10">
 
-    <div id="container1">
+    <!-- <div id="container1">
       <label><input type="checkbox" id="check1" checked="true">曲面を描画</label>
-    </div>
+    </div> -->
+
+    <select id="select1">
+      <option value="option1">曲面なし</option>
+      <option value="option2">曲面A</option>
+      <option value="option3">曲面B</option>
+      <option value="option4">曲面C</option>
+    </select>
 
     <!--three.jsライブラリ-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
