@@ -1,3 +1,7 @@
+*{
+    touch-action:none;
+}
+
 html,body{
     margin:0px;
     user-select: none; 
@@ -11,12 +15,19 @@ cnavas{
     -moz-user-select: none; 
 }
 
+#canvas1{
+    position:absolute;
+    top:10%;
+}
+
 #slider1{
     position:absolute;
-    bottom:6%;
+    bottom:5%;
     left:35%;
     width:27%;
+    height:3%;
     transform:scale(3);
+    margin:0px;
 }
 
 
@@ -24,13 +35,27 @@ cnavas{
     position:absolute;
     top:50px;
     right:160px;
-    background-color:#ffffff88;
     transform:scale(2.5);
+}
+
+
+#colorpicker1{
+    position:absolute;
+}
+
+#colorpicker2{
+    position:absolute;
+    left:70px;
+}
+
+#colorpicker3{
+    position:absolute;
+    left:140px;
 }
 
 #link1{
     position:absolute;
     top:3%;
     left:3%;
-    font-size:26px;
+    font-size:30px;
 }

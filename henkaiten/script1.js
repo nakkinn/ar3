@@ -1,1 +1,456 @@
-const _0x100064=_0x43e8;(function(_0x4d507b,_0x3a33f8){const _0x4fdfed=_0x43e8,_0xcb5ae6=_0x4d507b();while(!![]){try{const _0x445d05=parseInt(_0x4fdfed(0xf0))/0x1*(-parseInt(_0x4fdfed(0xd7))/0x2)+parseInt(_0x4fdfed(0xe0))/0x3+parseInt(_0x4fdfed(0xf4))/0x4*(-parseInt(_0x4fdfed(0xe4))/0x5)+-parseInt(_0x4fdfed(0xe7))/0x6*(parseInt(_0x4fdfed(0xd0))/0x7)+parseInt(_0x4fdfed(0xd2))/0x8+-parseInt(_0x4fdfed(0xc9))/0x9+parseInt(_0x4fdfed(0xc7))/0xa;if(_0x445d05===_0x3a33f8)break;else _0xcb5ae6['push'](_0xcb5ae6['shift']());}catch(_0x116643){_0xcb5ae6['push'](_0xcb5ae6['shift']());}}}(_0x2cd5,0x1c738));const tetra_vts=[[0x2,0x2,0x2],[-0x2,-0x2,0x2],[0x2,-0x2,-0x2],[-0x2,0x2,-0x2]],tetra_edge=[[0x0,0x1],[0x0,0x2],[0x0,0x3],[0x1,0x2],[0x1,0x3],[0x2,0x3]],cube_vts=[[0x2,0x2,0x2],[0x2,-0x2,0x2],[-0x2,-0x2,0x2],[-0x2,0x2,0x2],[0x2,0x2,-0x2],[0x2,-0x2,-0x2],[-0x2,-0x2,-0x2],[-0x2,0x2,-0x2]],cube_edge=[[0x0,0x1],[0x0,0x3],[0x0,0x4],[0x1,0x2],[0x1,0x5],[0x2,0x3],[0x2,0x6],[0x3,0x7],[0x4,0x5],[0x4,0x7],[0x5,0x6],[0x6,0x7]],ico_vts=[[3.23607,0x2,0x0],[3.23607,-0x2,0x0],[-3.23607,-0x2,0x0],[-3.23607,0x2,0x0],[0x0,3.23607,0x2],[0x0,3.23607,-0x2],[0x0,-3.23607,-0x2],[0x0,-3.23607,0x2],[0x2,0x0,3.23607],[-0x2,0x0,3.23607],[-0x2,0x0,-3.23607],[0x2,0x0,-3.23607]],ico_edge=[[0x0,0x1],[0x0,0x4],[0x0,0x5],[0x0,0x8],[0x0,0xb],[0x1,0x6],[0x1,0x7],[0x1,0x8],[0x1,0xb],[0x2,0x3],[0x2,0x6],[0x2,0x7],[0x2,0x9],[0x2,0xa],[0x3,0x4],[0x3,0x5],[0x3,0x9],[0x3,0xa],[0x4,0x5],[0x4,0x8],[0x4,0x9],[0x5,0xa],[0x5,0xb],[0x6,0x7],[0x6,0xa],[0x6,0xb],[0x7,0x8],[0x7,0x9],[0x8,0x9],[0xa,0xb]];let vts=[],edge=[];vts=new Array(cube_vts['length']);for(let i=0x0;i<vts['length'];i++)vts[i]=cube_vts[i][_0x100064(0xce)]();edge=new Array(cube_edge[_0x100064(0xdd)]);for(let i=0x0;i<edge[_0x100064(0xdd)];i++)edge[i]=cube_edge[i][_0x100064(0xce)]();function _0x2cd5(){const _0x1adaf0=['visibility','CatmullRomCurve3','min','8zqYHnP','updateProjectionMatrix','resize','applyAxisAngle','innerHeight','slider2','slider1','AmbientLight','Group','bottom','clientX','slider3','width','zoom','touchmove','touches','traverse','sub','MeshLambertMaterial','normalize','touchAction','clientY','dispose','copy','value','material','sqrt','lerp','none','rotation','wheel','Scene','Vector3','aspect','change','TubeGeometry','rotateOnWorldAxis','Mesh','top','addEventListener','remove','select2','4039720IjCIXz','touchend','206352NaYFtA','DirectionalLight','style','input','position','concat','pointerdown','224wUhMsG','pointerup','1025336RjqHAp','add','visible','getElementById','SphereGeometry','20hLhtPL','height','set','touchs','geometry','movementX','length','left','max','189399ETIScP','movementY','option1','WebGLRenderer','176500aOmDHV','forEach','select1','43224cbipZA','OrthographicCamera','innerWidth','clone','setSize','setClearColor','target','preventDefault','DoubleSide','15468DNOTgr'];_0x2cd5=function(){return _0x1adaf0;};return _0x2cd5();}let inputtouch=![];const canvas1=document['getElementById']('canvas1');canvas1[_0x100064(0xcb)][_0x100064(0xb1)]=_0x100064(0xb9),canvas1[_0x100064(0xc4)]('contextmenu',_0x16b185=>{const _0x139c96=_0x100064;_0x16b185[_0x139c96(0xee)]();});const slider1=document['getElementById'](_0x100064(0xa3)),slider2=document['getElementById'](_0x100064(0xf9)),slider3=document[_0x100064(0xd5)](_0x100064(0xa8));slider1[_0x100064(0xcb)]['touchAction']=_0x100064(0xb9),slider2[_0x100064(0xcb)]['touchAction']='none',slider3[_0x100064(0xcb)][_0x100064(0xb1)]=_0x100064(0xb9);;slider1[_0x100064(0xc4)](_0x100064(0xcc),_0x23b13a=>{const _0x17c227=_0x100064;rotate_angle=-Math['PI']/0x2/0x64*Number(_0x23b13a[_0x17c227(0xed)][_0x17c227(0xb5)]),disposeGroup(meshgroup),scene1[_0x17c227(0xc5)](meshgroup),main();}),slider2[_0x100064(0xc4)]('input',_0x3b3149=>{tube_thick=0.15/0x64*Number(_0x3b3149['target']['value']),disposeGroup(meshgroup),scene1['remove'](meshgroup),main();}),slider3[_0x100064(0xc4)](_0x100064(0xcc),_0x3a2408=>{const _0x4e6bd5=_0x100064;tube_length=Number(_0x3a2408[_0x4e6bd5(0xed)]['value'])/0x64,disposeGroup(meshgroup),scene1['remove'](meshgroup),main();}),slider1[_0x100064(0xc4)](_0x100064(0xcf),()=>{inputtouch=!![];}),slider2[_0x100064(0xc4)](_0x100064(0xcf),()=>{inputtouch=!![];}),slider3['addEventListener'](_0x100064(0xcf),()=>{inputtouch=!![];}),slider1[_0x100064(0xc4)]('pointerup',()=>{inputtouch=![];}),slider2['addEventListener'](_0x100064(0xd1),()=>{inputtouch=![];}),slider3[_0x100064(0xc4)](_0x100064(0xd1),()=>{inputtouch=![];});const select1=document['getElementById'](_0x100064(0xe6));select1[_0x100064(0xc4)](_0x100064(0xbf),_0x2dfd55=>{const _0x263583=_0x100064;if(_0x2dfd55['target'][_0x263583(0xb5)]=='option1'){vts=new Array(cube_vts[_0x263583(0xdd)]);for(let _0x38a4cb=0x0;_0x38a4cb<vts['length'];_0x38a4cb++)vts[_0x38a4cb]=cube_vts[_0x38a4cb][_0x263583(0xce)]();edge=new Array(cube_edge['length']);for(let _0x1e0ee5=0x0;_0x1e0ee5<edge[_0x263583(0xdd)];_0x1e0ee5++)edge[_0x1e0ee5]=cube_edge[_0x1e0ee5][_0x263583(0xce)]();disposeGroup(meshgroup),scene1[_0x263583(0xc5)](meshgroup),main(),select2[_0x263583(0xcb)][_0x263583(0xf1)]='hidden';}else{vts=new Array(ico_vts[_0x263583(0xdd)]);for(let _0x7533bc=0x0;_0x7533bc<vts[_0x263583(0xdd)];_0x7533bc++)vts[_0x7533bc]=ico_vts[_0x7533bc][_0x263583(0xce)]();edge=new Array(ico_edge['length']);for(let _0x3f2c1f=0x0;_0x3f2c1f<edge[_0x263583(0xdd)];_0x3f2c1f++)edge[_0x3f2c1f]=ico_edge[_0x3f2c1f][_0x263583(0xce)]();disposeGroup(meshgroup),scene1['remove'](meshgroup),main(),select2[_0x263583(0xcb)][_0x263583(0xf1)]=_0x263583(0xd4);}});const select2=document[_0x100064(0xd5)](_0x100064(0xc6));select2[_0x100064(0xc4)](_0x100064(0xbf),()=>{const _0x315b9f=_0x100064;disposeGroup(meshgroup),scene1[_0x315b9f(0xc5)](meshgroup),main();});function _0x43e8(_0x4b1d72,_0x11cf2e){const _0x2cd53d=_0x2cd5();return _0x43e8=function(_0x43e847,_0x39539b){_0x43e847=_0x43e847-0xa3;let _0x516d55=_0x2cd53d[_0x43e847];return _0x516d55;},_0x43e8(_0x4b1d72,_0x11cf2e);}let rotate_angle=-Math['PI']/0x2/0x64*Number(slider1['value']),tube_thick=0.15/0x64*Number(slider2[_0x100064(0xb5)]),tube_length=Number(slider3[_0x100064(0xb5)])/0x64;const scene1=new THREE[(_0x100064(0xbc))](),renderer1=new THREE[(_0x100064(0xe3))]({'canvas':canvas1,'antialias':!![]});renderer1[_0x100064(0xeb)](window['innerWidth'],window[_0x100064(0xf8)]),renderer1[_0x100064(0xec)](0xffffff);const camera1=new THREE[(_0x100064(0xe8))](-canvas1[_0x100064(0xa9)]/0x96,canvas1['width']/0x96,canvas1[_0x100064(0xd8)]/0x96,-canvas1[_0x100064(0xd8)]/0x96,0.1,0x64);camera1[_0x100064(0xcd)][_0x100064(0xd9)](0x0,0x0,0xa),camera1[_0x100064(0xaa)]=1.5,camera1['updateProjectionMatrix'](),window[_0x100064(0xc4)](_0x100064(0xf6),()=>{const _0x18421d=_0x100064;renderer1[_0x18421d(0xeb)](window[_0x18421d(0xe9)],window[_0x18421d(0xf8)]),camera1[_0x18421d(0xbe)]=window['innerWidth']/window[_0x18421d(0xf8)],camera1[_0x18421d(0xde)]=-canvas1['width']/0x96,camera1['right']=canvas1[_0x18421d(0xa9)]/0x96,camera1[_0x18421d(0xc3)]=canvas1[_0x18421d(0xd8)]/0x96,camera1[_0x18421d(0xa6)]=-canvas1[_0x18421d(0xd8)]/0x96,camera1[_0x18421d(0xf5)]();});const lighta=new THREE[(_0x100064(0xa4))](0xffffff,0.3);scene1[_0x100064(0xd3)](lighta);const light1=new THREE[(_0x100064(0xca))](new THREE['Vector3'](0x1,0x1,0x1),0x1);scene1[_0x100064(0xd3)](light1);let dummymesh=new THREE[(_0x100064(0xc2))]();const path=new THREE['CatmullRomCurve3']([new THREE[(_0x100064(0xbd))](0x0,0x0,0x1),new THREE['Vector3'](0x0,0x0,-0x1)]),tubeGeometry=new THREE[(_0x100064(0xc0))](path,0x14,0.2,0x8,!![]),material=new THREE['MeshBasicMaterial']({'color':0x77ff,'wireframe':!![]}),tube=new THREE[(_0x100064(0xc2))](tubeGeometry,material);tube['position']['set'](0x1,0x0,0x1),tube['rotation'][_0x100064(0xd9)](0x1,0x4,0x2);let tube_material=[new THREE['MeshLambertMaterial']({'color':0xff7700,'side':THREE[_0x100064(0xef)]}),new THREE[(_0x100064(0xaf))]({'color':0xff40cc,'side':THREE[_0x100064(0xef)]}),new THREE[(_0x100064(0xaf))]({'color':0xf4ff1f,'side':THREE[_0x100064(0xef)]}),new THREE[(_0x100064(0xaf))]({'color':0x77ff00,'side':THREE[_0x100064(0xef)]}),new THREE[(_0x100064(0xaf))]({'color':0x77ff,'side':THREE[_0x100064(0xef)]}),new THREE['MeshLambertMaterial']({'color':0x7700ff,'side':THREE[_0x100064(0xef)]})],meshgroup;function addtube(_0x269290,_0x5192b7,_0x205668,_0x1a25c8){const _0x2ce58f=_0x100064;let _0x2b9e38=new THREE[(_0x2ce58f(0xf2))]([_0x269290,_0x5192b7]),_0x217ea8=new THREE[(_0x2ce58f(0xc0))](_0x2b9e38,0x8,_0x205668,0x10,![]),_0x1f1dc0=new THREE[(_0x2ce58f(0xc2))](_0x217ea8,tube_material[_0x1a25c8]);meshgroup[_0x2ce58f(0xd3)](_0x1f1dc0);let _0x3c7a3f,_0x4807d0,_0x1602ec;_0x3c7a3f=new THREE[(_0x2ce58f(0xd6))](_0x205668,0x10,0x8),_0x4807d0=new THREE[(_0x2ce58f(0xc2))](_0x3c7a3f,tube_material[_0x1a25c8]),_0x4807d0['position'][_0x2ce58f(0xb4)](_0x269290),_0x1602ec=_0x4807d0['clone'](),_0x1602ec[_0x2ce58f(0xcd)][_0x2ce58f(0xb4)](_0x5192b7),meshgroup[_0x2ce58f(0xd3)](_0x4807d0),meshgroup[_0x2ce58f(0xd3)](_0x1602ec);}main();function main(){const _0x4be764=_0x100064;meshgroup=new THREE[(_0x4be764(0xa5))](),console['log'](edge[_0x4be764(0xdd)]);for(let _0x248cc4=0x0;_0x248cc4<edge[_0x4be764(0xdd)];_0x248cc4++){let _0x31ae40,_0x54a291,_0x52d948,_0x23aa23,_0xaf0f2d,_0x320a16;_0x31ae40=vts[edge[_0x248cc4][0x0]][0x0],_0x54a291=vts[edge[_0x248cc4][0x0]][0x1],_0x52d948=vts[edge[_0x248cc4][0x0]][0x2],_0x23aa23=vts[edge[_0x248cc4][0x1]][0x0],_0xaf0f2d=vts[edge[_0x248cc4][0x1]][0x1],_0x320a16=vts[edge[_0x248cc4][0x1]][0x2];let _0x5acde7=new THREE[(_0x4be764(0xbd))](_0x31ae40,_0x54a291,_0x52d948),_0x571c1b=new THREE['Vector3'](_0x23aa23,_0xaf0f2d,_0x320a16),_0x45f126=new THREE[(_0x4be764(0xbd))]((_0x31ae40+_0x23aa23)/0x2,(_0x54a291+_0xaf0f2d)/0x2,(_0x52d948+_0x320a16)/0x2),_0xea216d,_0x4d1173,_0x1af8ca,_0x499497;_0xea216d=_0x5acde7['clone']()['sub'](_0x45f126),_0xea216d[_0x4be764(0xf7)](_0x45f126[_0x4be764(0xea)]()[_0x4be764(0xb0)](),rotate_angle),_0xea216d['add'](_0x45f126),_0x4d1173=_0x571c1b[_0x4be764(0xea)]()[_0x4be764(0xae)](_0x45f126),_0x4d1173[_0x4be764(0xf7)](_0x45f126[_0x4be764(0xea)]()['normalize'](),rotate_angle),_0x4d1173[_0x4be764(0xd3)](_0x45f126),_0x1af8ca=new THREE[(_0x4be764(0xbd))]((-tube_length+0x1)*_0x45f126['x']+tube_length*_0xea216d['x'],(-tube_length+0x1)*_0x45f126['y']+tube_length*_0xea216d['y'],(-tube_length+0x1)*_0x45f126['z']+tube_length*_0xea216d['z']),_0x499497=new THREE[(_0x4be764(0xbd))]((-tube_length+0x1)*_0x45f126['x']+tube_length*_0x4d1173['x'],(-tube_length+0x1)*_0x45f126['y']+tube_length*_0x4d1173['y'],(-tube_length+0x1)*_0x45f126['z']+tube_length*_0x4d1173['z']);let _0x2650b9=0x0;if(select1[_0x4be764(0xb5)]==_0x4be764(0xe2)||select2[_0x4be764(0xb5)]==_0x4be764(0xe2))_0x2650b9=0x4;else{if(select2[_0x4be764(0xb5)]=='option2'){_0x2650b9=0x0;if(_0x248cc4==0x0||_0x248cc4==0x9||_0x248cc4==0x12||_0x248cc4==0x17||_0x248cc4==0x1c||_0x248cc4==0x1d)_0x2650b9=0x1;if(_0x248cc4==0x1||_0x248cc4==0xa||_0x248cc4==0x15||_0x248cc4==0x1a||_0x248cc4==0x8||_0x248cc4==0x10)_0x2650b9=0x2;if(_0x248cc4==0x2||_0x248cc4==0xb||_0x248cc4==0x7||_0x248cc4==0x11||_0x248cc4==0x14||_0x248cc4==0x19)_0x2650b9=0x3;if(_0x248cc4==0x3||_0x248cc4==0xd||_0x248cc4==0x16||_0x248cc4==0x1b||_0x248cc4==0x5||_0x248cc4==0xe)_0x2650b9=0x4;}else{_0x2650b9=0x5;if(_0x248cc4==0x0||_0x248cc4==0x16||_0x248cc4==0x11||_0x248cc4==0xc||_0x248cc4==0x1a)_0x2650b9=0x0;if(_0x248cc4==0x1||_0x248cc4==0xf||_0x248cc4==0xd||_0x248cc4==0x17||_0x248cc4==0x7)_0x2650b9=0x1;if(_0x248cc4==0x2||_0x248cc4==0x1d||_0x248cc4==0xa||_0x248cc4==0x1b||_0x248cc4==0x13)_0x2650b9=0x2;if(_0x248cc4==0x3||_0x248cc4==0x8||_0x248cc4==0x18||_0x248cc4==0x9||_0x248cc4==0x14)_0x2650b9=0x3;if(_0x248cc4==0x4||_0x248cc4==0x5||_0x248cc4==0xb||_0x248cc4==0x10||_0x248cc4==0x12)_0x2650b9=0x4;}}addtube(_0x1af8ca,_0x499497,tube_thick,_0x2650b9);}scene1[_0x4be764(0xd3)](meshgroup);}let mouseIsPressed=![];document['addEventListener'](_0x100064(0xcf),()=>{mouseIsPressed=!![];}),document['addEventListener'](_0x100064(0xd1),()=>{mouseIsPressed=![];});let mousemovementX=0x0,mousemovementY=0x0;document[_0x100064(0xc4)]('pointermove',_0x5150dc=>{const _0x94174d=_0x100064;mousemovementX=_0x5150dc[_0x94174d(0xdc)],mousemovementY=_0x5150dc[_0x94174d(0xe1)];});let angularvelocity=new THREE['Vector3'](0x0,0x0,0x0),mpx1=-0x1,mpy1=-0x1,mpx2=-0x1,mpy2=-0x1,twofinger=![];document['addEventListener'](_0x100064(0xab),handleTouchMove,![]),document['addEventListener'](_0x100064(0xc8),handleTouchEnd,![]);function handleTouchStart(_0x2b96ed){const _0x4b255d=_0x100064;_0x2b96ed[_0x4b255d(0xda)][_0x4b255d(0xdd)]==0x2&&(mpx1=_0x2b96ed[_0x4b255d(0xac)][0x0]['clientX'],mpy1=_0x2b96ed[_0x4b255d(0xac)][0x0][_0x4b255d(0xb2)],mpx2=_0x2b96ed[_0x4b255d(0xac)][0x1][_0x4b255d(0xa7)],mpy2=_0x2b96ed[_0x4b255d(0xac)][0x1][_0x4b255d(0xb2)]);}function handleTouchMove(_0x58d10d){const _0x305591=_0x100064;if(_0x58d10d[_0x305591(0xac)][_0x305591(0xdd)]==0x2){inputtouch=!![];if(mpx1==-0x1||mpy1==-0x1||mpx2==-0x1||mpy2==-0x1)mpx1=_0x58d10d['touches'][0x0]['clientX'],mpy1=_0x58d10d[_0x305591(0xac)][0x0][_0x305591(0xb2)],mpx2=_0x58d10d['touches'][0x1]['clientX'],mpy2=_0x58d10d['touches'][0x1][_0x305591(0xb2)];else{let _0x49e6f8,_0x521939,_0x2dbdef,_0x250121;_0x49e6f8=_0x58d10d[_0x305591(0xac)][0x0][_0x305591(0xa7)],_0x521939=_0x58d10d[_0x305591(0xac)][0x0][_0x305591(0xb2)],_0x2dbdef=_0x58d10d['touches'][0x1][_0x305591(0xa7)],_0x250121=_0x58d10d[_0x305591(0xac)][0x1][_0x305591(0xb2)];let _0x1996aa,_0x20eba3;_0x1996aa=Math[_0x305591(0xb7)]((mpx1-mpx2)**0x2+(mpy1-mpy2)**0x2),_0x20eba3=Math['sqrt']((_0x49e6f8-_0x2dbdef)**0x2+(_0x521939-_0x250121)**0x2);let _0x43badb=camera1['zoom'];_0x43badb=Math[_0x305591(0xf3)](Math[_0x305591(0xdf)](_0x43badb+(_0x20eba3-_0x1996aa)*0.004,0.5),0x3),camera1['zoom']=_0x43badb,camera1[_0x305591(0xf5)](),mpx1=_0x49e6f8,mpy1=_0x521939,mpx2=_0x2dbdef,mpy2=_0x250121;}}}function handleTouchEnd(_0x5e478e){mpx1=-0x1,mpy1=-0x1,mpx2=-0x1,mpy2=-0x1,inputtouch=![];}function animate(){const _0x59b15b=_0x100064;requestAnimationFrame(animate);if(mouseIsPressed)angularvelocity[_0x59b15b(0xb8)](new THREE[(_0x59b15b(0xbd))](mousemovementY,mousemovementX,0x0),0.2);if(inputtouch)angularvelocity[_0x59b15b(0xd9)](0x0,0x0,0x0);let _0x4ce02c=angularvelocity[_0x59b15b(0xea)]()[_0x59b15b(0xb0)](),_0x377e3f=angularvelocity[_0x59b15b(0xdd)]()*0.005;mousemovementX=0x0,mousemovementY=0x0,dummymesh[_0x59b15b(0xc1)](_0x4ce02c,_0x377e3f),meshgroup['rotation'][_0x59b15b(0xb4)](dummymesh[_0x59b15b(0xba)]),renderer1['render'](scene1,camera1);}animate();function disposeGroup(_0xd71957){const _0x4f07a7=_0x100064;_0xd71957[_0x4f07a7(0xad)](_0x22e612=>{const _0x2cc4dd=_0x4f07a7;_0x22e612 instanceof THREE[_0x2cc4dd(0xc2)]&&(_0x22e612['geometry']&&_0x22e612[_0x2cc4dd(0xdb)]['dispose'](),_0x22e612[_0x2cc4dd(0xb6)]&&(Array['isArray'](_0x22e612['material'])?_0x22e612[_0x2cc4dd(0xb6)][_0x2cc4dd(0xe5)](_0x2f810c=>_0x2f810c[_0x2cc4dd(0xb3)]()):_0x22e612[_0x2cc4dd(0xb6)]['dispose']()));});}document[_0x100064(0xc4)](_0x100064(0xbb),function(_0x1c6d7b){const _0x1c2fa3=_0x100064;_0x1c6d7b['deltaY']>0x0?camera1[_0x1c2fa3(0xaa)]=Math[_0x1c2fa3(0xf3)](Math[_0x1c2fa3(0xdf)](camera1[_0x1c2fa3(0xaa)]-0.1,0.5),0x3):camera1['zoom']=Math[_0x1c2fa3(0xf3)](Math[_0x1c2fa3(0xdf)](camera1[_0x1c2fa3(0xaa)]+0.1,0.5),0x3),camera1[_0x1c2fa3(0xf5)]();});
+const tetra_vts = [[2, 2, 2], [-2, -2, 2], [2, -2, -2], [-2, 2, -2]];
+const tetra_edge = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+
+const cube_vts = [[2, 2, 2], [2, -2, 2], [-2, -2, 2], [-2, 2, 2], [2, 2, -2], [2, -2, -2], [-2, -2, -2], [-2, 2, -2]];
+const cube_edge = [[0,1],[0,3],[0,4],[1,2],[1,5],[2,3],[2,6],[3,7],[4,5],[4,7],[5,6],[6,7]];
+
+const ico_vts = [[3.23607, 2., 0.], [3.23607, -2., 0.], [-3.23607, -2., 0.], [-3.23607, 2., 0.], [0., 3.23607, 2.], [0., 3.23607, -2.], [0., -3.23607, -2.], [0., -3.23607, 2.], [2., 0., 3.23607], [-2., 0., 3.23607], [-2., 0., -3.23607], [2., 0., -3.23607]];
+const ico_edge = [[0,1],[0,4],[0,5],[0,8],[0,11],[1,6],[1,7],[1,8],[1,11],[2,3],[2,6],[2,7],[2,9],[2,10],[3,4],[3,5],[3,9],[3,10],[4,5],[4,8],[4,9],[5,10],[5,11],[6,7],[6,10],[6,11],[7,8],[7,9],[8,9],[10,11]]
+
+let vts = [];
+let edge = [];
+
+vts = new Array(cube_vts.length);
+for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
+edge = new Array(cube_edge.length);
+for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
+
+
+let inputtouch = false;
+
+
+const canvas1 = document.getElementById('canvas1');
+canvas1.style.touchAction = 'none';
+
+
+canvas1.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+});
+
+
+
+const label1 = document.getElementById('label1');
+
+
+const slider1 = document.getElementById('slider1');
+const slider2 = document.getElementById('slider2');
+const slider3 = document.getElementById('slider3');
+
+slider1.style.touchAction = 'none';
+slider2.style.touchAction = 'none';
+slider3.style.touchAction = 'none';;
+
+
+slider1.addEventListener('input',(event)=>{
+    rotate_angle = -Math.PI/angle_switch/500*Number(event.target.value);
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+
+    let kakudo = -rotate_angle / Math.PI * 180;
+    label1.textContent = Math.round(kakudo) + '度';
+});
+
+slider2.addEventListener('input',(event)=>{
+    tube_thick = 0.15/100*Number(event.target.value);
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+});
+
+slider3.addEventListener('input',(event)=>{
+    tube_length = Number(event.target.value)/100;
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+});
+
+slider1.addEventListener('pointerdown',()=>{inputtouch = true;});
+slider2.addEventListener('pointerdown',()=>{inputtouch = true;});
+slider3.addEventListener('pointerdown',()=>{inputtouch = true;});
+slider1.addEventListener('pointerup',()=>{inputtouch = false;});
+slider2.addEventListener('pointerup',()=>{inputtouch = false;});
+slider3.addEventListener('pointerup',()=>{inputtouch = false;});
+
+
+const check1 = document.getElementById('check1');
+check1.addEventListener('change',(event)=>{
+    if(event.target.checked)    angle_switch = 2/3;
+    else    angle_switch = 2;
+    rotate_angle = -Math.PI/angle_switch/500*Number(slider1.value);
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    let kakudo = -rotate_angle / Math.PI * 180;
+    label1.textContent = Math.round(kakudo) + '度';
+});
+
+
+const select1 = document.getElementById('select1');
+select1.addEventListener('change',(event)=>{
+    if(event.target.value=='option1'){
+        vts = new Array(cube_vts.length);
+        for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
+        edge = new Array(cube_edge.length);
+        for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
+        disposeGroup(meshgroup);
+        scene1.remove(meshgroup);
+        main();
+        select2.style.visibility = 'hidden';
+    }else{
+        vts = new Array(ico_vts.length);
+        for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
+        edge = new Array(ico_edge.length);
+        for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
+        disposeGroup(meshgroup);
+        scene1.remove(meshgroup);
+        main();
+        select2.style.visibility = 'visible';
+    }
+});
+
+const select2 = document.getElementById('select2');
+select2.addEventListener('change',()=>{
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+});
+
+let angle_switch = 2;
+let rotate_angle = -Math.PI/angle_switch/500*Number(slider1.value);
+let tube_thick = 0.15/100*Number(slider2.value);
+let tube_length = Number(slider3.value)/100;
+
+//シーン
+const scene1 = new THREE.Scene();
+
+
+// レンダラー
+const renderer1 = new THREE.WebGLRenderer({
+    canvas:canvas1,   //描画するキャンバスをID指定
+    antialias: true
+});
+renderer1.setSize(window.innerWidth, window.innerHeight*0.6); //キャンバスサイズ
+renderer1.setClearColor(0xeeeeee);   //背景色
+
+
+
+
+// カメラ
+const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/150, canvas1.height/150, -canvas1.height/150, 0.1, 100);   //直交投影カメラ
+//const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
+camera1.position.set(0,0,10);  //カメラ初期位置
+
+
+camera1.zoom = 1.5;
+camera1.updateProjectionMatrix();
+
+
+//画面サイズが変わったとき
+window.addEventListener('resize',()=>{
+    renderer1.setSize(window.innerWidth, window.innerHeight*0.6);
+    camera1.aspect = window.innerWidth / (window.innerHeight*0.6);
+
+    camera1.left = -canvas1.width / 150;
+    camera1.right = canvas1.width / 150;
+    camera1.top = canvas1.height / 150;
+    camera1.bottom = -canvas1.height / 150;
+
+    camera1.updateProjectionMatrix();
+});
+
+
+//環境光ライト
+const lighta = new THREE.AmbientLight(0xffffff, 0.3);   //第1引数：光の色, 第2引数：光の強さ
+scene1.add(lighta);
+
+const light1 = new THREE.DirectionalLight(0xffffff, 0.7);
+light1.position.set(1,1,1).normalize();
+scene1.add(light1);
+
+
+//マウスドラッグによる視点操作（カメラが動く、ライブラリに備わっている機能を使用）
+//const controls = new THREE.OrbitControls(camera1, renderer1.domElement);
+
+
+
+//オブジェクト
+
+
+let dummymesh = new THREE.Mesh();
+dummymesh.rotation.set(0.25, 0.4, 0);
+
+
+// パス（スプライン）を作成
+const path = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 0, 1),
+    new THREE.Vector3(0, 0, -1),
+]);
+
+// TubeGeometryを作成
+const tubeGeometry = new THREE.TubeGeometry(path, 20, 0.2, 8, true);
+
+// マテリアルを作成
+const material = new THREE.MeshBasicMaterial({ color: 0x0077ff, wireframe: true });
+
+// メッシュを作成
+const tube = new THREE.Mesh(tubeGeometry, material);
+
+tube.position.set(1,0,1);
+tube.rotation.set(1,4,2);
+
+// scene1.add(tube);
+
+
+let tube_material = [
+    new THREE.MeshLambertMaterial({ color: 0xff7700, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0xff40cc, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0xf4ff1f, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x77ff00, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x7700ff, side:THREE.DoubleSide})
+]
+
+let meshgroup;
+
+
+
+function addtube(v1, v2, r1, ci){
+
+    let tube_path = new THREE.CatmullRomCurve3([v1, v2]);
+    let tube_geomtry = new THREE.TubeGeometry(tube_path, 8, r1, 16, false);
+    let tube = new THREE.Mesh(tube_geomtry, tube_material[ci]);
+    meshgroup.add(tube); 
+
+
+    let sphere_geometry, sphere1, sphere2;
+
+    sphere_geometry = new THREE.SphereGeometry(r1, 16, 8);
+    sphere1 = new THREE.Mesh(sphere_geometry, tube_material[ci]);
+    sphere1.position.copy(v1);
+    sphere2 = sphere1.clone();
+    sphere2.position.copy(v2);
+    meshgroup.add(sphere1);
+    meshgroup.add(sphere2);
+}
+
+
+main();
+
+function main(){
+
+    meshgroup = new THREE.Group();
+
+    for(let i=0; i<edge.length; i++){
+
+        let x1, y1, z1, x2, y2, z2;
+        x1 = vts[edge[i][0]][0];
+        y1 = vts[edge[i][0]][1];
+        z1 = vts[edge[i][0]][2];
+        x2 = vts[edge[i][1]][0];
+        y2 = vts[edge[i][1]][1];
+        z2 = vts[edge[i][1]][2];
+
+        let v1a = new THREE.Vector3(x1, y1, z1);
+        let v2a = new THREE.Vector3(x2, y2, z2);
+
+        let va = new THREE.Vector3((x1+x2)/2, (y1+y2)/2, (z1+z2)/2);    //辺の重心
+
+        let v1b, v2b, v1c, v2c;
+
+        v1b = v1a.clone().sub(va);
+        v1b.applyAxisAngle(va.clone().normalize(), rotate_angle);
+        v1b.add(va);
+
+        v2b = v2a.clone().sub(va);
+        v2b.applyAxisAngle(va.clone().normalize(), rotate_angle);
+        v2b.add(va);
+
+        v1c = new THREE.Vector3((-tube_length+1)*va.x+tube_length*v1b.x, (-tube_length+1)*va.y+tube_length*v1b.y, (-tube_length+1)*va.z+tube_length*v1b.z);
+        v2c = new THREE.Vector3((-tube_length+1)*va.x+tube_length*v2b.x, (-tube_length+1)*va.y+tube_length*v2b.y, (-tube_length+1)*va.z+tube_length*v2b.z);
+    
+        let cl=0;
+
+        if(select1.value=='option1' || select2.value=='option1'){
+            cl = 4;
+        }else if(select2.value=='option2'){
+            cl = 0;
+            if(i==0 || i==9 || i==18 || i==23 || i==28 || i==29)  cl=1;
+            if(i==1 || i==10 || i==21 || i==26 || i==8 || i==16)  cl=2;
+            if(i==2 || i==11 || i==7 || i==17 || i==20 || i==25)  cl=3;
+            if(i==3 || i==13 || i==22 || i==27 || i==5 || i==14)  cl=4;
+        }else{
+            cl = 5;
+            if(i==0 || i==22 || i==17 || i==12 || i==26)    cl=0;
+            if(i==1 || i==15 || i==13 || i==23 || i==7)    cl=1;
+            if(i==2 || i==29 || i==10 || i==27 || i==19)    cl=2;
+            if(i==3 || i==8 || i==24 || i==9 || i==20)    cl=3;
+            if(i==4 || i==5 || i==11 || i==16 || i==18)    cl=4;
+        }
+        
+
+        addtube(v1c, v2c, tube_thick, cl);
+    }
+
+    scene1.add(meshgroup);
+
+}
+
+
+//マウスイベント
+let mouseIsPressed = false;
+canvas1.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+canvas1.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+
+let mousemovementX=0, mousemovementY=0;
+canvas1.addEventListener('pointermove',(event)=>{
+    mousemovementX = event.movementX;
+    mousemovementY = event.movementY;
+});
+
+let angularvelocity = new THREE.Vector3(0,0,0);
+
+
+//2本指操作
+let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1; 
+let twofinger = false;
+
+//document.addEventListener('touchstart', handleTouchStart, false);
+canvas1.addEventListener('touchmove', handleTouchMove, false);
+canvas1.addEventListener('touchend', handleTouchEnd, false);
+
+function handleTouchStart(event){
+    if(event.touchs.length==2){
+        mpx1 = event.touches[0].clientX;
+        mpy1 = event.touches[0].clientY;
+        mpx2 = event.touches[1].clientX;
+        mpy2 = event.touches[1].clientY;
+    }
+}
+
+function handleTouchMove(event){
+
+    if(event.touches.length==2){
+
+        inputtouch = true;
+
+        if(mpx1==-1 || mpy1==-1 || mpx2==-1 || mpy2==-1){
+
+            mpx1 = event.touches[0].clientX;
+            mpy1 = event.touches[0].clientY;
+            mpx2 = event.touches[1].clientX;
+            mpy2 = event.touches[1].clientY;
+
+        }else{
+
+            let mx1, my1, mx2, my2;
+            mx1 = event.touches[0].clientX;
+            my1 = event.touches[0].clientY;
+            mx2 = event.touches[1].clientX;
+            my2 = event.touches[1].clientY;
+
+            let d1, d2;
+            d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
+            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
+
+            let v1l = camera1.zoom;
+
+            v1l = Math.min(Math.max(v1l +(d2-d1)*0.004, 0.5),3);
+            
+            camera1.zoom = v1l;
+            camera1.updateProjectionMatrix();
+
+            mpx1 = mx1;
+            mpy1 = my1;
+            mpx2 = mx2;
+            mpy2 = my2;
+
+        }
+
+    }else if(event.touches.length==1){
+        if(mpx1==-1 || mpy1==-1){
+            mpx1 = event.touches[0].clientX;
+            mpy1 = event.touches[0].clientY;
+        }else{
+            mousemovementX = event.touches[0].clientX - mpx1;
+            mousemovementY = event.touches[0].clientY - mpy1;
+            mpx1 = event.touches[0].clientX;
+            mpy1 = event.touches[0].clientY;
+        }
+    }
+}
+
+
+function handleTouchEnd(event){
+    mpx1 = -1;
+    mpy1 = -1;
+    mpx2 = -1;
+    mpy2 = -1;
+    inputtouch = false;
+}
+
+
+//レンダリングを繰り返す
+function animate(){
+
+    requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
+
+    if(mouseIsPressed)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
+    if(inputtouch)  angularvelocity.set(0,0,0);
+    
+    let axis = angularvelocity.clone().normalize();
+    let rad = angularvelocity.length()*0.005;
+
+    mousemovementX = 0;
+    mousemovementY = 0;
+
+    //meshgroup.rotateOnWorldAxis(axis, rad);
+    dummymesh.rotateOnWorldAxis(axis, rad);
+    
+    meshgroup.rotation.copy(dummymesh.rotation);
+
+    // scene1.traverse((object)=>{
+    //     if(object.isMesh){
+    //         object.rotation.copy(dummymesh.rotation);
+    //     }
+    // });
+
+
+    renderer1.render(scene1, camera1);  //レンダリング（CG描画）
+}
+animate();
+
+
+
+
+// グループに含まれる全ての子要素のジオメトリとマテリアルを破棄する関数
+function disposeGroup(group) {
+    group.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+            // メッシュのジオメトリとマテリアルを破棄
+            if (child.geometry) {
+                child.geometry.dispose();
+            }
+            if (child.material) {
+                // マテリアルがArrayの場合はそれぞれ破棄する
+                if (Array.isArray(child.material)) {
+                    child.material.forEach(mat => mat.dispose());
+                } else {
+                    child.material.dispose();
+                }
+            }
+        }
+    });
+}
+
+
+
+// マウスホイールイベントのリスナーを追加
+document.addEventListener('wheel', function(event) {
+    if (event.deltaY > 0) {
+        camera1.zoom = Math.min(Math.max(camera1.zoom-0.1, 0.5),3)
+    } else {
+        camera1.zoom = Math.min(Math.max(camera1.zoom+0.1, 0.5),3);
+    }
+    camera1.updateProjectionMatrix();
+});

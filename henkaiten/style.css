@@ -1,3 +1,7 @@
+*{
+    touch-action:none;
+}
+
 html,body{
     margin:0px;
     user-select: none; 
@@ -11,44 +15,55 @@ cnavas{
     -moz-user-select: none; 
 }
 
+#canvas1{
+    position:absolute;
+    top:10%;
+}
+
 #slider1{
     position:absolute;
-    bottom:23%;
-    left:35%;
+    bottom:19%;
+    left:30%;
     width:27%;
     transform:scale(3);
 }
-
+   
 #slider2{
     position:absolute;
-    bottom:14%;
-    left:35%;
+    bottom:12%;
+    left:30%;
     width:27%;
     transform:scale(3);
 }
-
 
 #slider3{
     position:absolute;
     bottom:5%;
-    left:35%;
+    left:30%;
     width:27%;
     transform:scale(3);
+}
+
+
+#label1{
+    position:absolute;
+    bottom:14%;
+    right:4%;
+    font-size:34px;
 }
 
 
 
 #container1{
     position:absolute;
-    top:50px;
-    right:160px;
-    background-color:#ffffff88;
+    bottom:24%;;
+    right:15%;
     transform:scale(2.5);
 }
 
 #select1{
     position:absolute;
-    top:5%;
+    top:3%;
     left:17%;
     width:33%;
     font-size:40px;
@@ -56,9 +71,9 @@ cnavas{
 
 #select2{
     position:absolute;
-    top:5%;
+    top:3%;
     right:5%;
-    width:33%;
+    width:25%;
     font-size:40px;
     visibility: hidden;
 }
@@ -67,5 +82,8 @@ cnavas{
     position:absolute;
     top:3%;
     left:3%;
-    font-size:26px;
+    font-size:30px;
 }
+
+
+
