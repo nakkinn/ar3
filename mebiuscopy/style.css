@@ -22,68 +22,35 @@ cnavas{
 
 #slider1{
     position:absolute;
-    bottom:19%;
-    left:30%;
-    width:27%;
-    transform:scale(3);
-}
-   
-#slider2{
-    position:absolute;
-    bottom:12%;
-    left:30%;
-    width:27%;
-    transform:scale(3);
-}
-
-#slider3{
-    position:absolute;
     bottom:5%;
-    left:30%;
+    left:35%;
     width:27%;
+    height:3%;
     transform:scale(3);
+    margin:0px;
 }
-
-
-#label1{
-    position:absolute;
-    bottom:14%;
-    right:4%;
-    font-size:34px;
-}
-
 
 
 #container1{
     position:absolute;
-    bottom:24%;;
-    right:15%;
+    top:50px;
+    right:160px;
     transform:scale(2.5);
 }
 
-#select1{
+
+#colorpicker1{
     position:absolute;
-    top:3%;
-    left:17%;
-    width:33%;
-    font-size:40px;
 }
 
-#select2{
+#colorpicker2{
     position:absolute;
-    top:3%;
-    right:5%;
-    width:25%;
-    font-size:40px;
-    visibility: hidden;
+    left:70px;
 }
 
-#select3{
+#colorpicker3{
     position:absolute;
-    bottom:24%;
-    left:5%;
-    width:25%;
-    font-size:40px;
+    left:140px;
 }
 
 #link1{
@@ -93,5 +60,10 @@ cnavas{
     font-size:30px;
 }
 
-
-
+#select1{
+    position:absolute;
+    top:3%;
+    right:5%;
+    width:33%;
+    font-size:40px;
+}
