@@ -1,1 +1,335 @@
-const _0x119481=_0x228c;(function(_0x47d150,_0x1abf92){const _0x48cc24=_0x228c,_0x13bd7b=_0x47d150();while(!![]){try{const _0x377409=-parseInt(_0x48cc24(0xa3))/0x1*(-parseInt(_0x48cc24(0xa7))/0x2)+parseInt(_0x48cc24(0xbe))/0x3*(parseInt(_0x48cc24(0xc4))/0x4)+parseInt(_0x48cc24(0xaf))/0x5+parseInt(_0x48cc24(0xc3))/0x6*(-parseInt(_0x48cc24(0xa0))/0x7)+-parseInt(_0x48cc24(0xb6))/0x8*(-parseInt(_0x48cc24(0xce))/0x9)+parseInt(_0x48cc24(0xcd))/0xa+parseInt(_0x48cc24(0x99))/0xb*(-parseInt(_0x48cc24(0xcb))/0xc);if(_0x377409===_0x1abf92)break;else _0x13bd7b['push'](_0x13bd7b['shift']());}catch(_0x3870c7){_0x13bd7b['push'](_0x13bd7b['shift']());}}}(_0x3b6e,0xe642c));let tubecolor1=0xff3300,tubecolor2=0x33ff,surfacecolor=0xe9fe95,surfacealpha=0x1,backgroundcolor=0xeeeeee;const canvas1=document[_0x119481(0x9a)](_0x119481(0xba));canvas1['addEventListener'](_0x119481(0xbb),_0x3bb7d1=>{_0x3bb7d1['preventDefault']();});const scene1=new THREE[(_0x119481(0x9b))](),renderer1=new THREE[(_0x119481(0x93))]({'canvas':canvas1,'antialias':!![]});renderer1[_0x119481(0xb5)](window[_0x119481(0xcf)],window[_0x119481(0xc9)]*0.76),renderer1['setClearColor'](backgroundcolor);const camera1=new THREE[(_0x119481(0x9e))](0x3c,canvas1[_0x119481(0xa8)]/canvas1[_0x119481(0xb9)],0.1,0x1f4);camera1[_0x119481(0xad)][_0x119481(0xae)](0x0,0x0,0x19),window['addEventListener']('resize',()=>{const _0x29395f=_0x119481;renderer1[_0x29395f(0xb5)](window[_0x29395f(0xcf)],window[_0x29395f(0xc9)]*0.76),camera1['aspect']=window[_0x29395f(0xcf)]/(window[_0x29395f(0xc9)]*0.76),camera1[_0x29395f(0x97)]();});const lighta=new THREE[(_0x119481(0xaa))](0xffffff,0.3);function _0x3b6e(){const _0x2d979d=['TubeGeometry','position','set','7882020jPlvQA','movementY','MeshLambertMaterial','copy','Vector3','setAttribute','setSize','336sRbWky','setIndex','clientX','height','canvas1','contextmenu','min','input','15SYzTwC','clone','add','log','max','17814vkdvxo','606620kXiMyr','sqrt','BufferGeometry','touchs','BufferAttribute','innerHeight','CatmullRomCurve3','1644GLGvVV','pointerup','1590040CFJByV','15597kHRzgZ','innerWidth','target','touches','render','DoubleSide','clientY','WebGLRenderer','push','pointermove','lerp','updateProjectionMatrix','addEventListener','224983WDBRJR','getElementById','Scene','rotation','deltaY','PerspectiveCamera','touchmove','1253qYFJaW','normalize','movementX','7lZKawy','pointerdown','wheel','length','488626sfkkqE','width','Mesh','AmbientLight','computeVertexNormals'];_0x3b6e=function(){return _0x2d979d;};return _0x3b6e();}scene1['add'](lighta);const light1=new THREE['DirectionalLight'](0xffffff,0.7);light1['position'][_0x119481(0xae)](0x1,0x1,0x1),scene1[_0x119481(0xc0)](light1);let geometry,mesh,meshgroup,index=0xa,tubematerial1=new THREE[(_0x119481(0xb1))]({'color':tubecolor1,'side':THREE[_0x119481(0x91)]}),tubematerial2=new THREE[(_0x119481(0xb1))]({'color':tubecolor2,'side':THREE[_0x119481(0x91)]}),path1=new THREE[(_0x119481(0xca))](veclist2(curve1,0x1)),tubegeometry1=new THREE[(_0x119481(0xac))](path1,0x40,0.1,0x8,![]),tubemesh1=new THREE[(_0x119481(0xa9))](tubegeometry1,tubematerial1);scene1['add'](tubemesh1);function _0x228c(_0x13f805,_0x352012){const _0x3b6eab=_0x3b6e();return _0x228c=function(_0x228c1d,_0x329f31){_0x228c1d=_0x228c1d-0x8f;let _0x5681de=_0x3b6eab[_0x228c1d];return _0x5681de;},_0x228c(_0x13f805,_0x352012);}let path2=new THREE[(_0x119481(0xca))](veclist2(curve2,0x1)),tubegeometry2=new THREE[(_0x119481(0xac))](path2,0x40,0.1,0x8,![]),tubemesh2=new THREE[(_0x119481(0xa9))](tubegeometry2,tubematerial2);scene1['add'](tubemesh2);let dummymesh=new THREE[(_0x119481(0xa9))]();dummymesh[_0x119481(0x9c)][_0x119481(0xae)](0.3,0x0,0x0),material_surface=new THREE['MeshPhongMaterial']({'color':surfacecolor,'side':THREE[_0x119481(0x91)],'transparent':!![],'opacity':surfacealpha});let index2=[];for(let i=0x0;i<index1['length'];i++){if(!(i<0xf0*0x2*0x0))index2[_0x119481(0x94)](index1[i]);}console[_0x119481(0xc1)](index1),geometry=new THREE[(_0x119481(0xc6))](),geometry[_0x119481(0xb4)](_0x119481(0xad),new THREE['BufferAttribute'](new Float32Array(vts1),0x3)),geometry[_0x119481(0xb7)](new THREE[(_0x119481(0xc8))](new Uint16Array(index2),0x1)),geometry[_0x119481(0xab)](),mesh=new THREE[(_0x119481(0xa9))](geometry,material_surface),scene1[_0x119481(0xc0)](mesh);let mouseIsPressed=![];canvas1[_0x119481(0x98)](_0x119481(0xa4),()=>{mouseIsPressed=!![];}),canvas1[_0x119481(0x98)](_0x119481(0xcc),()=>{mouseIsPressed=![];});let mousemovementX=0x0,mousemovementY=0x0;canvas1[_0x119481(0x98)](_0x119481(0x95),_0x40ee34=>{const _0x2cc834=_0x119481;mousemovementX=_0x40ee34[_0x2cc834(0xa2)],mousemovementY=_0x40ee34[_0x2cc834(0xb0)];});let angularvelocity=new THREE[(_0x119481(0xb3))](0x0,0x0,0x0),mpx1=-0x1,mpy1=-0x1,mpx2=-0x1,mpy2=-0x1,twofinger=![];canvas1[_0x119481(0x98)](_0x119481(0x9f),handleTouchMove,![]),canvas1[_0x119481(0x98)]('touchend',handleTouchEnd,![]);function handleTouchStart(_0x2f3acc){const _0x10bb4e=_0x119481;_0x2f3acc[_0x10bb4e(0xc7)][_0x10bb4e(0xa6)]==0x2&&(mpx1=_0x2f3acc['touches'][0x0][_0x10bb4e(0xb8)],mpy1=_0x2f3acc[_0x10bb4e(0x8f)][0x0][_0x10bb4e(0x92)],mpx2=_0x2f3acc[_0x10bb4e(0x8f)][0x1][_0x10bb4e(0xb8)],mpy2=_0x2f3acc['touches'][0x1][_0x10bb4e(0x92)]);}function handleTouchMove(_0x3187f3){const _0x564235=_0x119481;if(_0x3187f3['touches'][_0x564235(0xa6)]==0x2){twofinger=!![];if(mpx1==-0x1||mpy1==-0x1||mpx2==-0x1||mpy2==-0x1)mpx1=_0x3187f3[_0x564235(0x8f)][0x0][_0x564235(0xb8)],mpy1=_0x3187f3[_0x564235(0x8f)][0x0][_0x564235(0x92)],mpx2=_0x3187f3[_0x564235(0x8f)][0x1][_0x564235(0xb8)],mpy2=_0x3187f3[_0x564235(0x8f)][0x1]['clientY'];else{let _0x20a49e,_0x337c8c,_0x571782,_0x1689ab;_0x20a49e=_0x3187f3[_0x564235(0x8f)][0x0]['clientX'],_0x337c8c=_0x3187f3['touches'][0x0][_0x564235(0x92)],_0x571782=_0x3187f3[_0x564235(0x8f)][0x1][_0x564235(0xb8)],_0x1689ab=_0x3187f3[_0x564235(0x8f)][0x1][_0x564235(0x92)];let _0x178147,_0x2e8156;_0x178147=Math[_0x564235(0xc5)]((mpx1-mpx2)**0x2+(mpy1-mpy2)**0x2),_0x2e8156=Math['sqrt']((_0x20a49e-_0x571782)**0x2+(_0x337c8c-_0x1689ab)**0x2);let _0x2e8548=camera1[_0x564235(0xad)][_0x564235(0xbf)]()[_0x564235(0xa1)](),_0x31b20c=camera1[_0x564235(0xad)][_0x564235(0xa6)]();_0x31b20c=Math['max'](_0x31b20c+(_0x178147-_0x2e8156)*0.1,0x1),camera1[_0x564235(0xad)][_0x564235(0xae)](_0x2e8548['x']*_0x31b20c,_0x2e8548['y']*_0x31b20c,_0x2e8548['z']*_0x31b20c),mpx1=_0x20a49e,mpy1=_0x337c8c,mpx2=_0x571782,mpy2=_0x1689ab;}}else _0x3187f3['touches']['length']==0x1&&(mpx1==-0x1||mpy1==-0x1?(mpx1=_0x3187f3['touches'][0x0][_0x564235(0xb8)],mpy1=_0x3187f3['touches'][0x0][_0x564235(0x92)]):(mousemovementX=_0x3187f3[_0x564235(0x8f)][0x0]['clientX']-mpx1,mousemovementY=_0x3187f3['touches'][0x0]['clientY']-mpy1,mpx1=_0x3187f3['touches'][0x0]['clientX'],mpy1=_0x3187f3[_0x564235(0x8f)][0x0][_0x564235(0x92)]));}function handleTouchEnd(){mpx1=-0x1,mpy1=-0x1,mpx2=-0x1,mpy2=-0x1,twofinger=![];}const slider1=document[_0x119481(0x9a)]('slider1');slider1[_0x119481(0x98)](_0x119481(0xbd),_0x4f4d3a=>{const _0x11184f=_0x119481;let _0x23ed48=[];for(let _0x580766=0x0;_0x580766<index1[_0x11184f(0xa6)];_0x580766++){if(!(_0x580766<0xf0*0x2*Number(_0x4f4d3a[_0x11184f(0xd0)]['value'])))_0x23ed48[_0x11184f(0x94)](index1[_0x580766]);}geometry[_0x11184f(0xb7)](new THREE[(_0x11184f(0xc8))](new Uint16Array(_0x23ed48),0x1)),geometry[_0x11184f(0xab)]();});function animate(){const _0x3fae64=_0x119481;requestAnimationFrame(animate);if(mouseIsPressed&&!twofinger)angularvelocity[_0x3fae64(0x96)](new THREE['Vector3'](mousemovementY,mousemovementX,0x0),0.2);let _0x510586=angularvelocity[_0x3fae64(0xbf)]()[_0x3fae64(0xa1)](),_0x1353d3=angularvelocity[_0x3fae64(0xa6)]()*0.005;mousemovementX=0x0,mousemovementY=0x0,dummymesh['rotateOnWorldAxis'](_0x510586,_0x1353d3),mesh['rotation'][_0x3fae64(0xb2)](dummymesh[_0x3fae64(0x9c)]),tubemesh1[_0x3fae64(0x9c)][_0x3fae64(0xb2)](dummymesh[_0x3fae64(0x9c)]),tubemesh2[_0x3fae64(0x9c)][_0x3fae64(0xb2)](dummymesh[_0x3fae64(0x9c)]),renderer1[_0x3fae64(0x90)](scene1,camera1);}animate();function veclist(_0x1f6ecd,_0xf75ef1){const _0x86f9d=_0x119481;let _0x23d00d=[];for(let _0x4b6ad0=0x0;_0x4b6ad0<_0x1f6ecd[_0x86f9d(0xa6)];_0x4b6ad0++){_0x23d00d[_0x86f9d(0x94)](new THREE[(_0x86f9d(0xb3))](_0x1f6ecd[_0x4b6ad0][0x0]*_0xf75ef1,_0x1f6ecd[_0x4b6ad0][0x1]*_0xf75ef1,_0x1f6ecd[_0x4b6ad0][0x2]*_0xf75ef1));}return _0x23d00d;}function veclist2(_0xc580dc,_0x250f93){const _0x39c1d0=_0x119481;let _0x1ebbe9=[];for(let _0x50239e=0x0;_0x50239e<_0xc580dc['length'];_0x50239e+=0x3){_0x1ebbe9[_0x39c1d0(0x94)](new THREE[(_0x39c1d0(0xb3))](_0xc580dc[_0x50239e]*_0x250f93,_0xc580dc[_0x50239e+0x1]*_0x250f93,_0xc580dc[_0x50239e+0x2]*_0x250f93));}return console['log'](_0xc580dc),console[_0x39c1d0(0xc1)](_0x1ebbe9),_0x1ebbe9;}document['addEventListener'](_0x119481(0xa5),function(_0x484e00){const _0x472fd1=_0x119481;let _0x430ebf=camera1[_0x472fd1(0xad)][_0x472fd1(0xbf)]()[_0x472fd1(0xa1)](),_0x3c2528=camera1[_0x472fd1(0xad)][_0x472fd1(0xa6)]();_0x484e00[_0x472fd1(0x9d)]>0x0?_0x3c2528=Math[_0x472fd1(0xbc)](Math[_0x472fd1(0xc2)](_0x3c2528*1.1,0x1),0x64):_0x3c2528=Math[_0x472fd1(0xbc)](Math[_0x472fd1(0xc2)](_0x3c2528*0.9,0x1),0x64),camera1[_0x472fd1(0xad)][_0x472fd1(0xae)](_0x430ebf['x']*_0x3c2528,_0x430ebf['y']*_0x3c2528,_0x430ebf['z']*_0x3c2528);});
+let tubecolor1 = 0xff3300;  //tubeの色　uカーブ
+let tubecolor2 = 0x0033ff;  //tubeの色　vカーブ
+let surfacecolor = 0xe9fe95;    //曲面の色
+let surfacealpha = 1; //曲面の透明度
+let backgroundcolor = 0xeeeeee; //背景色
+
+
+const canvas1 = document.getElementById('canvas1');
+
+canvas1.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+});
+
+
+
+
+//シーン
+const scene1 = new THREE.Scene();
+
+
+// レンダラー
+const renderer1 = new THREE.WebGLRenderer({
+    canvas:canvas1,   //描画するキャンバスをID指定
+    antialias: true
+});
+renderer1.setSize(window.innerWidth, window.innerHeight*0.76); //キャンバスサイズ
+renderer1.setClearColor(backgroundcolor);   //背景色
+
+
+// カメラ
+//const camera1 = new THREE.OrthographicCamera(-2, 2, 2, -2, 1, 10);   //直交投影カメラ
+const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
+camera1.position.set(0,0,25);  //カメラ初期位置
+
+//画面サイズが変わったとき
+window.addEventListener('resize',()=>{
+    renderer1.setSize(window.innerWidth, window.innerHeight*0.76);
+    camera1.aspect = window.innerWidth / (window.innerHeight*0.76);
+    camera1.updateProjectionMatrix();
+});
+
+
+//環境光ライト
+const lighta = new THREE.AmbientLight(0xffffff, 0.3);   //第1引数：光の色, 第2引数：光の強さ
+scene1.add(lighta);
+
+const light1 = new THREE.DirectionalLight(0xffffff, 0.7);
+light1.position.set(1,1,1);
+scene1.add(light1);
+
+
+//マウスドラッグによる視点操作（カメラが動く、ライブラリに備わっている機能を使用）
+//const controls = new THREE.OrbitControls(camera1, renderer1.domElement);
+
+
+
+//オブジェクト
+let geometry, mesh, meshgroup, index=10;
+
+let tubematerial1 = new THREE.MeshLambertMaterial({ color: tubecolor1, side:THREE.DoubleSide});
+let tubematerial2 = new THREE.MeshLambertMaterial({ color: tubecolor2, side:THREE.DoubleSide});
+
+
+let path1 = new THREE.CatmullRomCurve3(veclist2(curve1,1));
+let tubegeometry1 = new THREE.TubeGeometry(path1, 64, 0.1, 8, false);
+let tubemesh1 = new THREE.Mesh(tubegeometry1, tubematerial1);
+scene1.add(tubemesh1);
+
+
+let path2 = new THREE.CatmullRomCurve3(veclist2(curve2,1));
+let tubegeometry2 = new THREE.TubeGeometry(path2, 64, 0.1, 8, false);
+let tubemesh2 = new THREE.Mesh(tubegeometry2, tubematerial2);
+scene1.add(tubemesh2);
+
+
+// meshgroup = new Array(curve_group.length);
+// for(let i=0; i<meshgroup.length; i++)   meshgroup[i] = new THREE.Mesh();
+
+// for(let i=0; i<curve_group.length; i++){
+
+//     for(let k=0; k<curve_group[i].length; k++){
+//         let thick = 0.1;
+//         if(k==0||k==20)    thick = 0.2;
+//         path = new THREE.CatmullRomCurve3(veclist(curve_group[i][k],5));
+//         geometry = new THREE.TubeGeometry(path, 64, thick, 8, false);
+//         if(k<=20)   mesh = new THREE.Mesh(geometry, tubematerial1);
+//         else    mesh = new THREE.Mesh(geometry, tubematerial2);
+//         meshgroup[i].add(mesh);
+//     }
+
+// }
+
+// scene1.add(meshgroup[index]);
+
+
+
+
+
+let dummymesh = new THREE.Mesh();
+dummymesh.rotation.set(0.3, 0, 0);
+
+
+
+// let geometry_surface, material_surface, mesh_surface;
+// let mesh_surface_group = new Array(vts2.length);
+
+// let index0 = [];
+// let index2 = [];
+// let index3 = [];
+
+
+// for(let i=0; i<index1.length; i+=3){
+
+//     let a1 = 240*4;
+//     if(9600/2-a1<=i && i<9600/2+a1){
+//         index2.push(index1[i]);
+//         index2.push(index1[i+1]);
+//         index2.push(index1[i+2]);
+//     }
+
+
+//     let a2 = 240*8;
+//     if((a2<=i&&i<9600/2-a2) || (9600/2+a2<=i&&i<9600-a2)){
+//         index3.push(index1[i]);
+//         index3.push(index1[i+1]);
+//         index3.push(index1[i+2]);
+//     }
+// }
+
+
+
+
+material_surface = new THREE.MeshPhongMaterial({color:surfacecolor, side:THREE.DoubleSide, transparent:true, opacity:surfacealpha});
+
+// for(let i=0; i<vts2.length; i++){
+
+//     geometry_surface = new THREE.BufferGeometry();
+//     geometry_surface.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts2[i]), 3));
+//     geometry_surface.setIndex(new THREE.BufferAttribute(new Uint16Array(index1),1));
+//     geometry_surface.computeVertexNormals();
+
+//     mesh_surface_group[i] = new THREE.Mesh(geometry_surface, material_surface);
+//     mesh_surface_group[i].scale.set(5,5,5);
+
+// }
+
+
+
+let index2 = [];
+for(let i=0; i<index1.length; i++){
+    if(!(i<240*2*0))  index2.push(index1[i]);
+}
+console.log(index1);
+
+geometry = new THREE.BufferGeometry();
+geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts1), 3));
+geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(index2),1));
+geometry.computeVertexNormals();
+
+mesh = new THREE.Mesh(geometry, material_surface);
+scene1.add(mesh);
+
+
+// scene1.add(mesh_surface_group[index]);
+
+
+
+//マウスイベント
+let mouseIsPressed = false;
+canvas1.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+canvas1.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+
+let mousemovementX=0, mousemovementY=0;
+canvas1.addEventListener('pointermove',(event)=>{
+    mousemovementX = event.movementX;
+    mousemovementY = event.movementY;
+});
+
+let angularvelocity = new THREE.Vector3(0,0,0);
+
+
+//2本指操作
+let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1; 
+let twofinger = false;
+
+canvas1.addEventListener('touchmove', handleTouchMove, false);
+canvas1.addEventListener('touchend', handleTouchEnd, false);
+
+function handleTouchStart(event){
+    if(event.touchs.length==2){
+        mpx1 = event.touches[0].clientX;
+        mpy1 = event.touches[0].clientY;
+        mpx2 = event.touches[1].clientX;
+        mpy2 = event.touches[1].clientY;
+    }
+}
+
+function handleTouchMove(event){
+
+    if(event.touches.length==2){
+
+        twofinger = true;
+
+        if(mpx1==-1 || mpy1==-1 || mpx2==-1 || mpy2==-1){
+
+            mpx1 = event.touches[0].clientX;
+            mpy1 = event.touches[0].clientY;
+            mpx2 = event.touches[1].clientX;
+            mpy2 = event.touches[1].clientY;
+
+        }else{
+
+            let mx1, my1, mx2, my2;
+            mx1 = event.touches[0].clientX;
+            my1 = event.touches[0].clientY;
+            mx2 = event.touches[1].clientX;
+            my2 = event.touches[1].clientY;
+
+            let d1, d2;
+            d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
+            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
+
+            let v1n = camera1.position.clone().normalize();
+            let v1l = camera1.position.length();
+
+            v1l = Math.max(v1l +(d1-d2)*0.1, 1);
+            camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
+
+            mpx1 = mx1;
+            mpy1 = my1;
+            mpx2 = mx2;
+            mpy2 = my2;
+
+        }
+    }else if(event.touches.length==1){
+        if(mpx1==-1 || mpy1==-1){
+            mpx1 = event.touches[0].clientX;
+            mpy1 = event.touches[0].clientY;
+        }else{
+            mousemovementX = event.touches[0].clientX - mpx1;
+            mousemovementY = event.touches[0].clientY - mpy1;
+            mpx1 = event.touches[0].clientX;
+            mpy1 = event.touches[0].clientY;
+        }
+    }
+}
+
+
+function handleTouchEnd(){
+    mpx1 = -1;
+    mpy1 = -1;
+    mpx2 = -1;
+    mpy2 = -1;
+    twofinger = false;
+}
+
+
+
+const slider1 = document.getElementById('slider1');
+
+slider1.addEventListener('input',(event)=>{
+    let index2 = [];
+    for(let i=0; i<index1.length; i++){
+        if(!(i<240*2*Number(event.target.value)))  index2.push(index1[i]);
+    }
+    geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(index2),1));
+    geometry.computeVertexNormals();
+});
+
+
+
+
+
+
+
+//レンダリングを繰り返す
+function animate(){
+
+    requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
+
+
+
+    if(mouseIsPressed && !twofinger)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
+    let axis = angularvelocity.clone().normalize();
+    let rad = angularvelocity.length()*0.005;
+
+    mousemovementX = 0;
+    mousemovementY = 0;
+
+
+    dummymesh.rotateOnWorldAxis(axis, rad);
+    mesh.rotation.copy(dummymesh.rotation);
+    tubemesh1.rotation.copy(dummymesh.rotation);
+    tubemesh2.rotation.copy(dummymesh.rotation);
+
+    renderer1.render(scene1, camera1);  //レンダリング
+}
+animate();
+
+
+
+function veclist(arg, sc){
+    let result = [];
+    for(let i=0; i<arg.length; i++){
+        result.push(new THREE.Vector3(arg[i][0]*sc, arg[i][1]*sc, arg[i][2]*sc));
+    }
+    return result;
+}
+
+function veclist2(arg, sc){
+    let result = [];
+    for(let i=0; i<arg.length; i+=3){
+        result.push(new THREE.Vector3(arg[i]*sc, arg[i+1]*sc, arg[i+2]*sc));
+    }
+    console.log(arg);
+    console.log(result);
+    return result;
+}
+
+
+// マウスホイールイベントのリスナーを追加
+document.addEventListener('wheel', function(event) {
+
+    let v1n = camera1.position.clone().normalize();
+    let v1l = camera1.position.length();
+
+    if (event.deltaY > 0) {
+        v1l = Math.min(Math.max(v1l*1.1, 1), 100);
+        
+    } else {
+        v1l = Math.min(Math.max(v1l*0.9, 1), 100);
+    }
+    camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
+
+});
