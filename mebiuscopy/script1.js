@@ -6,11 +6,10 @@ let backgroundcolor = 0xeeeeee; //背景色
 
 
 const canvas1 = document.getElementById('canvas1');
-
+//右クリックメニューを禁止（スマホを長押ししたときに余計なものが開かないようにする）
 canvas1.addEventListener('contextmenu', (event) => {
     event.preventDefault();
 });
-
 
 
 
@@ -30,7 +29,8 @@ renderer1.setClearColor(backgroundcolor);   //背景色
 // カメラ
 //const camera1 = new THREE.OrthographicCamera(-2, 2, 2, -2, 1, 10);   //直交投影カメラ
 const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
-camera1.position.set(0,0,25);  //カメラ初期位置
+camera1.position.set(0,0,15);  //カメラ初期位置
+
 
 //画面サイズが変わったとき
 window.addEventListener('resize',()=>{
@@ -41,7 +41,7 @@ window.addEventListener('resize',()=>{
 
 
 //環境光ライト
-const lighta = new THREE.AmbientLight(0xffffff, 0.3);   //第1引数：光の色, 第2引数：光の強さ
+const lighta = new THREE.AmbientLight(0xffffff, 0.4);   //第1引数：光の色, 第2引数：光の強さ
 scene1.add(lighta);
 
 const light1 = new THREE.DirectionalLight(0xffffff, 0.7);
@@ -49,9 +49,9 @@ light1.position.set(1,1,1);
 scene1.add(light1);
 
 
-//マウスドラッグによる視点操作（カメラが動く、ライブラリに備わっている機能を使用）
-//const controls = new THREE.OrbitControls(camera1, renderer1.domElement);
 
+//マウスドラッグによる視点操作（物体を回転させる機能をつけたので現在は使用していない）
+//const controls = new THREE.OrbitControls(camera1, renderer1.domElement);
 
 
 //オブジェクト
@@ -73,25 +73,6 @@ let tubemesh2 = new THREE.Mesh(tubegeometry2, tubematerial2);
 scene1.add(tubemesh2);
 
 
-// meshgroup = new Array(curve_group.length);
-// for(let i=0; i<meshgroup.length; i++)   meshgroup[i] = new THREE.Mesh();
-
-// for(let i=0; i<curve_group.length; i++){
-
-//     for(let k=0; k<curve_group[i].length; k++){
-//         let thick = 0.1;
-//         if(k==0||k==20)    thick = 0.2;
-//         path = new THREE.CatmullRomCurve3(veclist(curve_group[i][k],5));
-//         geometry = new THREE.TubeGeometry(path, 64, thick, 8, false);
-//         if(k<=20)   mesh = new THREE.Mesh(geometry, tubematerial1);
-//         else    mesh = new THREE.Mesh(geometry, tubematerial2);
-//         meshgroup[i].add(mesh);
-//     }
-
-// }
-
-// scene1.add(meshgroup[index]);
-
 
 
 
@@ -101,48 +82,8 @@ dummymesh.rotation.set(0.3, 0, 0);
 
 
 
-// let geometry_surface, material_surface, mesh_surface;
-// let mesh_surface_group = new Array(vts2.length);
-
-// let index0 = [];
-// let index2 = [];
-// let index3 = [];
-
-
-// for(let i=0; i<index1.length; i+=3){
-
-//     let a1 = 240*4;
-//     if(9600/2-a1<=i && i<9600/2+a1){
-//         index2.push(index1[i]);
-//         index2.push(index1[i+1]);
-//         index2.push(index1[i+2]);
-//     }
-
-
-//     let a2 = 240*8;
-//     if((a2<=i&&i<9600/2-a2) || (9600/2+a2<=i&&i<9600-a2)){
-//         index3.push(index1[i]);
-//         index3.push(index1[i+1]);
-//         index3.push(index1[i+2]);
-//     }
-// }
-
-
-
 
 material_surface = new THREE.MeshPhongMaterial({color:surfacecolor, side:THREE.DoubleSide, transparent:true, opacity:surfacealpha});
-
-// for(let i=0; i<vts2.length; i++){
-
-//     geometry_surface = new THREE.BufferGeometry();
-//     geometry_surface.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts2[i]), 3));
-//     geometry_surface.setIndex(new THREE.BufferAttribute(new Uint16Array(index1),1));
-//     geometry_surface.computeVertexNormals();
-
-//     mesh_surface_group[i] = new THREE.Mesh(geometry_surface, material_surface);
-//     mesh_surface_group[i].scale.set(5,5,5);
-
-// }
 
 
 
@@ -150,7 +91,6 @@ let index2 = [];
 for(let i=0; i<index1.length; i++){
     if(!(i<240*2*0))  index2.push(index1[i]);
 }
-console.log(index1);
 
 geometry = new THREE.BufferGeometry();
 geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts1), 3));
@@ -161,7 +101,6 @@ mesh = new THREE.Mesh(geometry, material_surface);
 scene1.add(mesh);
 
 
-// scene1.add(mesh_surface_group[index]);
 
 
 
@@ -268,7 +207,14 @@ slider1.addEventListener('input',(event)=>{
 });
 
 
-
+const check1 = document.getElementById('check1');
+check1.addEventListener('change',()=>{
+    if(check1.checked){
+        tubemesh1.visible = true;
+    }else{
+        tubemesh1.visible = false;
+    }
+});
 
 
 
@@ -312,8 +258,6 @@ function veclist2(arg, sc){
     for(let i=0; i<arg.length; i+=3){
         result.push(new THREE.Vector3(arg[i]*sc, arg[i+1]*sc, arg[i+2]*sc));
     }
-    console.log(arg);
-    console.log(result);
     return result;
 }
 

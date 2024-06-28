@@ -23,24 +23,24 @@ cnavas{
 #slider1{
     position:absolute;
     bottom:19%;
-    left:30%;
-    width:27%;
+    left:34%;
+    width:25%;
     transform:scale(3);
 }
    
 #slider2{
     position:absolute;
     bottom:12%;
-    left:30%;
-    width:27%;
+    left:34%;
+    width:25%;
     transform:scale(3);
 }
 
 #slider3{
     position:absolute;
     bottom:5%;
-    left:30%;
-    width:27%;
+    left:34%;
+    width:25%;
     transform:scale(3);
 }
 
@@ -49,6 +49,27 @@ cnavas{
     position:absolute;
     bottom:14%;
     right:4%;
+    font-size:34px;
+}
+
+#label2{
+    position:absolute;
+    bottom:15%;
+    left:1.5%;
+    font-size:30px;
+}
+
+#label3{
+    position:absolute;
+    bottom:7.5%;
+    left:1.5%;
+    font-size:34px;
+}
+
+#label4{
+    position:absolute;
+    bottom:0.5%;
+    left:1.5%;
     font-size:34px;
 }
 
@@ -75,7 +96,6 @@ cnavas{
     right:5%;
     width:25%;
     font-size:40px;
-    visibility: hidden;
 }
 
 #select3{

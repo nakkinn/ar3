@@ -64,10 +64,6 @@ const slider1 = document.getElementById('slider1');
 const slider2 = document.getElementById('slider2');
 const slider3 = document.getElementById('slider3');
 
-slider1.style.touchAction = 'none';
-slider2.style.touchAction = 'none';
-slider3.style.touchAction = 'none';;
-
 
 slider1.addEventListener('input',(event)=>{
     disposeGroup(meshgroup);
@@ -227,7 +223,7 @@ function main(){
 
     //4次元回転
 
-    let angle1 = Math.PI/200*Number(slider1.value);
+    let angle1 = Math.PI*Number(slider1.value);
     for(let i=0; i<vts4.length; i++){
         let tmpx = vts4[i][0];
         let tmpw = vts4[i][3];
@@ -235,7 +231,7 @@ function main(){
         vts4[i][3] = tmpx*Math.sin(angle1) + tmpw*Math.cos(angle1);
     }
 
-    let angle2 = Math.PI/200*Number(slider2.value);
+    let angle2 = Math.PI*Number(slider2.value);
     for(let i=0; i<vts4.length; i++){
         let tmpx = vts4[i][1];
         let tmpw = vts4[i][3];
@@ -243,7 +239,7 @@ function main(){
         vts4[i][3] = tmpx*Math.sin(angle2) + tmpw*Math.cos(angle2);
     }
 
-    let angle3 = Math.PI/200*Number(slider3.value);
+    let angle3 = Math.PI*Number(slider3.value);
     for(let i=0; i<vts4.length; i++){
         let tmpx = vts4[i][2];
         let tmpw = vts4[i][3];

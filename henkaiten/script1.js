@@ -10,10 +10,10 @@ const ico_edge = [[0,1],[0,4],[0,5],[0,8],[0,11],[1,6],[1,7],[1,8],[1,11],[2,3],
 let vts = [];
 let edge = [];
 
-vts = new Array(cube_vts.length);
-for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
-edge = new Array(cube_edge.length);
-for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
+vts = new Array(ico_vts.length);
+for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
+edge = new Array(ico_edge.length);
+for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
 
 
 let inputtouch = false;
@@ -94,6 +94,7 @@ check1.addEventListener('change',(event)=>{
 
 
 const select1 = document.getElementById('select1');
+select1.value = 'option2';
 select1.addEventListener('change',(event)=>{
     if(event.target.value=='option1'){
         vts = new Array(cube_vts.length);
@@ -103,6 +104,9 @@ select1.addEventListener('change',(event)=>{
         disposeGroup(meshgroup);
         scene1.remove(meshgroup);
         main();
+        camera1.zoom *= 1.25;
+        camera1.updateProjectionMatrix();
+
         select2.style.visibility = 'hidden';
         select3.style.visibility = 'hidden';
     }else{
@@ -113,6 +117,9 @@ select1.addEventListener('change',(event)=>{
         disposeGroup(meshgroup);
         scene1.remove(meshgroup);
         main();
+        camera1.zoom *= 0.8;
+        camera1.updateProjectionMatrix();
+
         select2.style.visibility = 'visible';
         select3.style.visibility = 'visible';
     }
@@ -121,6 +128,7 @@ select1.addEventListener('change',(event)=>{
 
 
 const select2 = document.getElementById('select2');
+select2.value = 'option2';
 select2.addEventListener('change',()=>{
     disposeGroup(meshgroup);
     scene1.remove(meshgroup);
@@ -240,7 +248,7 @@ const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/1
 camera1.position.set(0,0,20);  //カメラ初期位置
 
 
-camera1.zoom = 1.5;
+camera1.zoom = 1;
 camera1.updateProjectionMatrix();
 
 
@@ -259,12 +267,19 @@ window.addEventListener('resize',()=>{
 
 
 //環境光ライト
-const lighta = new THREE.AmbientLight(0xffffff, 0.5);   //第1引数：光の色, 第2引数：光の強さ
+const lighta = new THREE.AmbientLight(0xffffff, 0.6);   //第1引数：光の色, 第2引数：光の強さ
 scene1.add(lighta);
 
-const light1 = new THREE.DirectionalLight(0xffffff, 0.9);
-light1.position.set(1,1,1).normalize();
+
+//指向性ライト
+const light1 = new THREE.DirectionalLight(0xffffff, 0.4);
+light1.position.set(1,1,1);
 scene1.add(light1);
+
+
+const light2 = new THREE.DirectionalLight(0xffffff, 0.3);
+light2.position.set(-1,-1,1);
+scene1.add(light2);
 
 
 //マウスドラッグによる視点操作（カメラが動く、ライブラリに備わっている機能を使用）
