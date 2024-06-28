@@ -1,8 +1,9 @@
-let tubecolor1 = 0xff3300;  //tubeの色　uカーブ
-let tubecolor2 = 0x0099ff;  //tubeの色　vカーブ
+let tubecolor1 = 0x0099ff;  //tubeの色　uカーブ
+let tubecolor2 = 0xff3300;  //tubeの色　vカーブ
 let surfacecolor = 0xe9fe95;    //曲面の色
 let surfacealpha = 0.7; //曲面の透明度
 let backgroundcolor = 0xeeeeee; //背景色
+
 
 
 const canvas1 = document.getElementById('canvas1');
