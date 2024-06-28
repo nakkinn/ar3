@@ -26,7 +26,7 @@ const renderer1 = new THREE.WebGLRenderer({
 });
 renderer1.setSize(window.innerWidth, window.innerHeight*0.76); //キャンバスサイズ
 renderer1.setClearColor(backgroundcolor);   //背景色
-
+renderer1.setPixelRatio(window.devicePixelRatio);
 
 for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
     let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);
