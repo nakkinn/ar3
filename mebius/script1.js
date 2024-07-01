@@ -87,7 +87,7 @@ for(let i=0; i<curve_group.length; i++){
         let thick = 0.1;
         if(k==0||k==20)    thick = 0.2;
         path = new THREE.CatmullRomCurve3(veclist(curve_group[i][k],5));
-        geometry = new THREE.TubeGeometry(path, 64, thick, 32, false);
+        geometry = new THREE.TubeGeometry(path, 64, thick, 16, false);
         if(k<=20)   mesh = new THREE.Mesh(geometry, tubematerial1);
         else    mesh = new THREE.Mesh(geometry, tubematerial2);
         meshgroup[i].add(mesh);
