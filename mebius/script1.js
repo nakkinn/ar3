@@ -57,12 +57,12 @@ scene1.add(lighta);
 
 
 //指向性ライト
-const light1 = new THREE.DirectionalLight(0xffffff, 0.4);
+const light1 = new THREE.DirectionalLight(0xffffff, 0.6);
 light1.position.set(1,1,1);
 scene1.add(light1);
 
 
-const light2 = new THREE.DirectionalLight(0xffffff, 0.3);
+const light2 = new THREE.DirectionalLight(0xffffff, 0);
 light2.position.set(-1,-1,1);
 scene1.add(light2);
 

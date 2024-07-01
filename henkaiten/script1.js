@@ -243,10 +243,23 @@ renderer1.setClearColor(0xeeeeee);   //背景色
 
 
 // カメラ
-const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/150, canvas1.height/150, -canvas1.height/150, 0.1, 100);   //直交投影カメラ
+const camera1 = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);   //直交投影カメラ
 //const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,20);  //カメラ初期位置
 
+let ratio = canvas1.width/canvas1.height;
+
+if(canvas1.width>canvas1.height){
+    camera1.left = -5*ratio;
+    camera1.right = 5*ratio;
+    camera1.top = 5;
+    camera1.bottom = -5;
+}else{
+    camera1.left = -5;
+    camera1.right = 5;
+    camera1.top = 5 / ratio;
+    camera1.bottom = -5 / ratio;
+}
 
 camera1.zoom = 1;
 camera1.updateProjectionMatrix();
@@ -257,10 +270,24 @@ window.addEventListener('resize',()=>{
     renderer1.setSize(window.innerWidth, window.innerHeight*0.6);
     camera1.aspect = window.innerWidth / (window.innerHeight*0.6);
 
-    camera1.left = -canvas1.width / 150;
-    camera1.right = canvas1.width / 150;
-    camera1.top = canvas1.height / 150;
+    camera1.left = -Math.min(canvas1.width,canvas1.height) / 150;
+    camera1.right = Math.min(canvas1.width,canvas1.height) / 150;
+    camera1.top = Math.min(canvas1.width,canvas1.height) / 150;
     camera1.bottom = -canvas1.height / 150;
+
+    let ratio = canvas1.width/canvas1.height;
+
+    if(canvas1.width>canvas1.height){
+        camera1.left = -5*ratio;
+        camera1.right = 5*ratio;
+        camera1.top = 5;
+        camera1.bottom = -5;
+    }else{
+        camera1.left = -5;
+        camera1.right = 5;
+        camera1.top = 5 / ratio;
+        camera1.bottom = -5 / ratio;
+    }
 
     camera1.updateProjectionMatrix();
 });
