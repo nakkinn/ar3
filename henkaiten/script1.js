@@ -339,7 +339,7 @@ let meshgroup;
 function addtube(v1, v2, r1, ci){
 
     let tube_path = new THREE.CatmullRomCurve3([v1, v2]);
-    let tube_geomtry = new THREE.TubeGeometry(tube_path, 4, r1, 8, false);
+    let tube_geomtry = new THREE.TubeGeometry(tube_path, 4, r1, 16, false);
     let tube = new THREE.Mesh(tube_geomtry, tube_material[ci]);
     meshgroup.add(tube); 
 
