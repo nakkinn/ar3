@@ -5,7 +5,7 @@ html,body{
     -moz-user-select: none; 
 }
 
-cnavas{
+canvas{
     user-select: none; 
     -webkit-user-select: none; 
     -moz-user-select: none; 

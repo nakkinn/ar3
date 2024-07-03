@@ -20,7 +20,6 @@ let inputtouch = false;
 
 
 const canvas1 = document.getElementById('canvas1');
-canvas1.style.touchAction = 'none';
 
 
 canvas1.addEventListener('contextmenu', (event) => {
