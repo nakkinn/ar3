@@ -9,12 +9,16 @@
 
   <body>
 
-    <a href="../" id="link1">HOME</a>
+    <a href="../index.html" id="link1">HOME</a>
+
+    <div style="height:30px"></div>
 
     <select id="select1">
         <option value="option1">立方体</option>
         <option value="option2">正二十面体</option>
     </select>
+
+    <div style="height:30px"></div>
 
     <select id="select2">
       <option value="option1">1色</option>
@@ -22,6 +26,7 @@
       <option value="option3">6色</option>
     </select>
 
+    <div style="height:30px"></div>
 
     <select id="select3">
       <option value="option1">正二十面体</option>
@@ -34,20 +39,37 @@
       <option value="option7"></option>
     </select>
 
+    <div style="height:30px"></div>
 
-    <canvas id="canvas1"></canvas>
+    <canvas id="canvas1" width="700" height="500"></canvas>
+
+    <div style="height:30px"></div>
 
     <div id="container1">
       <label><input type="checkbox" id="check1">回転制限解除</label>
     </div>
     
-    <p id="label1">0度</p>
-    <p id="label2">回転</p>
-    <p id="label3">太さ</p>
-    <p id="label4">長さ</p>
-    <input type="range" id="slider1" min="0" max="500" value="0">
-    <input type="range" id="slider2" min="100" max="400" value="100">
-    <input type="range" id="slider3" min="50" max="500" value="95">
+    <div style="height:30px"></div>
+
+    <div>
+      <label for="slider1">回転</label>
+      <input type="range" id="slider1" min="0" max="500" value="0" style="width:400px">
+      <label for="slider1" id="label1">0度</label>
+    </div>
+
+    <div style="height:20px"></div>
+
+    <div>
+      <label for="slider2">太さ</label>
+      <input type="range" id="slider2" min="100" max="400" value="100" style="width:400px">
+    </div>
+
+    <div style="height:20px"></div>
+    
+    <div>    
+      <label for="slider3">長さ</label>
+      <input type="range" id="slider3" min="50" max="500" value="95" style="width:400px">
+    </div>
 
     <!--three.jsライブラリ-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>

@@ -13,6 +13,7 @@ canvas1.addEventListener('contextmenu', (event) => {
 });
 
 
+console.log(canvas1.width)
 
 
 //シーン
@@ -24,8 +25,10 @@ const renderer1 = new THREE.WebGLRenderer({
     canvas:canvas1,   //描画するキャンバスをID指定
     antialias: true
 });
-renderer1.setSize(window.innerWidth, window.innerHeight*0.76); //キャンバスサイズ
+//renderer1.setSize(window.innerWidth, window.innerHeight*0.76); //キャンバスサイズ
 renderer1.setClearColor(backgroundcolor);   //背景色
+
+
 
 
 for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
@@ -42,12 +45,13 @@ for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
 const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,25);  //カメラ初期位置
 
-//画面サイズが変わったとき
-window.addEventListener('resize',()=>{
-    renderer1.setSize(window.innerWidth, window.innerHeight*0.76);
-    camera1.aspect = window.innerWidth / (window.innerHeight*0.76);
-    camera1.updateProjectionMatrix();
-});
+
+//画面サイズが変わったとき （無効中）
+// window.addEventListener('resize',()=>{
+//     renderer1.setSize(window.innerWidth, window.innerHeight*0.76);
+//     camera1.aspect = window.innerWidth / (window.innerHeight*0.76);
+//     camera1.updateProjectionMatrix();
+// });
 
 
 
@@ -70,16 +74,22 @@ scene1.add(light2);
 //マウスドラッグによる視点操作（カメラが動く、ライブラリに備わっている機能を使用）
 //const controls = new THREE.OrbitControls(camera1, renderer1.domElement);
 
-console.log(curve_group[0][0]);
+
 
 //オブジェクト
-let path, geometry, mesh, meshgroup, index=10;
+
+//回転姿勢を記録するためのダミーオブジェクト
+let dummymesh = new THREE.Mesh();
+dummymesh.rotation.set(1.4, 0, 0);  //初期姿勢　x-y-z系のオイラー角　引数：(x軸回転, y軸回転, z軸回転)
+
+
+let path, geometry, mesh, mesh_tube_group, index=10;
 
 let tubematerial1 = new THREE.MeshLambertMaterial({ color: tubecolor1, side:THREE.DoubleSide});
 let tubematerial2 = new THREE.MeshLambertMaterial({ color: tubecolor2, side:THREE.DoubleSide});
 
-meshgroup = new Array(curve_group.length);
-for(let i=0; i<meshgroup.length; i++)   meshgroup[i] = new THREE.Mesh();
+mesh_tube_group = new Array(curve_group.length);
+for(let i=0; i<mesh_tube_group.length; i++)   mesh_tube_group[i] = new THREE.Mesh();
 
 for(let i=0; i<curve_group.length; i++){
 
@@ -90,15 +100,12 @@ for(let i=0; i<curve_group.length; i++){
         geometry = new THREE.TubeGeometry(path, 64, thick, 16, false);
         if(k<=20)   mesh = new THREE.Mesh(geometry, tubematerial1);
         else    mesh = new THREE.Mesh(geometry, tubematerial2);
-        meshgroup[i].add(mesh);
+        mesh_tube_group[i].add(mesh);
     }
 
 }
 
-scene1.add(meshgroup[index]);
-
-let dummymesh = new THREE.Mesh();
-dummymesh.rotation.set(0.3, 0, 0);
+scene1.add(mesh_tube_group[index]);
 
 
 let geometry_surface, material_surface, mesh_surface;
@@ -132,6 +139,7 @@ for(let i=0; i<index1.length; i+=3){
 
 material_surface = new THREE.MeshPhongMaterial({color:surfacecolor, side:THREE.DoubleSide, transparent:true, opacity:surfacealpha});
 
+
 for(let i=0; i<vts2.length; i++){
 
     geometry_surface = new THREE.BufferGeometry();
@@ -143,14 +151,6 @@ for(let i=0; i<vts2.length; i++){
     mesh_surface_group[i].scale.set(5,5,5);
 
 }
-
-
-// for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
-//     let geometry_sphere = new THREE.BoxGeometry();
-//     let box = new THREE.Mesh(geometry_sphere, material1);
-//     box.position.set(spherecut100[i][0]*10, spherecut100[i][1]*10, spherecut100[i][2]*10)
-//     scene1.add(box);
-// }
 
 
 
@@ -169,7 +169,9 @@ canvas1.addEventListener('pointermove',(event)=>{
     mousemovementY = event.movementY;
 });
 
-let angularvelocity = new THREE.Vector3(0,0,0);
+
+//回転軸、回転速度を表すベクトル
+let angularvelocity = new THREE.Vector3(0, 0.2, 0);
 
 
 //2本指操作
@@ -252,10 +254,10 @@ function handleTouchEnd(){
 const slider1 = document.getElementById('slider1');
 
 slider1.addEventListener('input',()=>{
-    scene1.remove(meshgroup[index]);
+    scene1.remove(mesh_tube_group[index]);
     scene1.remove(mesh_surface_group[index]);
     index = Number(slider1.value);
-    scene1.add(meshgroup[index]);
+    scene1.add(mesh_tube_group[index]);
     scene1.add(mesh_surface_group[index]);
 });
 
@@ -310,37 +312,6 @@ select1.addEventListener('change',(event)=>{
 
 
 
-const colorpicker1 = document.getElementById('colorpicker1');
-colorpicker1.addEventListener('input',(event)=>{
-    surfacecolor = event.target.value;
-    material_surface = new THREE.MeshPhongMaterial({color:surfacecolor, side:THREE.DoubleSide, transparent:true, opacity:surfacealpha});
-    for(let i=0; i<mesh_surface_group.length; i++)    mesh_surface_group[i].material = material_surface;
-});
-
-
-
-const colorpicker2 = document.getElementById('colorpicker2');
-colorpicker2.addEventListener('input',(event)=>{
-    tubecolor1 = event.target.value;
-    tubematerial1 = new THREE.MeshLambertMaterial({ color: tubecolor1, side:THREE.DoubleSide});
-    for(let i=0; i<meshgroup.length; i++){
-        for(let j=0; j<meshgroup[i].children.length; j++)   if(j<=20){
-            meshgroup[i].children[j].material = tubematerial1;
-        }
-    }
-});
-
-const colorpicker3 = document.getElementById('colorpicker3');
-colorpicker3.addEventListener('input',(event)=>{
-    tubecolor2 = event.target.value;
-    tubematerial2 = new THREE.MeshLambertMaterial({ color: tubecolor2, side:THREE.DoubleSide});
-    for(let i=0; i<meshgroup.length; i++){
-        for(let j=0; j<meshgroup[i].children.length; j++)   if(j>20){
-            meshgroup[i].children[j].material = tubematerial2;
-        }
-    }
-});
-
 
 
 
@@ -353,16 +324,15 @@ function animate(){
 
 
     if(mouseIsPressed && !twofinger)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
-    let axis = angularvelocity.clone().normalize();
-    let rad = angularvelocity.length()*0.005;
+    let axis = angularvelocity.clone().normalize(); //回転軸
+    let rad = angularvelocity.length()*0.005;   //回転量　最後にかける定数を大きくするとマウスドラッグ時の回転量が大きくなる
 
     mousemovementX = 0;
     mousemovementY = 0;
 
-
-    dummymesh.rotateOnWorldAxis(axis, rad);
-    meshgroup[index].rotation.set(dummymesh.rotation.x, dummymesh.rotation.y, dummymesh.rotation.z);
-    mesh_surface_group[index].rotation.set(dummymesh.rotation.x, dummymesh.rotation.y, dummymesh.rotation.z);
+    dummymesh.rotateOnWorldAxis(axis, rad); //ダミーオブジェクトを回転
+    mesh_tube_group[index].rotation.copy(dummymesh.rotation); //チューブの姿勢をダミーオブジェクトに揃える
+    mesh_surface_group[index].rotation.copy(dummymesh.rotation);    //曲面の姿勢をダミーオブジェクトに揃える  
 
 
     //キューブクリッピング
@@ -392,11 +362,13 @@ function animate(){
     // renderer1.clippingPlanes.push(new THREE.Plane(vc6, a1));
 
 
-    renderer1.clippingPlanes = [];
-    for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
-        let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);
-        vc1.applyEuler(dummymesh.rotation);
-        renderer1.clippingPlanes.push(new THREE.Plane(vc1,18));
+    //カッティングプレーン
+    let planedistance = 18; //原点とカッティングプレーンとの距離
+    renderer1.clippingPlanes = [];  //カッティングプレーンをリセット
+    for(let i=0; i<spherecut100.length; i++)    if(i%2==0 || true){ //100個のプレーンのうち偶数番目のもののみを使う（計算量削減のため）
+        let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);    //data.js内のspherecut100を参照　100×3配列
+        vc1.applyEuler(dummymesh.rotation); //カッティングプレーンをダミーオブジェクトに合わせて回転させる
+        renderer1.clippingPlanes.push(new THREE.Plane(vc1,planedistance));  //レンダラーにカッティングプレーンを追加
     }
 
 

@@ -22,7 +22,7 @@ const renderer1 = new THREE.WebGLRenderer({
     canvas:canvas1,   //描画するキャンバスをID指定
     antialias: true
 });
-renderer1.setSize(window.innerWidth, window.innerHeight*0.76); //キャンバスサイズ
+//renderer1.setSize(window.innerWidth, window.innerHeight*0.76); //キャンバスサイズ
 renderer1.setClearColor(backgroundcolor);   //背景色
 
 
@@ -32,12 +32,12 @@ const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.
 camera1.position.set(0,0,15);  //カメラ初期位置
 
 
-//画面サイズが変わったとき
-window.addEventListener('resize',()=>{
-    renderer1.setSize(window.innerWidth, window.innerHeight*0.76);
-    camera1.aspect = window.innerWidth / (window.innerHeight*0.76);
-    camera1.updateProjectionMatrix();
-});
+//画面サイズが変わったとき（無効中）
+// window.addEventListener('resize',()=>{
+//     renderer1.setSize(window.innerWidth, window.innerHeight*0.76);
+//     camera1.aspect = window.innerWidth / (window.innerHeight*0.76);
+//     camera1.updateProjectionMatrix();
+// });
 
 
 

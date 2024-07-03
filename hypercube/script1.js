@@ -104,7 +104,7 @@ const renderer1 = new THREE.WebGLRenderer({
     canvas:canvas1,   //描画するキャンバスをID指定
     antialias: true
 });
-renderer1.setSize(window.innerWidth, window.innerHeight*0.6); //キャンバスサイズ
+//renderer1.setSize(window.innerWidth, window.innerHeight*0.6); //キャンバスサイズ
 renderer1.setClearColor(0xeeeeee);   //背景色
 
 
@@ -133,27 +133,27 @@ camera1.zoom = 2;
 camera1.updateProjectionMatrix();
 
 
-//画面サイズが変わったとき
-window.addEventListener('resize',()=>{
-    renderer1.setSize(window.innerWidth, window.innerHeight*0.6);
-    camera1.aspect = window.innerWidth / (window.innerHeight*0.6);
+//画面サイズが変わったとき（無効中）
+// window.addEventListener('resize',()=>{
+//     renderer1.setSize(window.innerWidth, window.innerHeight*0.6);
+//     camera1.aspect = window.innerWidth / (window.innerHeight*0.6);
 
-    let ratio = canvas1.width/canvas1.height;
+//     let ratio = canvas1.width/canvas1.height;
 
-    if(canvas1.width>canvas1.height){
-        camera1.left = -4*ratio;
-        camera1.right = 4*ratio;
-        camera1.top = 4;
-        camera1.bottom = -4;
-    }else{
-        camera1.left = -4;
-        camera1.right = 4;
-        camera1.top = 4 / ratio;
-        camera1.bottom = -4 / ratio;
-    }
+//     if(canvas1.width>canvas1.height){
+//         camera1.left = -4*ratio;
+//         camera1.right = 4*ratio;
+//         camera1.top = 4;
+//         camera1.bottom = -4;
+//     }else{
+//         camera1.left = -4;
+//         camera1.right = 4;
+//         camera1.top = 4 / ratio;
+//         camera1.bottom = -4 / ratio;
+//     }
 
-    camera1.updateProjectionMatrix();
-});
+//     camera1.updateProjectionMatrix();
+// });
 
 
 //環境光ライト

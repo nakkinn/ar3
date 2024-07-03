@@ -1,9 +1,4 @@
-*{
-    touch-action:none;
-}
-
 html,body{
-    margin:0px;
     user-select: none; 
     -webkit-user-select: none; 
     -moz-user-select: none; 
@@ -13,62 +8,6 @@ cnavas{
     user-select: none; 
     -webkit-user-select: none; 
     -moz-user-select: none; 
+    touch-action:none;
 }
-
-#canvas1{
-    position:absolute;
-    top:10%;
-}
-
-
-
-#container1{
-    position:absolute;
-    top:50px;
-    right:160px;
-    transform:scale(2.5);
-}
-
-
-#colorpicker1{
-    position:absolute;
-}
-
-#colorpicker2{
-    position:absolute;
-    left:70px;
-}
-
-#colorpicker3{
-    position:absolute;
-    left:140px;
-}
-
-#link1{
-    position:absolute;
-    top:3%;
-    left:3%;
-    font-size:30px;
-}
-
-#select1{
-    position:absolute;
-    top:3%;
-    right:5%;
-    width:40%;
-    font-size:40px;
-}
-
-
-
-#slider1{
-    position:absolute;
-    bottom:5%;
-    height:3%;
-    left:37%;
-    width:27%;
-    transform:scale(3);
-    margin:0;
-}
-
 

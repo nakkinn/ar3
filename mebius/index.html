@@ -8,23 +8,28 @@
 
   <body>
 
-    <a href="../" id="link1">HOME</a>
+    <a href="../index.html" style="font-size:30px">HOME</a>
 
-    <input type="color" id="colorpicker1" hidden="true">
-    <input type="color" id="colorpicker2" hidden="true">
-    <input type="color" id="colorpicker3" hidden="true">
+    <br>
 
     <canvas id="canvas1"></canvas>
-    
-    <div id="container3">
-      <input type="range" id="slider1" min="0" max="20" value="10">
-    </div>
 
-    <!-- <div id="container1">
-      <label><input type="checkbox" id="check1" checked="true">曲面を描画</label>
-    </div> -->
+    <script>
+      document.getElementById('canvas1').width = window.innerWidth;
+      document.getElementById('canvas1').height = window.innerWidth*0.5;
+    </script>
 
-    <select id="select1">
+    <div style="height:30px"></div>
+
+    <input type="range" id="slider1" min="0" max="20" value="10" style="width:400px; transform:scale(2); margin-left:230px">
+
+    <div style="height:30px"></div>
+
+    <p style="font-size:20px">説明文</p>
+
+    <div style="height:30px"></div>
+
+    <select id="select1" style="font-size:30px;">
       <option value="option1">曲面なし</option>
       <option value="option2">曲面全体</option>
       <option value="option3">標準メビウスの帯</option>
