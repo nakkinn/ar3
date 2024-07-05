@@ -1,53 +1,49 @@
 <html lang="ja">
 
   <head>
-    <title>公開講座2024</title>
+    <title>通常メビウスの帯</title>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+
   </head>
 
   <body>
 
-    <h3>【公開講座 2024】多面体やメビウスの帯から広がる図形の世界を愉しむ</h3>
+    <p>スクロールサンプル</p>
+    <!-- <a href="../index.html" id="link1">HOME</a> -->
 
-    <a href="mebius/index.html" style="margin:10px 10px 20px 20px">4次元を経由したメビウスの帯</a>
+    <div style="height:300px"></div>
 
-    <br>
+    <p>何かの説明</p>
 
-    <a href="mebius/index.html">
-      <img src="thumbnail1.png" style="width:300px">
-    </a>
 
-    <p style="margin:50px 10px 20px 20px"></p>
+    <div style="height:300px"></div>
 
-    <a href="henkaiten/index.html" style="margin:50px 10px 20px 20px">多面体の辺回転</a>
+    <canvas id="canvas1" width="600" height="400"></canvas>
 
-    <br>
+    <div style="height:30px"></div>
+    
+    <input type="range" id="rangeslider1" min="0" max="1" step="0.01" value="0" style="width:400px">
 
-    <a href="henkaiten/index.html">
-      <img src="thumbnail2.png" style="width:300px">
-    </a>
+    <div style="height:400px"></div>
 
-    <p style="margin:50px 10px 20px 20px"></p>
+    <p>下に続く</p>
 
-    <a href="hypercube/index.html" style="margin:50px 10px 20px 20px">超立方体</a>
+    <div style="height:400px"></div>
 
-    <br>
+    <div id="container1">
+      <label><input type="checkbox" id="check1" checked="true">コアカーブを表示</label>
+    </div>
 
-    <a href="hypercube/index.html">
-      <img src="thumbnail3.png" style="width:300px">
-    </a>
 
-    <p style="margin:50px 10px 20px 20px"></p>
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+    <!--three.js追加アドオン　マウスドラッグによる視点操作-->
+    <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
 
-    <a href="mebiuscopy/index.html" style="margin:50px 10px 20px 20px">メビウスの帯</a>
-
-    <br>
-
-    <a href="mebiuscopy/index.html">
-      <img src="thumbnail4.png" style="width:300px">
-    </a>
+    <!--メインのプログラム-->
+    <script src="data.js"></script>
+    <script src='script1.js'></script>
 
   </body>
 
