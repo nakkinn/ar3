@@ -11,6 +11,7 @@ let mousemovementX=0, mousemovementY=0; //マウス移動量
 let width1, height1;    //キャンバスサイズ
 let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
 
+const initrotation = new THREE.Euler(0.4, 0.2, 0);  //初期姿勢　x-y-z系オイラー角
 
 
 
@@ -74,7 +75,7 @@ scene1.add(light2);
 
 //姿勢更新のためのダミーオブジェクト
 let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
-dummymesh.rotation.set(0.3, 0, 0);  //初期姿勢 x-y-z系オイラー角
+dummymesh.rotation.copy(initrotation);  //初期姿勢 x-y-z系オイラー角
 
 
 

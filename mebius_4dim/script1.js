@@ -11,7 +11,8 @@ let mousemovementX=0, mousemovementY=0; //マウス移動量
 let width1, height1;    //キャンバスサイズ
 let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
 
-const initrotation = new THREE.Euler(2, 0, 0);  //初期姿勢　x-y-z系オイラー角
+const initrotation = new THREE.Euler(-1.3, 0, 0.45);  //初期姿勢　x-y-z系オイラー角
+
 
 
 //#############################################################
@@ -30,7 +31,7 @@ const renderer1 = new THREE.WebGLRenderer({
 });
 renderer1.setClearColor(0xeeeeee);   //背景色
 
-width1 = renderer1.domElement.width;    //キャンバスサイズの取得（カメラ設定に使う）
+width1 = renderer1.domElement.width;    //キャンバスサイズ（カメラ設定に使う）
 height1 = renderer1.domElement.height;
 
 
@@ -54,23 +55,19 @@ const camera1 = new THREE.PerspectiveCamera(60, width1 / height1, 0.01, 50);    
 // }
 
 camera1.position.set(0,0,15);  //カメラ初期位置
-camera1.zoom = 1;   //カメラズーム量（オブジェクトが画面に表示されない場合は、これを調整すると表示されることがある）
+camera1.zoom = 3;   //カメラズーム量（オブジェクトが画面に表示されない場合は、これを調整すると表示されることがある）
 camera1.updateProjectionMatrix(); //カメラの設定適用
 
 
 //環境光ライト
-const lighta = new THREE.AmbientLight(0xffffff, 0.4);   //第1引数：光の色, 第2引数：光の強さ
+const lighta = new THREE.AmbientLight(0xffffff, 0.6);   //第1引数：光の色, 第2引数：光の強さ
 scene1.add(lighta);
 
+
 //指向性ライト
-const light1 = new THREE.DirectionalLight(0xffffff, 0.7);
+const light1 = new THREE.DirectionalLight(0xffffff, 0.6);
 light1.position.set(1,1,1);
 scene1.add(light1);
-
-const light2 = new THREE.DirectionalLight(0xffffff, 0.1);
-light2.position.set(-1,-1,1);
-scene1.add(light2);
-
 
 //姿勢更新のためのダミーオブジェクト
 let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
@@ -88,41 +85,142 @@ slider1.addEventListener('input',()=>{  //スライダーのつまみが動か�
     updateobjects(scene1);  //引数のシーンに含まれる全てのオブジェクトの頂点座標を更新する（自作関数parametricmesh, parametrictubeで作られたものに限る）
 });
 
+const slider2 = document.getElementById('rangeslider2');
+slider2.addEventListener('input', ()=>{
+    updateobjects(scene1);
+})
 
-//メビウスの帯2変数関数
-const mebius_func1 = function(u, v){
-    let x, y, z;
-    let t1 = Number(slider1.value);
-    let v1 = ((1-t1)*v+t1) * 2; //スライダーを動かすと中央線から裂ける
-    
-    x = (5 + v1 * Math.cos(u/2)) * Math.cos(u);
-    y = (5 + v1 * Math.cos(u/2)) * Math.sin(u);
-    z = v1 * Math.sin(u/2);
 
-    return [x, y, z];
+//4次元を経由したメビウスの帯
+let mebius_func2 = function(u, v){
+
+    let x0, y0, z0, w0; //4次元回転前
+    let x1, y1, z1, w1; //4次元回転後
+
+    let u1 = u * Number(slider2.value);
+
+    x0 = Math.cos(u1) * Math.cos(v);
+    y0 = Math.cos(u1) * Math.sin(v);
+    z0 = Math.sin(u1) * Math.cos(v/2);
+    w0 = Math.sin(u1) * Math.sin(v/2);
+
+    let t1 = Math.PI / 2 * Math.min(Math.max(Number(slider1.value),0.01),0.99);   //t1が0, piにはならないようにする
+
+    x1 = x0 * Math.cos(t1) - w0 * Math.sin(t1);
+    y1 = y0;
+    z1 = z0;
+    w1 = x0 * Math.sin(t1) + w0 * Math.cos(t1);
+
+    if(1-w1==0) w1 += 0.0001;
+
+    return [x1/(1-w1), y1/(1-w1), z1/(1-w1)];   //ステレオグラフィックプロジェクション
 }
 
-//メビウスの帯　中央線
-const corecurve_func1 = function(u){
-    let x, y, z;
-    x = 5 * Math.cos(u);
-    y = 5 * Math.sin(u);
-    z = 0;
-    return [x, y, z];
+
+//u曲線
+let mebius_ucurve_func = new Array(20);
+
+for(let i=0; i<20; i++){
+
+    mebius_ucurve_func[i] = function(u){
+        
+        let x0, y0, z0, w0;
+        let x1, y1, z1, w1;
+
+        let vc = Math.PI*2 / 20 * i;   //定数
+
+        x0 = Math.cos(u) * Math.cos(vc);
+        y0 = Math.cos(u) * Math.sin(vc);
+        z0 = Math.sin(u) * Math.cos(vc/2);
+        w0 = Math.sin(u) * Math.sin(vc/2);
+
+        let t1 = Math.PI / 2 * Math.min(Math.max(Number(slider1.value),0.01),0.99);
+
+        x1 = x0 * Math.cos(t1) - w0 * Math.sin(t1);
+        y1 = y0;
+        z1 = z0;
+        w1 = x0 * Math.sin(t1) + w0 * Math.cos(t1);
+
+        if(1-w1==0) w1 += 0.0001;
+
+        return [x1/(1-w1), y1/(1-w1), z1/(1-w1)];   //ステレオグラフィックプロジェクション
+    }
 }
 
-//メビウスの帯　境界線
-const boundarycurve_func1 = function(u){
-    x = (5 + 2  * Math.cos(u/2)) * Math.cos(u);
-    y = (5 + 2 * Math.cos(u/2)) * Math.sin(u);
-    z = 2 * Math.sin(u/2);
-    return [x, y, z];
+
+//v曲線
+let mebius_vcurve_func = new Array(20);
+
+for(let i=0; i<20; i++){
+
+    mebius_vcurve_func[i] = function(v){
+        
+        let x0, y0, z0, w0;
+        let x1, y1, z1, w1;
+
+        //let uc = Math.PI / 20 * i - Math.PI/2;   //定数
+        let uc = Math.PI * 2 / 20 * i;   //定数
+
+        x0 = Math.cos(uc) * Math.cos(v);
+        y0 = Math.cos(uc) * Math.sin(v);
+        z0 = Math.sin(uc) * Math.cos(v/2);
+        w0 = Math.sin(uc) * Math.sin(v/2);
+
+        let t1 = Math.PI / 2 * Math.min(Math.max(Number(slider1.value),0.01),0.99);
+
+        x1 = x0 * Math.cos(t1) - w0 * Math.sin(t1);
+        y1 = y0;
+        z1 = z0;
+        w1 = x0 * Math.sin(t1) + w0 * Math.cos(t1);
+
+        if(1-w1==0) w1 += 0.0001;
+
+        return [x1/(1-w1), y1/(1-w1), z1/(1-w1)];   //ステレオグラフィックプロジェクション
+    }
 }
+
+let mebius_bcurve_func = function(v){
+    let x0, y0, z0, w0;
+    let x1, y1, z1, w1;
+
+    let uc = Math.PI/2*Number(slider2.value);
+
+    x0 = Math.cos(uc) * Math.cos(v);
+    y0 = Math.cos(uc) * Math.sin(v);
+    z0 = Math.sin(uc) * Math.cos(v/2);
+    w0 = Math.sin(uc) * Math.sin(v/2);
+
+    let t1 = Math.PI / 2 * Math.min(Math.max(Number(slider1.value),0.01),0.99);
+
+    x1 = x0 * Math.cos(t1) - w0 * Math.sin(t1);
+    y1 = y0;
+    z1 = z0;
+    w1 = x0 * Math.sin(t1) + w0 * Math.cos(t1);
+
+    if(1-w1==0) w1 += 0.0001;
+
+    return [x1/(1-w1), y1/(1-w1), z1/(1-w1)];
+}
+
 
 //曲面・チューブの生成
-let mebius1 = parametricmesh(mebius_func1, [0, Math.PI*4], [0, 1], {meshcolor:0xd9ee85, detailv:6, detailu:120, animation:true});
-let corecurve1 = parametrictube(corecurve_func1, [0, Math.PI*2], 0.1, {meshcolor:0xff3300});
-let boundarycurve1 = parametrictube(boundarycurve_func1, [0, Math.PI*4], 0.1, {meshcolor:0x0033ff, detailu:120});
+let mebius2 = parametricmesh(mebius_func2, [-Math.PI/2, Math.PI/2], [0, Math.PI*2], {meshcolor:0xd9ee85, detailu:40, detailu:40, animation:true, opacity:0.7});
+
+let mebius_ucurve = new Array(20);
+//for(let i=0; i<20; i++) mebius_ucurve[i] = parametrictube(mebius_ucurve_func[i], [-Math.PI/2, Math.PI/2], 0.02, {meshcolor:0xff3300, animation:true});
+for(let i=0; i<20; i++) mebius_ucurve[i] = parametrictube(mebius_ucurve_func[i], [-Math.PI, Math.PI], 0.015, {meshcolor:0xff3300, animation:true, detailu:80});
+
+let mebius_vcurve = new Array(20);
+for(let i=0; i<mebius_vcurve.length; i++) mebius_vcurve[i] = parametrictube(mebius_vcurve_func[i], [0, Math.PI*2], 0.015, {meshcolor:0x0088ff, animation:true, detailu:80});
+
+let mebius_bcurve = parametrictube(mebius_bcurve_func, [0, Math.PI*4], 0.03, {meshcolor:0x0033ff, animation:true, detailu:80});
+
+
+scene1.add(mebius2);    //シーンに追加
+for(let i=0; i<mebius_ucurve.length; i++) scene1.add(mebius_ucurve[i]);
+for(let i=0; i<mebius_vcurve.length; i++) scene1.add(mebius_vcurve[i]);
+scene1.add(mebius_bcurve);
+
 /*
 ・parametciemesh
 第1引数：u,vを入力, [x,y,z]を出力とする曲面を表す2変数関数
@@ -138,24 +236,14 @@ let boundarycurve1 = parametrictube(boundarycurve_func1, [0, Math.PI*4], 0.1, {m
 　meshcolor:色, detailu:u曲線の分割数, scale:スケール, animation:スライダーで動かす場合trueにする, opacity:透明度(0~1), 
 */
 
-scene1.add(mebius1);    //シーンに追加
-scene1.add(corecurve1);
-scene1.add(boundarycurve1);
+
+
 
 
 
 //#############################################################
 //入力や操作に関する処理
 //#############################################################
-
-const check1 = document.getElementById('checkbox1');    //中央線の表示・非表示を切り替えるチェックボックス
-check1.addEventListener('change',()=>{  //チェックボックスの値が切り替わったときの処理
-    if(check1.checked){ //チェックボックスにチェックが入っている場合
-        corecurve1.visible = true;  //中央線チューブを表示する
-    }else{  //チェックボックスにチェックが入っていない場合
-        corecurve1.visible = false; //中央線チューブを非表示にする
-    }
-});
 
 
 //キャンバス上で操作しているか否かの切り替え
@@ -268,6 +356,15 @@ function animate(){
 
     mousemovementX = 0; //マウス移動量を初期化
     mousemovementY = 0;
+
+    //カッティングプレーン
+    let planedistance = 5; //原点とカッティングプレーンとの距離
+    renderer1.clippingPlanes = [];  //カッティングプレーンをリセット
+    for(let i=0; i<spherecut100.length; i++){ //100個のプレーンのうち偶数番目のもののみを使う（計算量削減のため）
+        let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);    //data.js内のspherecut100を参照　100×3配列
+        vc1.applyEuler(dummymesh.rotation); //カッティングプレーンをダミーオブジェクトに合わせて回転させる
+        renderer1.clippingPlanes.push(new THREE.Plane(vc1,planedistance));  //レンダラーにカッティングプレーンを追加
+    }
 
     renderer1.render(scene1, camera1);  //レンダリング
 }

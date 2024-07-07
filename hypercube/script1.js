@@ -3,6 +3,9 @@ const col1 = 0xff3300;  //立方体１の色
 const col2 = 0x0077ff;  //立方体２の色
 const col3 = 0x999999;  //その他の辺の色
 
+const initrotation = new THREE.Euler(-1.4, 0, 0.45);  //初期姿勢　x-y-z系オイラー角
+
+
 //#############################################################
 //グローバル変数
 //#############################################################
@@ -14,7 +17,6 @@ let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマ
 let mousemovementX=0, mousemovementY=0; //マウス移動量
 
 let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
-
 
 
 
@@ -83,7 +85,7 @@ scene1.add(light2);
 
 //姿勢更新のためのダミーオブジェクト
 let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
-dummymesh.rotation.set(0.3, 0, 0);  //初期姿勢 x-y-z系オイラー角
+dummymesh.rotation.copy(initrotation)  //初期姿勢 x-y-z系オイラー角
 
 
 //#############################################################

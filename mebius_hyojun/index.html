@@ -9,16 +9,90 @@
 
   <body>
 
-    <p>スクロールサンプル1.1</p>
-    <!-- <a href="../index.html" id="link1">HOME</a> -->
 
-    <div style="height:300px"></div>
+    <a href="../index.html" id="link1">HOME</a>
 
-    <p style="margin-left:100px;">margin-leftでページ左からずらす</p>
+    <p>〇フォントサイズについて</p>
+
+    <p>デフォルトの文字</p>
+
+    <p style="font-size:20px">フォントサイズ20pxの文字</p>
+
+    <p style="font-size:30px">フォントサイズ30pxの文字</p>
+
+    <p style="font-size:120%">デフォルトフォントの120%サイズの文字</p>
+
+
+
+    <div style="height:50px"></div>
+
+
+
+    <p>〇文章の折り返しについて</p>
+
+    <div style="width:200px">
+      <p>文章をページの途中で折り返すにはpタグをdivタグで囲い、divタグの横幅を設定する。この文章は幅200pxのdivタグで囲うことにより折り返している。</p>
+    </div>
+
+    <div style="width:50%">
+      <p style="line-height:30px">この文章はウィンドウの横幅の50%幅のdivタグで囲うことにより折り返している。ウィンドウサイズを変えると、この文章の折り返し場所が変わる。pタグのline-heightで
+        行間サイズを設定できる。
+      </p>
+    </div>
+
+
+
+    <div style="height:50px"></div>
+
+
+    <p>〇要素のmarginについて</p>
+    <p>html要素は上下左右に余白スペースが付いている</p>
+
+    <p>そのため、この文章と上下の文章との間にも空白がある。</p>
+
+    <p>この余白を広くしたり、狭くしたりしたいときは、margin-top, margin-bottom, margin-left, margin-rightを設定する。</p>
+
+    <p style="margin-top:0px;margin-bottom:0px">margin-bottomとmargin-topが0pxの文字</p>
+    <p style="margin-top:0px;margin-bottom:0px">margin-bottomとmargin-topが0pxの文字</p>
+    <p style="margin-top:0px;margin-bottom:0px">margin-bottomとmargin-topが0pxの文字</p>
+    <p style="margin-top:50px;margin-bottom:50px">margin-bottomとmargin-topが50pxの文字</p>
+    <p style="margin-left:100px">margin-leftが100pxの文字</p>
+    <p style="margin-left:30%">margin-leftが30%の文字</p>
+
+
     
 
 
-    <div style="height:300px"></div>
+    <div style="height:50px"></div>
+
+
+    <p>〇入力要素のスタイルについて</p>
+
+    <p>pタグは縦にならぶが、inputタグは横に並ぶ。例えばスライダーを2つ追加すると次のようになる。</p>
+
+    <input type="range">
+    <input type="range">
+
+    <p>横に並ぶ要素を縦に並べたいときはdivタグを使って改行する。heightを設定すると要素間の幅を調整できる。marginを使って要素間の幅を調整してもよい。</p>
+
+    <input type="range">
+    <div style="height:50px"></div>
+    <input type="range">
+
+    <p>長さ300pxのスライダー</p>
+    <input type="range" style="width:300px">
+    <p>長さがページ幅の80%のスライダー</p>
+    <input type="range" style="width:80%">
+    <p>太いスライダー</p>
+    <input type="range" style="transform:scale(3); margin-left:200px">
+
+    <div style="height:30px"></div>
+
+    <label for="sampleslider1">スライダー左のラベル<input type="range" id="sampleslider1"></label>
+
+
+    <div style="height:100px"></div>
+
 
     <!--CGを表示するキャンバス-->
     <canvas id="canvas1" width="600" height="400"></canvas>
@@ -35,11 +109,6 @@
     <!--スライダー　[0,1]区間で0.01刻みに動く　スライダーを太くしたいときはstyleの文字列に transform:scale(数値); を追加する-->
     <input type="range" id="rangeslider1" min="0" max="1" step="0.01" value="0" style="width:400px;">
 
-    <div style="height:400px"></div>
-
-    <p>下に続く</p>
-
-    <div style="height:400px"></div>
 
     <div id="container1">
       <label><input type="checkbox" id="checkbox1" checked="true">コアカーブを表示</label>

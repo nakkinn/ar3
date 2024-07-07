@@ -4,6 +4,9 @@ let surfacecolor = 0xd9ee85;    //曲面の色
 let surfacealpha = 0.7; //曲面の透明度
 let backgroundcolor = 0xeeeeee; //背景色
 
+const initrotation = new THREE.Euler(-1.5, 0, 0);  //初期姿勢　x-y-z系オイラー角
+
+
 
 //#############################################################
 //グローバル変数
@@ -17,7 +20,7 @@ let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマ
 let mousemovementX=0, mousemovementY=0; //マウス移動量
 
 let width1, height1;    //キャンバスサイズ
-let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
+let angularvelocity1 = new THREE.Vector3(0, 0.2, 0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
 
 
 //#############################################################
@@ -66,7 +69,7 @@ scene1.add(light2);
 
 //姿勢更新のためのダミーオブジェクト
 let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
-dummymesh.rotation.set(0.3, 0, 0);  //初期姿勢 x-y-z系オイラー角
+dummymesh.rotation.copy(initrotation);  //初期姿勢 x-y-z系オイラー角
 
 
 
@@ -246,7 +249,7 @@ const slider1 = document.getElementById('slider1');
 slider1.addEventListener('input',()=>{
     scene1.remove(mesh_tube_group[index]);
     scene1.remove(mesh_surface_group[index]);
-    index = Math.round(Number(slider1.value)*20);
+    index = Math.round(Number(slider1.value)*(mesh_surface_group.length-1));
     scene1.add(mesh_tube_group[index]);
     scene1.add(mesh_surface_group[index]);
 });
