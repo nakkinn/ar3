@@ -1,230 +1,23 @@
-const tetra_vts = [[2, 2, 2], [-2, -2, 2], [2, -2, -2], [-2, 2, -2]];
-const tetra_edge = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+//#############################################################
+//グローバル変数
+//#############################################################
 
-const cube_vts = [[2, 2, 2], [2, -2, 2], [-2, -2, 2], [-2, 2, 2], [2, 2, -2], [2, -2, -2], [-2, -2, -2], [-2, 2, -2]];
-const cube_edge = [[0,1],[0,3],[0,4],[1,2],[1,5],[2,3],[2,6],[3,7],[4,5],[4,7],[5,6],[6,7]];
+let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
+let twofinger = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
+let mouseIsPressed = false; //マウスが押されている（タップ）状態か否か
+let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標
+let mousemovementX=0, mousemovementY=0; //マウス移動量
 
-const ico_vts = [[3.23607, 2., 0.], [3.23607, -2., 0.], [-3.23607, -2., 0.], [-3.23607, 2., 0.], [0., 3.23607, 2.], [0., 3.23607, -2.], [0., -3.23607, -2.], [0., -3.23607, 2.], [2., 0., 3.23607], [-2., 0., 3.23607], [-2., 0., -3.23607], [2., 0., -3.23607]];
-const ico_edge = [[0,1],[0,4],[0,5],[0,8],[0,11],[1,6],[1,7],[1,8],[1,11],[2,3],[2,6],[2,7],[2,9],[2,10],[3,4],[3,5],[3,9],[3,10],[4,5],[4,8],[4,9],[5,10],[5,11],[6,7],[6,10],[6,11],[7,8],[7,9],[8,9],[10,11]]
-
-let vts = [];
-let edge = [];
-
-vts = new Array(ico_vts.length);
-for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
-edge = new Array(ico_edge.length);
-for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
-
-
-let inputtouch = false;
-
-
-const canvas1 = document.getElementById('canvas1');
-
-
-canvas1.addEventListener('contextmenu', (event) => {
-    event.preventDefault();
-});
+let width1, height1;    //キャンバスサイズ
+let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
 
 
 
-const label1 = document.getElementById('label1');
 
+//#############################################################
+//three.js関連
+//#############################################################
 
-const slider1 = document.getElementById('slider1');
-const slider2 = document.getElementById('slider2');
-const slider3 = document.getElementById('slider3');
-
-slider1.style.touchAction = 'none';
-slider2.style.touchAction = 'none';
-slider3.style.touchAction = 'none';
-
-console.log(slider1.style)
-
-
-slider1.addEventListener('input',(event)=>{
-    rotate_angle = -Math.PI/2/500*Number(slider1.value);
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    select3.value = 'option7';
-    let kakudo = -rotate_angle / Math.PI * 180;
-    label1.textContent = Math.round(kakudo) + '度';
-});
-
-slider2.addEventListener('input',(event)=>{
-    tube_thick = 0.15/100*Number(event.target.value);
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    select3.value = 'option7';
-});
-
-slider3.addEventListener('input',(event)=>{
-    tube_length = Number(event.target.value)/100;
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    select3.value = 'option7';
-});
-
-slider1.addEventListener('pointerdown',()=>{inputtouch = true;});
-slider2.addEventListener('pointerdown',()=>{inputtouch = true;});
-slider3.addEventListener('pointerdown',()=>{inputtouch = true;});
-slider1.addEventListener('pointerup',()=>{inputtouch = false;});
-slider2.addEventListener('pointerup',()=>{inputtouch = false;});
-slider3.addEventListener('pointerup',()=>{inputtouch = false;});
-
-
-const check1 = document.getElementById('check1');
-check1.addEventListener('change',(event)=>{
-    if(event.target.checked){
-        slider1.max = 1500;
-    }else{
-        slider1.max = 500;
-    }
-    rotate_angle = -Math.PI/2/500*Number(slider1.value);
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    let kakudo = -rotate_angle / Math.PI * 180;
-    label1.textContent = Math.round(kakudo) + '度';
-});
-
-
-const select1 = document.getElementById('select1');
-select1.value = 'option2';
-select1.addEventListener('change',(event)=>{
-    if(event.target.value=='option1'){
-        vts = new Array(cube_vts.length);
-        for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
-        edge = new Array(cube_edge.length);
-        for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
-        disposeGroup(meshgroup);
-        scene1.remove(meshgroup);
-        main();
-        camera1.zoom *= 1.25;
-        camera1.updateProjectionMatrix();
-
-        select2.style.visibility = 'hidden';
-        select3.style.visibility = 'hidden';
-    }else{
-        vts = new Array(ico_vts.length);
-        for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
-        edge = new Array(ico_edge.length);
-        for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
-        disposeGroup(meshgroup);
-        scene1.remove(meshgroup);
-        main();
-        camera1.zoom *= 0.8;
-        camera1.updateProjectionMatrix();
-
-        select2.style.visibility = 'visible';
-        select3.style.visibility = 'visible';
-    }
-});
-
-
-
-const select2 = document.getElementById('select2');
-select2.value = 'option2';
-select2.addEventListener('change',()=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-});
-
-
-const select3 = document.getElementById('select3');
-select3.addEventListener('input',()=>{
-
-    if(select3.value=='option1'){
-        slider1.max = 500;
-        slider1.value = 0;
-        slider2.value = 0;
-        slider3.value = 95;
-        check1.checked = false;
-        update1();
-    }
-
-    if(select3.value=='option2'){
-        slider1.max = 1500;
-        slider1.value = 823;
-        slider2.value = 152;
-        slider3.value = 154;
-        select2.value = 'option3';
-        check1.checked = true;
-        update1();
-    }
-
-    if(select3.value=='option3'){
-        slider1.max = 500;
-        slider1.value = 324;
-        slider2.value = 152;
-        slider3.value = 117;
-        select2.value = 'option3';
-        check1.checked = false;
-        update1();
-    }
-
-    if(select3.value=='option4'){
-        slider1.max = 500;
-        slider1.value = 324;
-        slider2.value = 180;
-        slider3.value = 497;
-        select2.value = 'option3';
-        check1.checked = false;
-        update1();
-    }
-
-    if(select3.value=='option5'){
-        slider1.max = 500;
-        slider1.value = 384;
-        slider2.value = 100;
-        slider3.value = 100;
-        check1.checked = false;
-        update1();
-    }
-
-    if(select3.value=='option6'){
-        slider1.max = 500;
-        slider1.value = 500;
-        slider2.value = 100;
-        slider3.value = 58;
-        check1.checked = false;
-        update1();
-    }
-
-    if(select3.value=='option8'){
-        slider1.max = 500;
-        slider1.value = 249;
-        slider2.value = 122;
-        slider3.value = 225;
-        select2.value = 'option2';
-        check1.checked = false;
-        update1();
-    }
-
-});
-
-
-function update1(){
-    rotate_angle = -Math.PI/2/500*Number(slider1.value);
-    tube_thick = 0.15/100*Number(slider2.value);
-    tube_length = Number(slider3.value)/100;
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    let kakudo = -rotate_angle / Math.PI * 180;
-    label1.textContent = Math.round(kakudo) + '度';
-}
-
-
-
-let angle_switch = 2;
-let rotate_angle = -Math.PI/2/200*Number(slider1.value);
-let tube_thick = 0.15/100*Number(slider2.value);
-let tube_length = Number(slider3.value)/100;
 
 //シーン
 const scene1 = new THREE.Scene();
@@ -232,12 +25,12 @@ const scene1 = new THREE.Scene();
 
 // レンダラー
 const renderer1 = new THREE.WebGLRenderer({
-    canvas:canvas1,   //描画するキャンバスをID指定
-    antialias: true
+    canvas: document.getElementById('canvas1'),   //描画するキャンバスをID指定
+    antialias: true //グラフィックのぎざぎざを軽減
 });
-//renderer1.setSize(window.innerWidth, window.innerHeight*0.6); //キャンバスサイズ
 renderer1.setClearColor(0xeeeeee);   //背景色
 
+const canvas1 = document.getElementById('canvas1')
 
 
 
@@ -264,34 +57,6 @@ camera1.zoom = 1;
 camera1.updateProjectionMatrix();
 
 
-//画面サイズが変わったとき（無効中）
-// window.addEventListener('resize',()=>{
-//     renderer1.setSize(window.innerWidth, window.innerHeight*0.6);
-//     camera1.aspect = window.innerWidth / (window.innerHeight*0.6);
-
-//     camera1.left = -Math.min(canvas1.width,canvas1.height) / 150;
-//     camera1.right = Math.min(canvas1.width,canvas1.height) / 150;
-//     camera1.top = Math.min(canvas1.width,canvas1.height) / 150;
-//     camera1.bottom = -canvas1.height / 150;
-
-//     let ratio = canvas1.width/canvas1.height;
-
-//     if(canvas1.width>canvas1.height){
-//         camera1.left = -5*ratio;
-//         camera1.right = 5*ratio;
-//         camera1.top = 5;
-//         camera1.bottom = -5;
-//     }else{
-//         camera1.left = -5;
-//         camera1.right = 5;
-//         camera1.top = 5 / ratio;
-//         camera1.bottom = -5 / ratio;
-//     }
-
-//     camera1.updateProjectionMatrix();
-// });
-
-
 //環境光ライト
 const lighta = new THREE.AmbientLight(0xffffff, 0.6);   //第1引数：光の色, 第2引数：光の強さ
 scene1.add(lighta);
@@ -307,19 +72,51 @@ const light2 = new THREE.DirectionalLight(0xffffff, 0.3);
 light2.position.set(-1,-1,1);
 scene1.add(light2);
 
-
-//マウスドラッグによる視点操作（カメラが動く、ライブラリに備わっている機能を使用）
-//const controls = new THREE.OrbitControls(camera1, renderer1.domElement);
-
-
-
-//オブジェクト
+//姿勢更新のためのダミーオブジェクト
+let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
+dummymesh.rotation.set(0.3, 0, 0);  //初期姿勢 x-y-z系オイラー角
 
 
-let dummymesh = new THREE.Mesh();
-dummymesh.rotation.set(0.25, 0.4, 0);
+
+//#############################################################
+//表示するグラフィック
+//#############################################################
+
+const tetra_vts = [[2, 2, 2], [-2, -2, 2], [2, -2, -2], [-2, 2, -2]];
+const tetra_edge = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+
+const cube_vts = [[2, 2, 2], [2, -2, 2], [-2, -2, 2], [-2, 2, 2], [2, 2, -2], [2, -2, -2], [-2, -2, -2], [-2, 2, -2]];
+const cube_edge = [[0,1],[0,3],[0,4],[1,2],[1,5],[2,3],[2,6],[3,7],[4,5],[4,7],[5,6],[6,7]];
+
+const ico_vts = [[3.23607, 2., 0.], [3.23607, -2., 0.], [-3.23607, -2., 0.], [-3.23607, 2., 0.], [0., 3.23607, 2.], [0., 3.23607, -2.], [0., -3.23607, -2.], [0., -3.23607, 2.], [2., 0., 3.23607], [-2., 0., 3.23607], [-2., 0., -3.23607], [2., 0., -3.23607]];
+const ico_edge = [[0,1],[0,4],[0,5],[0,8],[0,11],[1,6],[1,7],[1,8],[1,11],[2,3],[2,6],[2,7],[2,9],[2,10],[3,4],[3,5],[3,9],[3,10],[4,5],[4,8],[4,9],[5,10],[5,11],[6,7],[6,10],[6,11],[7,8],[7,9],[8,9],[10,11]]
+
+let vts = [];
+let edge = [];
+
+vts = new Array(ico_vts.length);
+for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
+edge = new Array(ico_edge.length);
+for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
 
 
+const slider1 = document.getElementById('slider1');
+const slider2 = document.getElementById('slider2');
+const slider3 = document.getElementById('slider3');
+
+const check1 = document.getElementById('check1');
+const select1 = document.getElementById('select1');
+const select2 = document.getElementById('select2');
+const select3 = document.getElementById('select3');
+
+select1.value = 'option2';
+select2.value = 'option2';
+
+let slider1_max_ratio = 1;
+
+let rotate_angle = -Math.PI/2*Number(slider1.value) * slider1_max_ratio;
+let tube_thick = Number(slider2.value)*0.6 + 0.1;
+let tube_length = Number(slider3.value)*5;
 
 
 let tube_material = [
@@ -417,51 +214,66 @@ function main(){
 }
 
 
-//マウスイベント
-let mouseIsPressed = false;
-canvas1.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
-canvas1.addEventListener('pointerup',()=>{mouseIsPressed = false;});
 
-let mousemovementX=0, mousemovementY=0;
-canvas1.addEventListener('pointermove',(event)=>{
+
+//#############################################################
+//入力や操作に関する処理
+//#############################################################
+
+
+
+//キャンバス上で操作しているか否かの切り替え
+document.addEventListener('mousemove', (event)=>{   //第1引数　'click'：ページをクリックすると発火, 'mousemove'：異なる要素にマウスが移動すると発火
+    if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
+        canvasover = true;  //キャンバス操作オン
+        document.body.style.overflow = 'hidden';    //スクロール無効にする
+    }else{   //クリック位置（移動先）がキャンバス要素でないとき
+        canvasover = false;  //キャンバス操作オフ
+        document.body.style.overflow = '';  //スクロール有効にする
+    }
+})
+
+
+//マウスホイールイベント
+document.addEventListener('wheel', function(event) {
+    if(canvasover){ //キャンバス操作モードのときカメラズームを調整
+        if(event.deltaY > 0) camera1.zoom *= 0.8;
+        else camera1.zoom *= 1.25;
+        camera1.updateProjectionMatrix();
+    }
+});
+
+
+//マウスイベント
+//マウスプレス・リリース時にmouseIsPressedを切り替え
+renderer1.domElement.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+//マウス移動量の更新
+renderer1.domElement.addEventListener('pointermove',(event)=>{
     mousemovementX = event.movementX;
     mousemovementY = event.movementY;
 });
 
-let angularvelocity = new THREE.Vector3(0,0,0);
 
+//タッチイベント
+renderer1.domElement.addEventListener('touchmove', handleTouchMove, false);
+renderer1.domElement.addEventListener('touchend', handleTouchEnd, false);
 
-//2本指操作
-let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1; 
-let twofinger = false;
-
-//document.addEventListener('touchstart', handleTouchStart, false);
-canvas1.addEventListener('touchmove', handleTouchMove, false);
-canvas1.addEventListener('touchend', handleTouchEnd, false);
-
-function handleTouchStart(event){
-    if(event.touchs.length==2){
-        mpx1 = event.touches[0].clientX;
-        mpy1 = event.touches[0].clientY;
-        mpx2 = event.touches[1].clientX;
-        mpy2 = event.touches[1].clientY;
-    }
-}
-
+//画面（タッチパッド）を指でなぞったときの処理
 function handleTouchMove(event){
 
-    if(event.touches.length==2){
+    if(event.touches.length==2){    //指2本で触れている
 
-        inputtouch = true;
+        twofinger = true;
 
-        if(mpx1==-1 || mpy1==-1 || mpx2==-1 || mpy2==-1){
+        if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき
 
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-            mpx2 = event.touches[1].clientX;
-            mpy2 = event.touches[1].clientY;
+            pmouseX1 = event.touches[0].clientX;
+            pmouseY1 = event.touches[0].clientY;
+            pmouseX2 = event.touches[1].clientX;
+            pmouseY2 = event.touches[1].clientY;
 
-        }else{
+        }else{  //1フレーム前も2本指のとき
 
             let mx1, my1, mx2, my2;
             mx1 = event.touches[0].clientX;
@@ -469,45 +281,213 @@ function handleTouchMove(event){
             mx2 = event.touches[1].clientX;
             my2 = event.touches[1].clientY;
 
-            let d1, d2;
-            d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
-            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
+            let d1, d2; 
+            d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
+            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
 
-            let v1l = camera1.zoom;
-
-            v1l = Math.min(Math.max(v1l +(d2-d1)*0.004, 0.3),3);
-            
-            camera1.zoom = v1l;
+            camera1.zoom *= (d2/d1-1) * 1 + 1;  //カメラのズーム量を変更
             camera1.updateProjectionMatrix();
 
-            mpx1 = mx1;
-            mpy1 = my1;
-            mpx2 = mx2;
-            mpy2 = my2;
+            pmouseX1 = mx1;
+            pmouseY1 = my1;
+            pmouseX2 = mx2;
+            pmouseY2 = my2;
 
         }
 
-    }else if(event.touches.length==1){
-        if(mpx1==-1 || mpy1==-1){
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-        }else{
-            mousemovementX = event.touches[0].clientX - mpx1;
-            mousemovementY = event.touches[0].clientY - mpy1;
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-        }
+    }else if(event.touches.length==1){  //指1本で触れている
+        pmouseX1 = event.touches[0].clientX;
+        pmouseY1 = event.touches[0].clientY;
     }
 }
 
-
-function handleTouchEnd(event){
-    mpx1 = -1;
-    mpy1 = -1;
-    mpx2 = -1;
-    mpy2 = -1;
-    inputtouch = false;
+//画面（タッチパッド）から指を離したときの処理
+function handleTouchEnd(){
+    pmouseX1 = -1;
+    pmouseY1 = -1;
+    pmouseX2 = -1;
+    pmouseY2 = -1;
+    twofinger = false;
 }
+
+
+const label1 = document.getElementById('label1');
+
+
+slider1.addEventListener('input',(event)=>{
+    rotate_angle = -Math.PI/2*Number(slider1.value) * slider1_max_ratio;
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    select3.value = 'option7';
+    let kakudo = -rotate_angle / Math.PI * 180;
+    label1.textContent = Math.round(kakudo) + '度';
+});
+
+slider2.addEventListener('input',(event)=>{
+    tube_thick = Number(slider2.value)*0.6 + 0.1;
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    select3.value = 'option7';
+});
+
+slider3.addEventListener('input',(event)=>{
+    tube_length = Number(slider3.value)*5;
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    select3.value = 'option7';
+});
+
+
+
+check1.addEventListener('change',(event)=>{
+    if(event.target.checked){
+        slider1_max_ratio = 3;
+    }else{
+        slider1_max_ratio = 1;
+    }
+    rotate_angle = -Math.PI/2*Number(slider1.value) * slider1_max_ratio;
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    let kakudo = -rotate_angle / Math.PI * 180;
+    label1.textContent = Math.round(kakudo) + '度';
+});
+
+
+
+
+select1.addEventListener('change',(event)=>{
+    if(event.target.value=='option1'){
+        vts = new Array(cube_vts.length);
+        for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
+        edge = new Array(cube_edge.length);
+        for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
+        disposeGroup(meshgroup);
+        scene1.remove(meshgroup);
+        main();
+        camera1.zoom *= 1.25;
+        camera1.updateProjectionMatrix();
+
+        select2.style.visibility = 'hidden';
+        select3.style.visibility = 'hidden';
+    }else{
+        vts = new Array(ico_vts.length);
+        for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
+        edge = new Array(ico_edge.length);
+        for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
+        disposeGroup(meshgroup);
+        scene1.remove(meshgroup);
+        main();
+        camera1.zoom *= 0.8;
+        camera1.updateProjectionMatrix();
+
+        select2.style.visibility = 'visible';
+        select3.style.visibility = 'visible';
+    }
+});
+
+
+
+
+
+select2.addEventListener('change',()=>{
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+});
+
+
+
+select3.addEventListener('input',()=>{
+
+    if(select3.value=='option1'){
+        slider1_max_ratio = 1;
+        slider1.value = 0;
+        slider2.value = 0.16;
+        slider3.value = 0.18;
+        check1.checked = false;
+        update1();
+    }
+
+    if(select3.value=='option2'){
+        slider1_max_ratio = 3;
+        slider1.value = 0.552;
+        slider2.value = 0.35;
+        slider3.value = 0.26;
+        select2.value = 'option3';
+        check1.checked = true;
+        update1();
+    }
+
+    if(select3.value=='option3'){
+        slider1_max_ratio = 1;
+        slider1.value = 0.648;
+        slider2.value = 0.26;
+        slider3.value = 0.23;
+        select2.value = 'option3';
+        check1.checked = false;
+        update1();
+    }
+
+    if(select3.value=='option4'){
+        slider1_max_ratio = 1;
+        slider1.value = 0.648;
+        slider2.value = 0.26;
+        slider3.value = 0.98;
+        select2.value = 'option3';
+        check1.checked = false;
+        update1();
+    }
+
+    if(select3.value=='option5'){
+        slider1_max_ratio = 1;
+        slider1.value = 0.768;
+        slider2.value = 0.2;
+        slider3.value = 0.26;
+        check1.checked = false;
+        update1();
+    }
+
+    if(select3.value=='option6'){
+        slider1_max_ratio = 1;
+        slider1.value = 0.5;
+        slider2.value = 0.23;
+        slider3.value = 0.45;
+        check1.checked = false;
+        update1();
+    }
+
+    if(select3.value=='option7'){
+        console.log(123);
+        slider1_max_ratio = 1;
+        slider1.value = 1;
+        slider2.value = 0.18;
+        slider3.value = 0.12;
+        select2.value = 'option2';
+        check1.checked = false;
+        update1();
+    }
+
+});
+
+
+function update1(){
+    rotate_angle = -Math.PI/2*Number(slider1.value) * slider1_max_ratio
+    tube_thick = Number(slider2.value)*0.6 + 0.1;
+    tube_length = Number(slider3.value)*5;
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    let kakudo = -rotate_angle / Math.PI * 180;
+    label1.textContent = Math.round(kakudo) + '度';
+}
+
+
+
+
 
 
 //レンダリングを繰り返す
@@ -515,25 +495,17 @@ function animate(){
 
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
-    if(mouseIsPressed)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
-    if(inputtouch)  angularvelocity.set(0,0,0);
+    if(mouseIsPressed && !twofinger)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
     
-    let axis = angularvelocity.clone().normalize();
-    let rad = angularvelocity.length()*0.005;
+    let axis = angularvelocity1.clone().normalize();
+    let rad = angularvelocity1.length()*0.005;
 
     mousemovementX = 0;
     mousemovementY = 0;
 
-    //meshgroup.rotateOnWorldAxis(axis, rad);
     dummymesh.rotateOnWorldAxis(axis, rad);
     
     meshgroup.rotation.copy(dummymesh.rotation);
-
-    // scene1.traverse((object)=>{
-    //     if(object.isMesh){
-    //         object.rotation.copy(dummymesh.rotation);
-    //     }
-    // });
 
 
     renderer1.render(scene1, camera1);  //レンダリング（CG描画）
@@ -564,13 +536,3 @@ function disposeGroup(group) {
 }
 
 
-
-// マウスホイールイベントのリスナーを追加
-document.addEventListener('wheel', function(event) {
-    if (event.deltaY > 0) {
-        camera1.zoom = Math.min(Math.max(camera1.zoom-0.1, 0.3),3)
-    } else {
-        camera1.zoom = Math.min(Math.max(camera1.zoom+0.1, 0.3),3);
-    }
-    camera1.updateProjectionMatrix();
-});

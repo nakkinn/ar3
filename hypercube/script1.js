@@ -3,6 +3,97 @@ const col1 = 0xff3300;  //立方体１の色
 const col2 = 0x0077ff;  //立方体２の色
 const col3 = 0x999999;  //その他の辺の色
 
+//#############################################################
+//グローバル変数
+//#############################################################
+
+let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
+let twofinger = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
+let mouseIsPressed = false; //マウスが押されている（タップ）状態か否か
+let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標
+let mousemovementX=0, mousemovementY=0; //マウス移動量
+
+let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
+
+
+
+
+//#############################################################
+//three.js関連
+//#############################################################
+
+const canvas1 = document.getElementById('canvas1');
+
+
+
+//シーン
+const scene1 = new THREE.Scene();
+
+
+// レンダラー
+const renderer1 = new THREE.WebGLRenderer({
+    canvas:canvas1,   //描画するキャンバスをID指定
+    antialias: true
+});
+//renderer1.setSize(window.innerWidth, window.innerHeight*0.6); //キャンバスサイズ
+renderer1.setClearColor(0xeeeeee);   //背景色
+
+
+
+
+// カメラ
+const camera1 = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);   //直交投影カメラ
+//const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
+camera1.position.set(0,0,20);  //カメラ初期位置
+
+let ratio = canvas1.width/canvas1.height;
+
+if(canvas1.width>canvas1.height){
+    camera1.left = -4*ratio;
+    camera1.right = 4*ratio;
+    camera1.top = 4;
+    camera1.bottom = -4;
+}else{
+    camera1.left = -4;
+    camera1.right = 4;
+    camera1.top = 4 / ratio;
+    camera1.bottom = -4 / ratio;
+}
+
+camera1.zoom = 2;
+camera1.updateProjectionMatrix();
+
+
+
+
+//環境光ライト
+const lighta = new THREE.AmbientLight(0xffffff, 0.6);   //第1引数：光の色, 第2引数：光の強さ
+scene1.add(lighta);
+
+
+//指向性ライト
+const light1 = new THREE.DirectionalLight(0xffffff, 0.4);
+light1.position.set(1,1,1);
+scene1.add(light1);
+
+
+const light2 = new THREE.DirectionalLight(0xffffff, 0.3);
+light2.position.set(-1,-1,1);
+scene1.add(light2);
+
+//姿勢更新のためのダミーオブジェクト
+let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
+dummymesh.rotation.set(0.3, 0, 0);  //初期姿勢 x-y-z系オイラー角
+
+
+//#############################################################
+//表示するグラフィック
+//#############################################################
+
+
+const slider1 = document.getElementById('slider1');
+const slider2 = document.getElementById('slider2');
+const slider3 = document.getElementById('slider3');
 
 
 const hypercubevts = [
@@ -44,171 +135,7 @@ const tube_material = [
 
 
 
-let inputtouch = false;
-
-
-const canvas1 = document.getElementById('canvas1');
-
-
-canvas1.addEventListener('contextmenu', (event) => {
-    event.preventDefault();
-});
-
-
-
-const label1 = document.getElementById('label1');
-
-
-const slider1 = document.getElementById('slider1');
-const slider2 = document.getElementById('slider2');
-const slider3 = document.getElementById('slider3');
-
-
-slider1.addEventListener('input',(event)=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    scene1.add(meshgroup);
-});
-
-slider2.addEventListener('input',(event)=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    scene1.add(meshgroup);
-});
-
-slider3.addEventListener('input',(event)=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    scene1.add(meshgroup);
-});
-
-
-
-
-
-let angle_switch = 2;
-let rotate_angle = -Math.PI/angle_switch/500*Number(slider1.value);
-let tube_thick = 0.15/100*Number(slider2.value);
-let tube_length = Number(slider3.value)/100;
-
-//シーン
-const scene1 = new THREE.Scene();
-
-
-// レンダラー
-const renderer1 = new THREE.WebGLRenderer({
-    canvas:canvas1,   //描画するキャンバスをID指定
-    antialias: true
-});
-//renderer1.setSize(window.innerWidth, window.innerHeight*0.6); //キャンバスサイズ
-renderer1.setClearColor(0xeeeeee);   //背景色
-
-
-
-
-// カメラ
-const camera1 = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);   //直交投影カメラ
-//const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
-camera1.position.set(0,0,20);  //カメラ初期位置
-
-let ratio = canvas1.width/canvas1.height;
-
-if(canvas1.width>canvas1.height){
-    camera1.left = -4*ratio;
-    camera1.right = 4*ratio;
-    camera1.top = 4;
-    camera1.bottom = -4;
-}else{
-    camera1.left = -4;
-    camera1.right = 4;
-    camera1.top = 4 / ratio;
-    camera1.bottom = -4 / ratio;
-}
-
-camera1.zoom = 2;
-camera1.updateProjectionMatrix();
-
-
-//画面サイズが変わったとき（無効中）
-// window.addEventListener('resize',()=>{
-//     renderer1.setSize(window.innerWidth, window.innerHeight*0.6);
-//     camera1.aspect = window.innerWidth / (window.innerHeight*0.6);
-
-//     let ratio = canvas1.width/canvas1.height;
-
-//     if(canvas1.width>canvas1.height){
-//         camera1.left = -4*ratio;
-//         camera1.right = 4*ratio;
-//         camera1.top = 4;
-//         camera1.bottom = -4;
-//     }else{
-//         camera1.left = -4;
-//         camera1.right = 4;
-//         camera1.top = 4 / ratio;
-//         camera1.bottom = -4 / ratio;
-//     }
-
-//     camera1.updateProjectionMatrix();
-// });
-
-
-//環境光ライト
-const lighta = new THREE.AmbientLight(0xffffff, 0.6);   //第1引数：光の色, 第2引数：光の強さ
-scene1.add(lighta);
-
-
-//指向性ライト
-const light1 = new THREE.DirectionalLight(0xffffff, 0.4);
-light1.position.set(1,1,1);
-scene1.add(light1);
-
-
-const light2 = new THREE.DirectionalLight(0xffffff, 0.3);
-light2.position.set(-1,-1,1);
-scene1.add(light2);
-
-//マウスドラッグによる視点操作（カメラが動く、ライブラリに備わっている機能を使用）
-//const controls = new THREE.OrbitControls(camera1, renderer1.domElement);
-
-
-
-//オブジェクト
-
-let dummymesh = new THREE.Mesh();
-dummymesh.rotation.set(0.25, 0.4, 0);
-
-
-
-
-
-// パス（スプライン）を作成
-const path = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 0, 1),
-    new THREE.Vector3(0, 0, -1),
-]);
-
-// TubeGeometryを作成
-const tubeGeometry = new THREE.TubeGeometry(path, 20, 0.2, 8, true);
-
-// マテリアルを作成
-const material = new THREE.MeshBasicMaterial({ color: 0x0077ff, wireframe: true });
-
-// メッシュを作成
-const tube = new THREE.Mesh(tubeGeometry, material);
-
-tube.position.set(1,0,1);
-tube.rotation.set(1,4,2);
-
-// scene1.add(tube);
-
-
-
-
 let meshgroup;
-
 
 
 function addtube(v1, v2, r1, ci){
@@ -312,51 +239,90 @@ main();
 
 
 
-//マウスイベント
-let mouseIsPressed = false;
-canvas1.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
-canvas1.addEventListener('pointerup',()=>{mouseIsPressed = false;});
 
-let mousemovementX=0, mousemovementY=0;
-canvas1.addEventListener('pointermove',(event)=>{
+
+//#############################################################
+//入力や操作に関する処理
+//#############################################################
+
+
+
+
+slider1.addEventListener('input',(event)=>{
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    scene1.add(meshgroup);
+});
+
+slider2.addEventListener('input',(event)=>{
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    scene1.add(meshgroup);
+});
+
+slider3.addEventListener('input',(event)=>{
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    scene1.add(meshgroup);
+});
+
+
+
+//キャンバス上で操作しているか否かの切り替え
+document.addEventListener('mousemove', (event)=>{   //第1引数　'click'：ページをクリックすると発火, 'mousemove'：異なる要素にマウスが移動すると発火
+    if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
+        canvasover = true;  //キャンバス操作オン
+        document.body.style.overflow = 'hidden';    //スクロール無効にする
+    }else{   //クリック位置（移動先）がキャンバス要素でないとき
+        canvasover = false;  //キャンバス操作オフ
+        document.body.style.overflow = '';  //スクロール有効にする
+    }
+})
+
+
+//マウスホイールイベント
+document.addEventListener('wheel', function(event) {
+    if(canvasover){ //キャンバス操作モードのときカメラズームを調整
+        if(event.deltaY > 0) camera1.zoom *= 0.8;
+        else camera1.zoom *= 1.25;
+        camera1.updateProjectionMatrix();
+    }
+});
+
+
+//マウスイベント
+//マウスプレス・リリース時にmouseIsPressedを切り替え
+renderer1.domElement.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+//マウス移動量の更新
+renderer1.domElement.addEventListener('pointermove',(event)=>{
     mousemovementX = event.movementX;
     mousemovementY = event.movementY;
 });
 
-let angularvelocity = new THREE.Vector3(0,0,0);
 
+//タッチイベント
+renderer1.domElement.addEventListener('touchmove', handleTouchMove, false);
+renderer1.domElement.addEventListener('touchend', handleTouchEnd, false);
 
-//2本指操作
-let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1; 
-let twofinger = false;
-
-//document.addEventListener('touchstart', handleTouchStart, false);
-canvas1.addEventListener('touchmove', handleTouchMove, false);
-canvas1.addEventListener('touchend', handleTouchEnd, false);
-
-function handleTouchStart(event){
-    if(event.touchs.length==2){
-        mpx1 = event.touches[0].clientX;
-        mpy1 = event.touches[0].clientY;
-        mpx2 = event.touches[1].clientX;
-        mpy2 = event.touches[1].clientY;
-    }
-}
-
+//画面（タッチパッド）を指でなぞったときの処理
 function handleTouchMove(event){
 
-    if(event.touches.length==2){
+    if(event.touches.length==2){    //指2本で触れている
 
-        inputtouch = true;
+        twofinger = true;
 
-        if(mpx1==-1 || mpy1==-1 || mpx2==-1 || mpy2==-1){
+        if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき
 
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-            mpx2 = event.touches[1].clientX;
-            mpy2 = event.touches[1].clientY;
+            pmouseX1 = event.touches[0].clientX;
+            pmouseY1 = event.touches[0].clientY;
+            pmouseX2 = event.touches[1].clientX;
+            pmouseY2 = event.touches[1].clientY;
 
-        }else{
+        }else{  //1フレーム前も2本指のとき
 
             let mx1, my1, mx2, my2;
             mx1 = event.touches[0].clientX;
@@ -364,44 +330,33 @@ function handleTouchMove(event){
             mx2 = event.touches[1].clientX;
             my2 = event.touches[1].clientY;
 
-            let d1, d2;
-            d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
-            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
+            let d1, d2; 
+            d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
+            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
 
-            let v1l = camera1.zoom;
-
-            v1l = Math.min(Math.max(v1l +(d2-d1)*0.004, 0.3),3);
-            
-            camera1.zoom = v1l;
+            camera1.zoom *= (d2/d1-1) * 1 + 1;  //カメラのズーム量を変更
             camera1.updateProjectionMatrix();
 
-            mpx1 = mx1;
-            mpy1 = my1;
-            mpx2 = mx2;
-            mpy2 = my2;
+            pmouseX1 = mx1;
+            pmouseY1 = my1;
+            pmouseX2 = mx2;
+            pmouseY2 = my2;
 
         }
 
-    }else if(event.touches.length==1){
-        if(mpx1==-1 || mpy1==-1){
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-        }else{
-            mousemovementX = event.touches[0].clientX - mpx1;
-            mousemovementY = event.touches[0].clientY - mpy1;
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-        }
+    }else if(event.touches.length==1){  //指1本で触れている
+        pmouseX1 = event.touches[0].clientX;
+        pmouseY1 = event.touches[0].clientY;
     }
 }
 
-
-function handleTouchEnd(event){
-    mpx1 = -1;
-    mpy1 = -1;
-    mpx2 = -1;
-    mpy2 = -1;
-    inputtouch = false;
+//画面（タッチパッド）から指を離したときの処理
+function handleTouchEnd(){
+    pmouseX1 = -1;
+    pmouseY1 = -1;
+    pmouseX2 = -1;
+    pmouseY2 = -1;
+    twofinger = false;
 }
 
 
@@ -410,11 +365,10 @@ function animate(){
 
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
-    if(mouseIsPressed)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
-    if(inputtouch)  angularvelocity.set(0,0,0);
+    if(mouseIsPressed && !twofinger)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
     
-    let axis = angularvelocity.clone().normalize();
-    let rad = angularvelocity.length()*0.005;
+    let axis = angularvelocity1.clone().normalize();
+    let rad = angularvelocity1.length()*0.005;
 
     mousemovementX = 0;
     mousemovementY = 0;
@@ -455,12 +409,3 @@ function disposeGroup(group) {
 
 
 
-// マウスホイールイベントのリスナーを追加
-document.addEventListener('wheel', function(event) {
-    if (event.deltaY > 0) {
-        camera1.zoom = Math.min(Math.max(camera1.zoom-0.1, 0.3),3)
-    } else {
-        camera1.zoom = Math.min(Math.max(camera1.zoom+0.1, 0.3),3);
-    }
-    camera1.updateProjectionMatrix();
-});
