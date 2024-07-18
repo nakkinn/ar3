@@ -2,16 +2,15 @@
 //グローバル変数
 //#############################################################
 
-let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
-let twofinger = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
-let mouseIsPressed = false; //マウスが押されている（タップ）状態か否か
-let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標
-let mousemovementX=0, mousemovementY=0; //マウス移動量
+// let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
+// let twofinger_common = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
+// let mouseIsPressed_common = false; //マウスが押されている（タップ）状態か否か
+// let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標
+// let mousemovementX_common=0, mousemovementY_common=0; //マウス移動量
 
 let width1, height1;    //キャンバスサイズ
 let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
-
-const initrotation = new THREE.Euler(0.4, 0.2, 0);  //初期姿勢　x-y-z系オイラー角
+let initrotation = new THREE.Euler(0.4, 0.2, 0);  //初期姿勢　x-y-z系オイラー角
 
 
 
@@ -40,18 +39,18 @@ const camera1 = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);   //直交
 //const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,20);  //カメラ初期位置
 
-let ratio = canvas1.width/canvas1.height;
+let aspectratio1 = canvas1.width/canvas1.height;
 
 if(canvas1.width>canvas1.height){
-    camera1.left = -5*ratio;
-    camera1.right = 5*ratio;
+    camera1.left = -5*aspectratio1;
+    camera1.right = 5*aspectratio1;
     camera1.top = 5;
     camera1.bottom = -5;
 }else{
     camera1.left = -5;
     camera1.right = 5;
-    camera1.top = 5 / ratio;
-    camera1.bottom = -5 / ratio;
+    camera1.top = 5 / aspectratio1;
+    camera1.bottom = -5 / aspectratio1;
 }
 
 camera1.zoom = 1;
@@ -111,11 +110,10 @@ const select2 = document.getElementById('select2');
 const select3 = document.getElementById('select3');
 
 select1.value = 'option2';
-select2.value = 'option2';
+select2.value = '6cola';
 
-let slider1_max_ratio = 1;
 
-let rotate_angle = -Math.PI/2*Number(slider1.value) * slider1_max_ratio;
+let rotate_angle = -Math.PI/2*Number(slider1.value);
 let tube_thick = Number(slider2.value)*0.6 + 0.1;
 let tube_length = Number(slider3.value)*5;
 
@@ -126,7 +124,11 @@ let tube_material = [
     new THREE.MeshLambertMaterial({ color: 0xf4ff1f, side:THREE.DoubleSide}),
     new THREE.MeshLambertMaterial({ color: 0x77ff00, side:THREE.DoubleSide}),
     new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0x7700ff, side:THREE.DoubleSide})
+    new THREE.MeshLambertMaterial({ color: 0x7700ff, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0xff2200, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x00aa22, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x2200cc, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side:THREE.DoubleSide}),
 ]
 
 let meshgroup;
@@ -190,20 +192,64 @@ function main(){
         let cl=0;
 
         if(select1.value=='option1' || select2.value=='option1'){
+
             cl = 4;
-        }else if(select2.value=='option2'){
-            cl = 0;
-            if(i==0 || i==9 || i==18 || i==23 || i==28 || i==29)  cl=1;
-            if(i==1 || i==10 || i==21 || i==26 || i==8 || i==16)  cl=2;
-            if(i==2 || i==11 || i==7 || i==17 || i==20 || i==25)  cl=3;
-            if(i==3 || i==13 || i==22 || i==27 || i==5 || i==14)  cl=4;
-        }else{
+
+        }else if(select2.value=='6cola'){
+
+            //5本平行棒
+            if(i==0 || i==13 || i==16 || i==19 || i==25)    cl = 0;
+            if(i==1 || i==11 || i==22 || i==24 || i==28)    cl = 1;
+            if(i==2 || i==8 || i==12 || i==14 || i==23)    cl = 2;
+            if(i==3 || i==6 || i==10 || i==17 || i==18)    cl = 3;
+            if(i==4 || i==7 || i==9 || i==21 || i==27)    cl = 4;
+            if(i==5 || i==15 || i==20 || i==26 || i==29)    cl = 5;
+            
+
+        }else if(select2.value == '6colb'){
+
+            //5角形6個
             cl = 5;
             if(i==0 || i==22 || i==17 || i==12 || i==26)    cl=0;
             if(i==1 || i==15 || i==13 || i==23 || i==7)    cl=1;
             if(i==2 || i==29 || i==10 || i==27 || i==19)    cl=2;
             if(i==3 || i==8 || i==24 || i==9 || i==20)    cl=3;
             if(i==4 || i==5 || i==11 || i==16 || i==18)    cl=4;
+
+        }else if(select2.value=='5col'){
+
+            //正四面体5個
+            cl = 0;
+            if(i==0 || i==9 || i==18 || i==23 || i==28 || i==29)  cl=1;
+            if(i==1 || i==10 || i==21 || i==26 || i==8 || i==16)  cl=2;
+            if(i==2 || i==11 || i==7 || i==17 || i==20 || i==25)  cl=3;
+            if(i==3 || i==13 || i==22 || i==27 || i==5 || i==14)  cl=4;
+
+        }else if(select2.value == '10cola'){
+
+            //正三角形10個
+            if(i==1 || i==5 || i==9)    cl = 1;
+            if(i==2 || i==13 || i==26)  cl = 2;
+            if(i==3 || i==12 || i==29)  cl = 3;
+            if(i==4 || i==10 || i==20)  cl = 4;
+            if(i==6 || i==16 || i==22)  cl = 5;
+            if(i==7 || i==14 || i==24)  cl = 6;
+            if(i==8 || i==17 || i==28)  cl = 7;
+            if(i==11 || i==0 || i==15)  cl = 8;
+            if(i==19 || i==21 || i==23)  cl = 9;
+            
+        }else if(select2.value == '10colb'){
+            
+            //3本平行棒
+            if(i==0 || i==10 || i==14)    cl = 1;
+            if(i==1 || i==12 || i==25)    cl = 2;
+            if(i==2 || i==6 || i==9)      cl = 3;
+            if(i==3 || i==11 || i==21)    cl = 4;
+            if(i==4 || i==13 || i==28)    cl = 5;
+            if(i==5 || i==17 || i==19)    cl = 6;
+            if(i==7 || i==16 || i==29)    cl = 7;
+            if(i==8 || i==15 || i==27)    cl = 8;
+            if(i==18 || i==24 || i==26)    cl = 9;
         }
         
 
@@ -215,108 +261,107 @@ function main(){
 }
 
 
-
-
 //#############################################################
 //入力や操作に関する処理
 //#############################################################
 
 
 
-//キャンバス上で操作しているか否かの切り替え
-document.addEventListener('mousemove', (event)=>{   //第1引数　'click'：ページをクリックすると発火, 'mousemove'：異なる要素にマウスが移動すると発火
-    if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
-        canvasover = true;  //キャンバス操作オン
-        document.body.style.overflow = 'hidden';    //スクロール無効にする
-    }else{   //クリック位置（移動先）がキャンバス要素でないとき
-        canvasover = false;  //キャンバス操作オフ
-        document.body.style.overflow = '';  //スクロール有効にする
-    }
-})
+// //キャンバス上で操作しているか否かの切り替え
+// document.addEventListener('mousemove', (event)=>{   //第1引数　'click'：ページをクリックすると発火, 'mousemove'：異なる要素にマウスが移動すると発火
+//     if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
+//         canvasover = true;  //キャンバス操作オン
+//         document.body.style.overflow = 'hidden';    //スクロール無効にする
+//     }else{   //クリック位置（移動先）がキャンバス要素でないとき
+//         canvasover = false;  //キャンバス操作オフ
+//         document.body.style.overflow = '';  //スクロール有効にする
+//     }
+// })
 
 
-//マウスホイールイベント
-document.addEventListener('wheel', function(event) {
-    if(canvasover){ //キャンバス操作モードのときカメラズームを調整
-        if(event.deltaY > 0) camera1.zoom *= 0.8;
-        else camera1.zoom *= 1.25;
-        camera1.updateProjectionMatrix();
-    }
-});
+// //マウスホイールイベント
+// document.addEventListener('wheel', function(event) {
+//     if(canvasover){ //キャンバス操作モードのときカメラズームを調整
+//         if(event.deltaY > 0) camera1.zoom -= 0.1;//camera1.zoom *= 0.8;
+//         else camera1.zoom += 0.1;
+//         camera1.updateProjectionMatrix();
+//     }
+// });
 
 
-//マウスイベント
-//マウスプレス・リリース時にmouseIsPressedを切り替え
-renderer1.domElement.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
-document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
-//マウス移動量の更新
-renderer1.domElement.addEventListener('pointermove',(event)=>{
-    mousemovementX = event.movementX;
-    mousemovementY = event.movementY;
-});
+// //マウスイベント
+// //マウスプレス・リリース時にmouseIsPressed_commonを切り替え
+// renderer1.domElement.addEventListener('pointerdown',()=>{mouseIsPressed_common = true;});
+// document.addEventListener('pointerup',()=>{mouseIsPressed_common = false;});
+// //マウス移動量の更新
+// renderer1.domElement.addEventListener('pointermove',(event)=>{
+//     mousemovementX_common = event.movementX;
+//     mousemovementY_common = event.movementY;
+// });
 
 
-//タッチイベント
-renderer1.domElement.addEventListener('touchmove', handleTouchMove, false);
-renderer1.domElement.addEventListener('touchend', handleTouchEnd, false);
+// //タッチイベント
+// renderer1.style.touchAction = "none";
+// renderer1.domElement.addEventListener('touchmove', handleTouchMove, false);
+// renderer1.domElement.addEventListener('touchend', handleTouchEnd, false);
 
-//画面（タッチパッド）を指でなぞったときの処理
-function handleTouchMove(event){
+// //画面（タッチパッド）を指でなぞったときの処理
+// function handleTouchMove(event){
 
-    if(event.touches.length==2){    //指2本で触れている
+//     if(event.touches.length==2){    //指2本で触れている
 
-        twofinger = true;
+//         twofinger_common = true;
 
-        if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき
+//         if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき
 
-            pmouseX1 = event.touches[0].clientX;
-            pmouseY1 = event.touches[0].clientY;
-            pmouseX2 = event.touches[1].clientX;
-            pmouseY2 = event.touches[1].clientY;
+//             pmouseX1 = event.touches[0].clientX;
+//             pmouseY1 = event.touches[0].clientY;
+//             pmouseX2 = event.touches[1].clientX;
+//             pmouseY2 = event.touches[1].clientY;
 
-        }else{  //1フレーム前も2本指のとき
+//         }else{  //1フレーム前も2本指のとき
 
-            let mx1, my1, mx2, my2;
-            mx1 = event.touches[0].clientX;
-            my1 = event.touches[0].clientY;
-            mx2 = event.touches[1].clientX;
-            my2 = event.touches[1].clientY;
+//             let mx1, my1, mx2, my2;
+//             mx1 = event.touches[0].clientX;
+//             my1 = event.touches[0].clientY;
+//             mx2 = event.touches[1].clientX;
+//             my2 = event.touches[1].clientY;
 
-            let d1, d2; 
-            d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
-            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
+//             let d1, d2; 
+//             d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
+//             d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
 
-            camera1.zoom *= (d2/d1-1) * 1 + 1;  //カメラのズーム量を変更
-            camera1.updateProjectionMatrix();
+//             camera1.zoom *= (d2/d1-1) * 1 + 1;  //カメラのズーム量を変更
+//             camera1.updateProjectionMatrix();
 
-            pmouseX1 = mx1;
-            pmouseY1 = my1;
-            pmouseX2 = mx2;
-            pmouseY2 = my2;
+//             pmouseX1 = mx1;
+//             pmouseY1 = my1;
+//             pmouseX2 = mx2;
+//             pmouseY2 = my2;
 
-        }
+//         }
 
-    }else if(event.touches.length==1){  //指1本で触れている
-        pmouseX1 = event.touches[0].clientX;
-        pmouseY1 = event.touches[0].clientY;
-    }
-}
+//     }else if(event.touches.length==1){  //指1本で触れている
+//         pmouseX1 = event.touches[0].clientX;
+//         pmouseY1 = event.touches[0].clientY;
+//     }
+// }
 
-//画面（タッチパッド）から指を離したときの処理
-function handleTouchEnd(){
-    pmouseX1 = -1;
-    pmouseY1 = -1;
-    pmouseX2 = -1;
-    pmouseY2 = -1;
-    twofinger = false;
-}
+// //画面（タッチパッド）から指を離したときの処理
+// function handleTouchEnd(){
+//     pmouseX1 = -1;
+//     pmouseY1 = -1;
+//     pmouseX2 = -1;
+//     pmouseY2 = -1;
+//     twofinger_common = false;
+// }
 
 
 const label1 = document.getElementById('label1');
 
 
 slider1.addEventListener('input',(event)=>{
-    rotate_angle = -Math.PI/2*Number(slider1.value) * slider1_max_ratio;
+    rotate_angle = -Math.PI/2*Number(slider1.value);
     disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
@@ -343,22 +388,6 @@ slider3.addEventListener('input',(event)=>{
 
 
 
-check1.addEventListener('change',(event)=>{
-    if(event.target.checked){
-        slider1_max_ratio = 3;
-    }else{
-        slider1_max_ratio = 1;
-    }
-    rotate_angle = -Math.PI/2*Number(slider1.value) * slider1_max_ratio;
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    let kakudo = -rotate_angle / Math.PI * 180;
-    label1.textContent = Math.round(kakudo) + '度';
-});
-
-
-
 
 select1.addEventListener('change',(event)=>{
     if(event.target.value=='option1'){
@@ -372,8 +401,8 @@ select1.addEventListener('change',(event)=>{
         camera1.zoom *= 1.25;
         camera1.updateProjectionMatrix();
 
-        select2.style.visibility = 'hidden';
-        select3.style.visibility = 'hidden';
+        select2.hidden = true;
+        select3.hidden = true;
     }else{
         vts = new Array(ico_vts.length);
         for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
@@ -385,8 +414,8 @@ select1.addEventListener('change',(event)=>{
         camera1.zoom *= 0.8;
         camera1.updateProjectionMatrix();
 
-        select2.style.visibility = 'visible';
-        select3.style.visibility = 'visible';
+        select2.hidden = false;
+        select3.hidden = false;
     }
 });
 
@@ -404,71 +433,65 @@ select2.addEventListener('change',()=>{
 
 select3.addEventListener('input',()=>{
 
-    if(select3.value=='option1'){
-        slider1_max_ratio = 1;
+    if(select3.value=='ico'){
         slider1.value = 0;
         slider2.value = 0.16;
         slider3.value = 0.18;
-        check1.checked = false;
         update1();
     }
 
-    if(select3.value=='option2'){
-        slider1_max_ratio = 3;
-        slider1.value = 0.552;
+    if(select3.value=='triangle'){
+        slider1.value = 0.232;
+        slider2.value = 0.2;
+        slider3.value = 0.56;
+        select2.value = '10cola';
+        update1();
+    }
+
+    if(select3.value=='5parallel'){
+        slider1.value = 0.348;
         slider2.value = 0.35;
         slider3.value = 0.26;
-        select2.value = 'option3';
-        check1.checked = true;
+        select2.value = '6cola';
         update1();
     }
 
-    if(select3.value=='option3'){
-        slider1_max_ratio = 1;
+    if(select3.value=='pentagon'){
         slider1.value = 0.648;
         slider2.value = 0.26;
         slider3.value = 0.23;
-        select2.value = 'option3';
-        check1.checked = false;
+        select2.value = '6colb';
         update1();
     }
 
-    if(select3.value=='option4'){
-        slider1_max_ratio = 1;
+    if(select3.value=='star'){
         slider1.value = 0.648;
         slider2.value = 0.26;
         slider3.value = 0.98;
-        select2.value = 'option3';
-        check1.checked = false;
+        select2.value = '6colb';
         update1();
     }
 
-    if(select3.value=='option5'){
-        slider1_max_ratio = 1;
+    if(select3.value=='3parallel'){
         slider1.value = 0.768;
         slider2.value = 0.2;
         slider3.value = 0.26;
-        check1.checked = false;
+        select2.value = '10colb';
         update1();
     }
 
-    if(select3.value=='option6'){
-        slider1_max_ratio = 1;
+    if(select3.value=='tetra'){
         slider1.value = 0.5;
         slider2.value = 0.23;
         slider3.value = 0.45;
-        check1.checked = false;
+        select2.value = '5col';
         update1();
     }
 
-    if(select3.value=='option7'){
-        console.log(123);
-        slider1_max_ratio = 1;
+    if(select3.value=='dodeca'){
         slider1.value = 1;
         slider2.value = 0.18;
         slider3.value = 0.12;
-        select2.value = 'option2';
-        check1.checked = false;
         update1();
     }
 
@@ -476,7 +499,7 @@ select3.addEventListener('input',()=>{
 
 
 function update1(){
-    rotate_angle = -Math.PI/2*Number(slider1.value) * slider1_max_ratio
+    rotate_angle = -Math.PI/2*Number(slider1.value);
     tube_thick = Number(slider2.value)*0.6 + 0.1;
     tube_length = Number(slider3.value)*5;
     disposeGroup(meshgroup);
@@ -496,13 +519,13 @@ function animate(){
 
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
-    if(mouseIsPressed && !twofinger)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
+    if(mouseIsPressed_common && !twofinger_common)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY_common,mousemovementX_common, 0),0.2);
     
     let axis = angularvelocity1.clone().normalize();
     let rad = angularvelocity1.length()*0.005;
 
-    mousemovementX = 0;
-    mousemovementY = 0;
+    mousemovementX_common = 0;
+    mousemovementY_common = 0;
 
     dummymesh.rotateOnWorldAxis(axis, rad);
     

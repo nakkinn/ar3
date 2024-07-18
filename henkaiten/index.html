@@ -2,9 +2,7 @@
 
   <head>
     <title>公開講座2024 ver1.0</title>
-    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
-    
   </head>
 
   <body>
@@ -13,30 +11,19 @@
 
     <div style="height:30px"></div>
 
-    <select id="select1" style="font-size:30px;">
-        <option value="option1">立方体</option>
-        <option value="option2">正二十面体</option>
-    </select>
 
-    <div style="height:30px"></div>
-
-    <select id="select2" style="font-size:30px;">
-      <option value="option1">1色</option>
-      <option value="option2">5色</option>
-      <option value="option3">6色</option>
-    </select>
-
-    <div style="height:30px"></div>
+    <div style="height:30px"  class="kakusi1"></div>
 
     <select id="select3" style="font-size:30px;">
-      <option value="option1">正二十面体</option>
-      <option value="option2">5本平行棒10筋</option>
-      <option value="option3">正五角形6つ絡み</option>
-      <option value="option4">星型6つ絡み</option>
-      <option value="option5">3本平行棒10筋</option>
-      <option value="option6">正四面体5つ</option>
-      <option value="option7">正十二面体</option>
-      <option value="option8"></option>
+      <option value="ico">正二十面体</option>
+      <option value="triangle">正三角形10個絡み</option>
+      <option value="5parallel">5本平行棒6筋</option>
+      <option value="tetra">正四面体5個</option>
+      <option value="pentagon">正五角形6つ絡み</option>
+      <option value="star">星型6つ絡み</option>
+      <option value="3parallel">3本平行棒10筋</option>
+      <option value="dodeca">正十二面体</option>
+      <option value="null"></option>
     </select>
 
     <div style="height:30px"></div>
@@ -45,10 +32,6 @@
 
     <div style="height:30px"></div>
 
-
-    <label><input type="checkbox" id="check1">回転制限解除</label>
-    
-    <div style="height:30px"></div>
 
     <div>
       <label for="slider1">回転</label>
@@ -70,11 +53,35 @@
       <input type="range" id="slider3" min="0" max="1" step="0.01" value="0.18" style="width:400px">
     </div>
 
+
+    <div style="display:flex;align-items:center">
+
+      <p style="font-size:25px; margin-left:0px; margin-right:20px"> 基本となる多面体</p>
+
+      <select id="select1" style="font-size:30px;">
+        <option value="option1">立方体から正8面体へ</option>
+        <option value="option2">正20面体から正12面体へ</option>
+      </select>
+        
+      <p style="font-size:14px">色分け</p>
+
+      <select id="select2" style="font-size:30px;">
+        <option value="1col">1色</option>
+        <option value="5col">5色</option>
+        <option value="6cola">6色A</option>
+        <option value="6colb">6色B</option>
+        <option value="10cola">10色A</option>
+        <option value="10colb">10色B</option>
+      </select>
+
+    </div>
+
+
     <!--three.jsライブラリ-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
-    <!--three.js追加アドオン　マウスドラッグによる視点操作-->
-    <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
 
+    <!--共通プログラム-->
+    <script src="../common_script1.js"></script>
     <!--メインのプログラム-->
     <script src='script1.js'></script>
 

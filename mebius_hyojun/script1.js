@@ -2,16 +2,16 @@
 //グローバル変数
 //#############################################################
 
-let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
-let twofinger = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
-let mouseIsPressed = false; //マウスが押されている（タップ）状態か否か
-let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標
-let mousemovementX=0, mousemovementY=0; //マウス移動量
+// let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
+// let twofinger_common = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
+// let mouseIsPressed_common = false; //マウスが押されている（タップ）状態か否か
+// let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標
+// let mousemovementX_common=0, mousemovementY_common=0; //マウス移動量
 
 let width1, height1;    //キャンバスサイズ
-let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
 
-const initrotation = new THREE.Euler(2, 0, 0);  //初期姿勢　x-y-z系オイラー角
+let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
+let initrotation = new THREE.Euler(2, 0, 0);  //初期姿勢　x-y-z系オイラー角
 
 
 //#############################################################
@@ -158,93 +158,95 @@ check1.addEventListener('change',()=>{  //チェックボックスの値が切�
 });
 
 
-//キャンバス上で操作しているか否かの切り替え
-document.addEventListener('mousemove', (event)=>{   //第1引数　'click'：ページをクリックすると発火, 'mousemove'：異なる要素にマウスが移動すると発火
-    if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
-        canvasover = true;  //キャンバス操作オン
-        document.body.style.overflow = 'hidden';    //スクロール無効にする
-    }else{   //クリック位置（移動先）がキャンバス要素でないとき
-        canvasover = false;  //キャンバス操作オフ
-        document.body.style.overflow = '';  //スクロール有効にする
-    }
-})
+// //キャンバス上で操作しているか否かの切り替え
+// document.addEventListener('mousemove', (event)=>{   //第1引数　'click'：ページをクリックすると発火, 'mousemove'：異なる要素にマウスが移動すると発火
+//     if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
+//         canvasover = true;  //キャンバス操作オン
+//         document.body.style.overflow = 'hidden';    //スクロール無効にする
+//     }else{   //クリック位置（移動先）がキャンバス要素でないとき
+//         canvasover = false;  //キャンバス操作オフ
+//         document.body.style.overflow = '';  //スクロール有効にする
+//     }
+// })
 
 
-//マウスホイールイベント
-document.addEventListener('wheel', function(event) {
-    if(canvasover){ //キャンバス操作モードのときカメラズームを調整
-        if(event.deltaY > 0) camera1.zoom *= 0.8;
-        else camera1.zoom *= 1.25;
-        camera1.updateProjectionMatrix();
-    }
-});
+// //マウスホイールイベント
+// document.addEventListener('wheel', function(event) {
+//     if(canvasover){ //キャンバス操作モードのときカメラズームを調整
+//         // if(event.deltaY > 0) camera1.zoom *= 0.8;
+//         // else camera1.zoom *= 1.25;
+//         if(event.deltaY > 0) camera1.zoom -= 0.1;
+//         else camera1.zoom += 0.1;
+//         camera1.updateProjectionMatrix();
+//     }
+// });
 
 
-//マウスイベント
-//マウスプレス・リリース時にmouseIsPressedを切り替え
-renderer1.domElement.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
-document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
-//マウス移動量の更新
-renderer1.domElement.addEventListener('pointermove',(event)=>{
-    mousemovementX = event.movementX;
-    mousemovementY = event.movementY;
-});
+// //マウスイベント
+// //マウスプレス・リリース時にmouseIsPressed_commonを切り替え
+// renderer1.domElement.addEventListener('pointerdown',()=>{mouseIsPressed_common = true;});
+// document.addEventListener('pointerup',()=>{mouseIsPressed_common = false;});
+// //マウス移動量の更新
+// renderer1.domElement.addEventListener('pointermove',(event)=>{
+//     mousemovementX_common = event.movementX;
+//     mousemovementY_common = event.movementY;
+// });
 
 
-//タッチイベント
-renderer1.domElement.addEventListener('touchmove', handleTouchMove, false);
-renderer1.domElement.addEventListener('touchend', handleTouchEnd, false);
+// //タッチイベント
+// renderer1.domElement.addEventListener('touchmove', handleTouchMove, false);
+// renderer1.domElement.addEventListener('touchend', handleTouchEnd, false);
 
-//画面（タッチパッド）を指でなぞったときの処理
-function handleTouchMove(event){
+// //画面（タッチパッド）を指でなぞったときの処理
+// function handleTouchMove(event){
 
-    if(event.touches.length==2){    //指2本で触れている
+//     if(event.touches.length==2){    //指2本で触れている
 
-        twofinger = true;
+//         twofinger_common = true;
 
-        if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき
+//         if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき
 
-            pmouseX1 = event.touches[0].clientX;
-            pmouseY1 = event.touches[0].clientY;
-            pmouseX2 = event.touches[1].clientX;
-            pmouseY2 = event.touches[1].clientY;
+//             pmouseX1 = event.touches[0].clientX;
+//             pmouseY1 = event.touches[0].clientY;
+//             pmouseX2 = event.touches[1].clientX;
+//             pmouseY2 = event.touches[1].clientY;
 
-        }else{  //1フレーム前も2本指のとき
+//         }else{  //1フレーム前も2本指のとき
 
-            let mx1, my1, mx2, my2;
-            mx1 = event.touches[0].clientX;
-            my1 = event.touches[0].clientY;
-            mx2 = event.touches[1].clientX;
-            my2 = event.touches[1].clientY;
+//             let mx1, my1, mx2, my2;
+//             mx1 = event.touches[0].clientX;
+//             my1 = event.touches[0].clientY;
+//             mx2 = event.touches[1].clientX;
+//             my2 = event.touches[1].clientY;
 
-            let d1, d2; 
-            d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
-            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
+//             let d1, d2; 
+//             d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
+//             d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
 
-            camera1.zoom *= (d2/d1-1) * 1 + 1;  //カメラのズーム量を変更
-            camera1.updateProjectionMatrix();
+//             camera1.zoom *= (d2/d1-1) * 1 + 1;  //カメラのズーム量を変更
+//             camera1.updateProjectionMatrix();
 
-            pmouseX1 = mx1;
-            pmouseY1 = my1;
-            pmouseX2 = mx2;
-            pmouseY2 = my2;
+//             pmouseX1 = mx1;
+//             pmouseY1 = my1;
+//             pmouseX2 = mx2;
+//             pmouseY2 = my2;
 
-        }
+//         }
 
-    }else if(event.touches.length==1){  //指1本で触れている
-        pmouseX1 = event.touches[0].clientX;
-        pmouseY1 = event.touches[0].clientY;
-    }
-}
+//     }else if(event.touches.length==1){  //指1本で触れている
+//         pmouseX1 = event.touches[0].clientX;
+//         pmouseY1 = event.touches[0].clientY;
+//     }
+// }
 
-//画面（タッチパッド）から指を離したときの処理
-function handleTouchEnd(){
-    pmouseX1 = -1;
-    pmouseY1 = -1;
-    pmouseX2 = -1;
-    pmouseY2 = -1;
-    twofinger = false;
-}
+// //画面（タッチパッド）から指を離したときの処理
+// function handleTouchEnd(){
+//     pmouseX1 = -1;
+//     pmouseY1 = -1;
+//     pmouseX2 = -1;
+//     pmouseY2 = -1;
+//     twofinger_common = false;
+// }
 
 
 
@@ -254,9 +256,11 @@ function animate(){
     requestAnimationFrame(animate); //この関数自身を呼び出すことでこの関数内の処理が繰り返される
 
     //キャンバスを1点でプレスしているとき回転ベクトルを更新
-    if(mouseIsPressed && !twofinger)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
+    if(mouseIsPressed_common && !twofinger_common)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY_common,mousemovementX_common, 0),0.2);
     let axis = angularvelocity1.clone().normalize();    //回転軸
     let rad = angularvelocity1.length()*0.005;  //回転量
+
+    if(camera1.zoom<0)  rad*=-1;
 
     dummymesh.rotateOnWorldAxis(axis, rad); //ダミーメッシュを回転
 
@@ -266,8 +270,8 @@ function animate(){
         }
     });
 
-    mousemovementX = 0; //マウス移動量を初期化
-    mousemovementY = 0;
+    mousemovementX_common = 0; //マウス移動量を初期化
+    mousemovementY_common = 0;
 
     renderer1.render(scene1, camera1);  //レンダリング
 }
