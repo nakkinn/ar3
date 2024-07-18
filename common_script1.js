@@ -21,7 +21,7 @@ let mousemovementX_common=0, mousemovementY_common=0; //マウス移動量
 
 //キャンバス要素
 const mycanvas = document.getElementById("canvas1");    //idからhtmlファイルで生成したキャンバス要素を取得（htmlファイルではキャンバスのidを"canvas1"と設定する）
-
+mycanvas.style.touchAction = "none";    //キャンバスをタッチ時スクロールや拡大縮小が起きないようにする
 
 //マウスホイールイベント　カメラのズーム値を変更
 document.addEventListener('wheel', function(event) {
