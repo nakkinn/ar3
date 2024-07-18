@@ -3,7 +3,6 @@ const col1 = 0xff3300;  //立方体１の色
 const col2 = 0x0077ff;  //立方体２の色
 const col3 = 0x999999;  //その他の辺の色
 
-const initrotation = new THREE.Euler(-1.4, 0, 0.45);  //初期姿勢　x-y-z系オイラー角
 
 
 //#############################################################
@@ -16,9 +15,8 @@ const initrotation = new THREE.Euler(-1.4, 0, 0.45);  //初期姿勢　x-y-z系�
 // let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標
 // let mousemovementX_common=0, mousemovementY_common=0; //マウス移動量
 
-let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
-
-
+angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
+dummymesh_common.rotation.set(-1.4, 0, 0.5);
 
 //#############################################################
 //three.js関連
@@ -82,9 +80,6 @@ const light2 = new THREE.DirectionalLight(0xffffff, 0.3);
 light2.position.set(-1,-1,1);
 scene1.add(light2);
 
-//姿勢更新のためのダミーオブジェクト
-let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
-dummymesh.rotation.copy(initrotation)  //初期姿勢 x-y-z系オイラー角
 
 
 //#############################################################
@@ -367,17 +362,21 @@ function animate(){
 
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
-    if(mouseIsPressed_common && !twofinger_common)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY_common,mousemovementX_common, 0),0.2);
-    
-    let axis = angularvelocity1.clone().normalize();
-    let rad = angularvelocity1.length()*0.005;
+    rotateobjects_common(scene1, camera1);
 
-    mousemovementX_common = 0;
-    mousemovementY_common = 0;
-
-    dummymesh.rotateOnWorldAxis(axis, rad);
+    // if(mouseIsPressed_common && !twofinger_common)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY_common,mousemovementX_common, 0),0.2);
     
-    meshgroup.rotation.copy(dummymesh.rotation);
+    // let axis = angularvelocity1.clone().normalize();
+    // let rad = angularvelocity1.length()*0.005;
+
+    // if(camera1.zoom<0)  rad*=-1;
+
+    // mousemovementX_common = 0;
+    // mousemovementY_common = 0;
+
+    // dummymesh.rotateOnWorldAxis(axis, rad);
+    
+    // meshgroup.rotation.copy(dummymesh.rotation);
 
 
 

@@ -9,10 +9,9 @@
 // let mousemovementX_common=0, mousemovementY_common=0; //マウス移動量
 
 let width1, height1;    //キャンバスサイズ
-let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
-let initrotation = new THREE.Euler(0.4, 0.2, 0);  //初期姿勢　x-y-z系オイラー角
 
-
+angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
+dummymesh_common.rotation.set(0.4, 0.2, 0);
 
 //#############################################################
 //three.js関連
@@ -71,10 +70,6 @@ scene1.add(light1);
 const light2 = new THREE.DirectionalLight(0xffffff, 0.3);
 light2.position.set(-1,-1,1);
 scene1.add(light2);
-
-//姿勢更新のためのダミーオブジェクト
-let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
-dummymesh.rotation.copy(initrotation);  //初期姿勢 x-y-z系オイラー角
 
 
 
@@ -519,17 +514,21 @@ function animate(){
 
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
-    if(mouseIsPressed_common && !twofinger_common)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY_common,mousemovementX_common, 0),0.2);
+    // if(mouseIsPressed_common && !twofinger_common)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY_common,mousemovementX_common, 0),0.2);
     
-    let axis = angularvelocity1.clone().normalize();
-    let rad = angularvelocity1.length()*0.005;
+    // let axis = angularvelocity1.clone().normalize();
+    // let rad = angularvelocity1.length()*0.005;
 
-    mousemovementX_common = 0;
-    mousemovementY_common = 0;
+    // if(camera1.zoom<0)  rad*=-1;
 
-    dummymesh.rotateOnWorldAxis(axis, rad);
+    // mousemovementX_common = 0;
+    // mousemovementY_common = 0;
+
+    // dummymesh.rotateOnWorldAxis(axis, rad);
     
-    meshgroup.rotation.copy(dummymesh.rotation);
+    // meshgroup.rotation.copy(dummymesh.rotation);
+
+    rotateobjects_common(scene1, camera1);
 
 
     renderer1.render(scene1, camera1);  //レンダリング（CG描画）

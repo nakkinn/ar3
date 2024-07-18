@@ -4,10 +4,6 @@ let surfacecolor = 0xd9ee85;    //曲面の色
 let surfacealpha = 0.7; //曲面の透明度
 let backgroundcolor = 0xeeeeee; //背景色
 
-const initrotation = new THREE.Euler(-1.5, 0, 0);  //初期姿勢　x-y-z系オイラー角
-
-
-
 //#############################################################
 //グローバル変数
 //#############################################################
@@ -20,8 +16,9 @@ const initrotation = new THREE.Euler(-1.5, 0, 0);  //初期姿勢　x-y-z系オ�
 // let mousemovementX_common=0, mousemovementY_common=0; //マウス移動量
 
 let width1, height1;    //キャンバスサイズ
-let angularvelocity1 = new THREE.Vector3(0, 0.2, 0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
 
+angularvelocity1_common = new THREE.Vector3(0, 0.2, 0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
+dummymesh_common.rotation.set(-1.5, 0, 0);
 
 //#############################################################
 //three.js関連
@@ -67,9 +64,6 @@ light2.position.set(-1,-1,1);
 scene1.add(light2);
 
 
-//姿勢更新のためのダミーオブジェクト
-let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
-dummymesh.rotation.copy(initrotation);  //初期姿勢 x-y-z系オイラー角
 
 
 
@@ -300,17 +294,21 @@ function animate(){
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
 
-    if(mouseIsPressed_common && !twofinger_common)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY_common,mousemovementX_common, 0),0.2);
-    let axis = angularvelocity1.clone().normalize(); //回転軸
-    let rad = angularvelocity1.length()*0.005;   //回転量　最後にかける定数を大きくするとマウスドラッグ時の回転量が大きくなる
+    // if(mouseIsPressed_common && !twofinger_common)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY_common,mousemovementX_common, 0),0.2);
+    // let axis = angularvelocity1.clone().normalize(); //回転軸
+    // let rad = angularvelocity1.length()*0.005;   //回転量　最後にかける定数を大きくするとマウスドラッグ時の回転量が大きくなる
 
-    mousemovementX_common = 0;
-    mousemovementY_common = 0;
+    // if(camera1.zoom<0)  rad*=-1;
 
-    dummymesh.rotateOnWorldAxis(axis, rad); //ダミーオブジェクトを回転
+    // mousemovementX_common = 0;
+    // mousemovementY_common = 0;
+
+    // dummymesh.rotateOnWorldAxis(axis, rad); //ダミーオブジェクトを回転
     
-    mesh_tube_group[index].rotation.copy(dummymesh.rotation);
-    mesh_surface_group[index].rotation.copy(dummymesh.rotation);
+    // mesh_tube_group[index].rotation.copy(dummymesh.rotation);
+    // mesh_surface_group[index].rotation.copy(dummymesh.rotation);
+
+    rotateobjects_common(scene1, camera1);
 
     //キューブクリッピング（使わない）
     // renderer1.clippingPlanes = [];
@@ -344,7 +342,7 @@ function animate(){
     renderer1.clippingPlanes = [];  //カッティングプレーンをリセット
     for(let i=0; i<spherecut100.length; i++){ //100個のプレーン
         let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);    //data.js内のspherecut100を参照　100×3配列
-        vc1.applyEuler(dummymesh.rotation); //カッティングプレーンをダミーオブジェクトに合わせて回転させる
+        vc1.applyEuler(dummymesh_common.rotation); //カッティングプレーンをダミーオブジェクトに合わせて回転させる
         renderer1.clippingPlanes.push(new THREE.Plane(vc1,planedistance));  //レンダラーにカッティングプレーンを追加
     }
 

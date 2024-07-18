@@ -8,11 +8,13 @@
 //#############################################################
 
 let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
-let twofinger_common = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
-let mouseIsPressed_common = false; //マウスが押されている（タップ）状態か否か
+let twofinger = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
+let mouseIsPressed = false; //マウスが押されている（タップ）状態か否か
 let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標　1フレーム前タッチされていなければ-1とする
-let mousemovementX_common=0, mousemovementY_common=0; //マウス移動量
+let mousemovementX=0, mousemovementY=0; //マウス移動量
 
+let angularvelocity1_common = new THREE.Vector3(0, 0, 0);
+let dummymesh_common = new THREE.Mesh();
 
 //#############################################################
 //入力や操作に関する処理
@@ -55,13 +57,13 @@ document.addEventListener('mousemove', (event)=>{   //第1引数　'click'：ペ
 
 
 //マウスイベント
-//マウスプレス・リリース時にmouseIsPressed_commonを切り替え
-mycanvas.addEventListener('pointerdown',()=>{mouseIsPressed_common = true;});
-document.addEventListener('pointerup',()=>{mouseIsPressed_common = false;});
+//マウスプレス・リリース時にmouseIsPressedを切り替え
+mycanvas.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
 //マウス移動量の更新
 mycanvas.addEventListener('pointermove',(event)=>{
-    mousemovementX_common = event.movementX;
-    mousemovementY_common = event.movementY;
+    mousemovementX = event.movementX;
+    mousemovementY = event.movementY;
 });
 
 
@@ -75,7 +77,7 @@ function handleTouchMove(event){
 
     if(event.touches.length==2){    //指2本で触れている
 
-        twofinger_common = true;
+        twofinger = true;
 
         if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき、1フレーム前の2点の座標を更新
 
@@ -121,5 +123,43 @@ function handleTouchEnd(){
     pmouseY1 = -1;
     pmouseX2 = -1;
     pmouseY2 = -1;
-    twofinger_common = false;
+    twofinger = false;
+}
+
+
+//要素を長押し時、右クリックメニューが出ないようにする
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('html, body').forEach((element) => {
+        element.style.userSelect = 'none';
+        element.style.webkitUserSelect = 'none';
+        element.style.mozUserSelect = 'none';
+    });
+});
+
+
+
+//#############################################################
+//3Dオブジェクトの回転
+//#############################################################
+
+function rotateobjects_common(scenea, cameraa){
+
+    //キャンバスを1点でプレスしているとき回転ベクトルを更新
+    if(mouseIsPressed && !twofinger)  angularvelocity1_common.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
+    let axis = angularvelocity1_common.clone().normalize();    //回転軸
+    let rad = angularvelocity1_common.length()*0.005;  //回転量
+
+    if(cameraa.zoom<0)  rad*=-1;
+
+    dummymesh_common.rotateOnWorldAxis(axis, rad); //ダミーメッシュを回転
+
+    scenea.traverse((object)=>{ //scene1に含まれる全てのメッシュの姿勢をダミーメッシュと一致させる
+        if(object.parent===scenea && (object.isMesh || object.isGroup)){
+            object.rotation.copy(dummymesh_common.rotation);
+        }
+    });
+
+    mousemovementX = 0; //マウス移動量を初期化
+    mousemovementY = 0;
+
 }
