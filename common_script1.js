@@ -97,7 +97,7 @@ function handleTouchMove(event){
             d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
 
             //camera1.zoom *= (d2/d1-1) * 1 + 1;  //カメラのズーム量を変更
-            camera1.zoom += camera1.zoom * ( d2 / d1 - 1);
+            camera1.zoom += ( d2 / d1 - 1);
             
             camera1.updateProjectionMatrix();
 
