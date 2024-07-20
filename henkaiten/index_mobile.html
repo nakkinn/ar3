@@ -7,16 +7,16 @@
 
   <body>
 
-    <a href="../index.html" id="link1">HOME</a>
+    <a href="../index_mobile.html" id="link1" style="font-size:25px">HOME</a>
 
     <h3 style="font-size:35px">多面体の辺回転</h3>
 
-    <p style="font-size:30px">
+    <p style="font-size:20px">
       多面体のすべての辺を中点で固定して一斉に回転させます。
       <br>
       スライダーで辺の回転量・太さ・長さを調整できます。
       <br>
-      グラフィックスをつまんで回したり、マウスホイールでサイズを調整してください。
+      グラフィックスをつまんで回したり、2本指操作でサイズを調整してください。
     </p>
 
 
@@ -49,24 +49,23 @@
 
 
 
-    <div>
-      <label for="slider1" style="font-size:30px">回転</label>
-      <input type="range" id="slider1" min="0" max="1" step="0.004" value="0" style="width:400px;">
-      <label for="slider1" id="label1" style="font-size:30px">0度</label>
+    <div style="display:flex;">
+      <p style="font-size:30px">回転</p>
+      <input type="range" id="slider1" min="0" max="1" step="0.004" value="0" style="transform:scale(1);margin-left:10px;margin-right:10px;width:70%;">
+      <p id="label1" style="font-size:30px;">0度</p>
+      
     </div>
-
-    <div style="height:20px"></div>
 
     <div>
       <label for="slider2" style="font-size:30px">太さ</label>
-      <input type="range" id="slider2" min="0" max="1" step="0.01" value="0.16" style="width:400px">
+      <input type="range" id="slider2" min="0" max="1" step="0.01" value="0.16" style="transform:scale(1);margin-left:10px;width:70%;">
     </div>
 
     <div style="height:20px"></div>
     
     <div>    
       <label for="slider3" style="font-size:30px">長さ</label>
-      <input type="range" id="slider3" min="0" max="1" step="0.01" value="0.18" style="width:400px">
+      <input type="range" id="slider3" min="0" max="1" step="0.01" value="0.18" style="transform:scale();margin-left:10px;width:70%;">
     </div>
 
 
