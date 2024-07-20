@@ -3,23 +3,17 @@
   <head>
     <title>4次元を経由したメビウスの帯 スマホ版</title>
     <meta charset="UTF-8">
-    <style>
-      p{
-        line-height:7px;
-        font-size:20px;
-      }
-    </style>
   </head>
 
   <body>
 
-    <a href="../index.html" style="font-size:20px">HOME</a>
+    <a href="../index.html" style="font-size:30px">HOME</a>
 
     <br>
 
     <div style="display:flex;align-items:center;">
 
-      <h1>4次元を経由したメビウスの帯</h3>
+      <h1 style="font-size:35px">4次元を経由したメビウスの帯</h3>
 
       <select id="select1" style="font-size:30px; margin-left:100px">
         <option value="option1">曲面なし</option>
@@ -30,11 +24,13 @@
 
     </div>
 
-    <p>4次元空間に固定したメビウスの帯を立体射影で3次元空間に射影します。</p>
-    <p>スライダーで射影する方向をかえると3次元空間内で様々に姿を変えます。</p>
-    <p>グラフィックスをつまんで回したり、2本指操作でサイズを調整してください。</p>
+    <p style="font-size:30px">
+      4次元空間に固定したメビウスの帯を立体射影で3次元空間に射影します。<br>
+      スライダーで射影する方向をかえると3次元空間内で様々に姿を変えます。<br>
+      グラフィックスをつまんで回したり、2本指操作でサイズを調整してください。
+    </p>
 
-    <input type="range" id="slider1" min="0" max="1" step="0.01" value="0.5" style="width:32%; transform:scale(3); margin-left:320px; margin-bottom:40px; margin-top:20px">
+    <input type="range" id="slider1" min="0" max="1" step="0.01" value="0.5" style="width:32%; transform:scale(3); margin-left:320px; margin-bottom:50px; margin-top:50px">
 
     <br>
 
@@ -42,7 +38,7 @@
 
     <script>
       document.getElementById('canvas1').width = window.innerWidth*0.97;
-      document.getElementById('canvas1').height = window.innerHeight*0.8;
+      document.getElementById('canvas1').height = window.innerHeight*0.6;
     </script>
 
     <div style="height:30px"></div>
