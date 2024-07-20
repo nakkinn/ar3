@@ -9,9 +9,9 @@
 
     <a href="../index.html" id="link1">HOME</a>
 
-    <h3>多面体の辺回転</h3>
+    <h3 style="font-size:35px">多面体の辺回転</h3>
 
-    <p>
+    <p style="font-size:30px">
       多面体のすべての辺を中点で固定して一斉に回転させます。
       <br>
       スライダーで辺の回転量・太さ・長さを調整できます。
@@ -22,9 +22,9 @@
 
     <div style="display:flex;align-items:center;">
 
-      <h4 style="margin:5px">基本となる多面体　</h4>
+      <h4 style="margin:5px;font-size:30px">基本となる多面体　</h4>
 
-      <select id="select1" style="font-size:20px;">
+      <select id="select1" style="font-size:30px;">
         <option value="option1">立方体から正8面体へ</option>
         <option value="option2">正20面体から正12面体へ</option>
       </select>
@@ -34,9 +34,9 @@
 
     <div style="display:flex;align-items:center;margin-bottom:20px">
   
-      <h4 style="margin:5px" class="hideElement">配色　</h4>
+      <h4 style="margin:5px; font-size:30px" class="hideElement">配色　</h4>
 
-      <select id="select2" style="font-size:20px;" class="hideElement">
+      <select id="select2" style="font-size:30px;" class="hideElement">
         <option value="1col">1色</option>
         <option value="5col">5色</option>
         <option value="6cola">6色A</option>
@@ -50,22 +50,22 @@
 
 
     <div>
-      <label for="slider1">回転</label>
-      <input type="range" id="slider1" min="0" max="1" step="0.004" value="0" style="width:400px">
-      <label for="slider1" id="label1">0度</label>
+      <label for="slider1" style="font-size:30px">回転</label>
+      <input type="range" id="slider1" min="0" max="1" step="0.004" value="0" style="width:400px;">
+      <label for="slider1" id="label1" style="font-size:30px">0度</label>
     </div>
 
     <div style="height:20px"></div>
 
     <div>
-      <label for="slider2">太さ</label>
+      <label for="slider2" style="font-size:30px">太さ</label>
       <input type="range" id="slider2" min="0" max="1" step="0.01" value="0.16" style="width:400px">
     </div>
 
     <div style="height:20px"></div>
     
     <div>    
-      <label for="slider3">長さ</label>
+      <label for="slider3" style="font-size:30px">長さ</label>
       <input type="range" id="slider3" min="0" max="1" step="0.01" value="0.18" style="width:400px">
     </div>
 
@@ -74,16 +74,21 @@
 
     <div style="height:30px"></div>
 
-    <canvas id="canvas1" width="700" height="500"></canvas> <!--id名は"canvas1"にする-->
+    <canvas id="canvas1"></canvas> <!--id名は"canvas1"にする-->
+
+    <script>
+      document.getElementById('canvas1').width = window.innerWidth*0.97;
+      document.getElementById('canvas1').height = window.innerHeight*0.6;
+    </script>
 
     <div style="height:30px"></div>
 
 
     <div style="display:flex;align-items:center;" id="kakushi2">
   
-      <h4 style="margin:5px" class="hideElement">途中に現れる顕著な図形　</h4>
+      <h4 style="margin:5px; font-size:30px" class="hideElement">途中に現れる顕著な図形　</h4>
 
-      <select id="select3" style="font-size:20px;" class="hideElement">
+      <select id="select3" style="font-size:30px;" class="hideElement">
         <option value="ico">正二十面体</option>
         <option value="triangle">正三角形10個絡み</option>
         <option value="5parallel">5本平行棒6筋</option>
