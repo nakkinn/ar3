@@ -253,7 +253,7 @@ function main(){
 
 const label1 = document.getElementById('label1');
 
-slider1.addEventListener('input',(event)=>{
+slider1.addEventListener('input',()=>{
     rotate_angle = -Math.PI/2*Number(slider1.value);
     disposeGroup(meshgroup);
     scene1.remove(meshgroup);
@@ -263,7 +263,7 @@ slider1.addEventListener('input',(event)=>{
     label1.textContent = Math.round(kakudo) + '度';
 });
 
-slider2.addEventListener('input',(event)=>{
+slider2.addEventListener('input',()=>{
     tube_thick = Number(slider2.value)*0.6 + 0.1;
     disposeGroup(meshgroup);
     scene1.remove(meshgroup);
@@ -271,7 +271,7 @@ slider2.addEventListener('input',(event)=>{
     select3.value = 'null';
 });
 
-slider3.addEventListener('input',(event)=>{
+slider3.addEventListener('input',()=>{
     tube_length = Number(slider3.value)*5;
     disposeGroup(meshgroup);
     scene1.remove(meshgroup);
@@ -294,8 +294,10 @@ select1.addEventListener('change',(event)=>{
         camera1.zoom *= 1.25;
         camera1.updateProjectionMatrix();
 
-        select2.hidden = true;
-        select3.hidden = true;
+        let hide_elements_array = document.getElementsByClassName("hideElement");
+        for(let i=0; i<hide_elements_array.length; i++){
+            hide_elements_array[i].hidden = true;
+        }
     }else{
         vts = new Array(ico_vts.length);
         for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
@@ -307,8 +309,10 @@ select1.addEventListener('change',(event)=>{
         camera1.zoom *= 0.8;
         camera1.updateProjectionMatrix();
 
-        select2.hidden = false;
-        select3.hidden = false;
+        let hide_elements_array = document.getElementsByClassName("hideElement");
+        for(let i=0; i<hide_elements_array.length; i++){
+            hide_elements_array[i].hidden = false;
+        }
     }
 });
 

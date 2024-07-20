@@ -9,28 +9,44 @@
 
     <a href="../index.html" id="link1">HOME</a>
 
-    <div style="height:30px"></div>
+    <h3>多面体の辺回転</h3>
+
+    <p>
+      多面体のすべての辺を中点で固定して一斉に回転させます。
+      <br>
+      スライダーで辺の回転量・太さ・長さを調整できます。
+      <br>
+      グラフィックスをつまんで回したり、マウスホイールでサイズを調整してください。
+    </p>
 
 
-    <div style="height:30px"  class="kakusi1"></div>
+    <div style="display:flex;align-items:center;">
 
-    <select id="select3" style="font-size:30px;">
-      <option value="ico">正二十面体</option>
-      <option value="triangle">正三角形10個絡み</option>
-      <option value="5parallel">5本平行棒6筋</option>
-      <option value="tetra">正四面体5個</option>
-      <option value="pentagon">正五角形6つ絡み</option>
-      <option value="star">星型6つ絡み</option>
-      <option value="3parallel">3本平行棒10筋</option>
-      <option value="dodeca">正十二面体</option>
-      <option value="null"></option>
-    </select>
+      <h4 style="margin:5px">基本となる多面体　</h4>
 
-    <div style="height:30px"></div>
+      <select id="select1" style="font-size:20px;">
+        <option value="option1">立方体から正8面体へ</option>
+        <option value="option2">正20面体から正12面体へ</option>
+      </select>
 
-    <canvas id="canvas1" width="700" height="500"></canvas> <!--id名は"canvas1"にする-->
+    </div>
 
-    <div style="height:30px"></div>
+
+    <div style="display:flex;align-items:center;margin-bottom:20px">
+  
+      <h4 style="margin:5px" class="hideElement">配色　</h4>
+
+      <select id="select2" style="font-size:20px;" class="hideElement">
+        <option value="1col">1色</option>
+        <option value="5col">5色</option>
+        <option value="6cola">6色A</option>
+        <option value="6colb">6色B</option>
+        <option value="10cola">10色A</option>
+        <option value="10colb">10色B</option>
+      </select>
+
+    </div>
+
 
 
     <div>
@@ -54,24 +70,29 @@
     </div>
 
 
-    <div style="display:flex;align-items:center">
+    
 
-      <p style="font-size:25px; margin-left:0px; margin-right:20px"> 基本となる多面体</p>
+    <div style="height:30px"></div>
 
-      <select id="select1" style="font-size:30px;">
-        <option value="option1">立方体から正8面体へ</option>
-        <option value="option2">正20面体から正12面体へ</option>
-      </select>
-        
-      <p style="font-size:14px">色分け</p>
+    <canvas id="canvas1" width="700" height="500"></canvas> <!--id名は"canvas1"にする-->
 
-      <select id="select2" style="font-size:30px;">
-        <option value="1col">1色</option>
-        <option value="5col">5色</option>
-        <option value="6cola">6色A</option>
-        <option value="6colb">6色B</option>
-        <option value="10cola">10色A</option>
-        <option value="10colb">10色B</option>
+    <div style="height:30px"></div>
+
+
+    <div style="display:flex;align-items:center;" id="kakushi2">
+  
+      <h4 style="margin:5px" class="hideElement">途中に現れる顕著な図形　</h4>
+
+      <select id="select3" style="font-size:20px;" class="hideElement">
+        <option value="ico">正二十面体</option>
+        <option value="triangle">正三角形10個絡み</option>
+        <option value="5parallel">5本平行棒6筋</option>
+        <option value="tetra">正四面体5個</option>
+        <option value="pentagon">正五角形6つ絡み</option>
+        <option value="star">星型6つ絡み</option>
+        <option value="3parallel">3本平行棒10筋</option>
+        <option value="dodeca">正十二面体</option>
+        <option value="null"></option>
       </select>
 
     </div>
