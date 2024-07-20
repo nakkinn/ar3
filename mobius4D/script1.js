@@ -33,7 +33,7 @@ height1 = renderer1.domElement.height;
 // カメラ
 //const camera1 = new THREE.OrthographicCamera(-2, 2, 2, -2, 1, 10);   //直交投影カメラ
 const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
-camera1.position.set(0,0,25);  //カメラ初期位置
+camera1.position.set(0,0,5);  //カメラ初期位置
 camera1.zoom = 1;   //カメラズーム量（オブジェクトが画面に表示されない場合は、これを調整すると表示されることがある）
 camera1.updateProjectionMatrix(); //カメラの設定適用
 
