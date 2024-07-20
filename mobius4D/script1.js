@@ -171,6 +171,7 @@ slider1.addEventListener('input',()=>{
 const select1 = document.getElementById('select1');
 select1.value = 'option2';
 select1.addEventListener('change',(event)=>{
+
     if(event.target.value=='option1'){
         for(let i=0; i<vts2.length; i++){
             mesh_surface_group[i].geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(index0),1));
@@ -198,6 +199,14 @@ select1.addEventListener('change',(event)=>{
             mesh_surface_group[i].material.opacity=1;
         }
     }
+
+    disposeSceneMeshes(scene1);
+    index = Math.round(Number(slider1.value)*(mesh_surface_group.length-1));
+    scene1.add(spherecut(mesh_surface_group[index], 3));
+    for(let i=0; i<mesh_tube_group[index].length; i++){
+        scene1.add(spherecut(mesh_tube_group[index][i], 3));
+    }
+    
 });
 
 
@@ -212,15 +221,6 @@ function animate(){
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
     rotateobjects_common(scene1, camera1);
-
-    //カッティングプレーン
-    // let planedistance = 18; //原点とカッティングプレーンとの距離
-    // renderer1.clippingPlanes = [];  //カッティングプレーンをリセット
-    // for(let i=0; i<spherecut100.length; i++){ //100個のプレーン
-    //     let vc1 = new THREE.Vector3(spherecut100[i][0], spherecut100[i][1], spherecut100[i][2]);    //data.js内のspherecut100を参照　100×3配列
-    //     vc1.applyEuler(dummymesh_common.rotation); //カッティングプレーンをダミーオブジェクトに合わせて回転させる
-    //     renderer1.clippingPlanes.push(new THREE.Plane(vc1,planedistance));  //レンダラーにカッティングプレーンを追加
-    // }
 
     renderer1.render(scene1, camera1);  //レンダリング
 }
