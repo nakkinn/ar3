@@ -1,7 +1,7 @@
 //4つのCG表示プログラム　共有スクリプト
 //マウス・タッチ操作に関する処理
 
-//この共有スクリプトと個別のスクリプト両方で使う変数名の後ろに「_common」と付けている
+//この共有スクリプトと個別のスクリプト両方で使う変数や関数の名前の後ろに「_common」と付けている
 
 //#############################################################
 //グローバル変数
@@ -13,8 +13,8 @@ let mouseIsPressed = false; //マウスが押されている（タップ）状�
 let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標　1フレーム前タッチされていなければ-1とする
 let mousemovementX=0, mousemovementY=0; //マウス移動量
 
-let angularvelocity1_common = new THREE.Vector3(0, 0, 0);
-let dummymesh_common = new THREE.Mesh();
+let angularvelocity1_common = new THREE.Vector3(0, 0, 0);   //オブジェクトの回転軸　大きさが回転速度に比例する
+let dummymesh_common = new THREE.Mesh();    //ダミーオブジェクト（これの姿勢を他のオブジェクトにコピーする）
 
 //#############################################################
 //入力や操作に関する処理
@@ -24,6 +24,7 @@ let dummymesh_common = new THREE.Mesh();
 //キャンバス要素
 const mycanvas = document.getElementById("canvas1");    //idからhtmlファイルで生成したキャンバス要素を取得（htmlファイルではキャンバスのidを"canvas1"と設定する）
 mycanvas.style.touchAction = "none";    //キャンバスをタッチ時スクロールや拡大縮小が起きないようにする
+
 
 //マウスホイールイベント　カメラのズーム値を変更
 document.addEventListener('wheel', function(event) {
@@ -60,6 +61,7 @@ document.addEventListener('mousemove', (event)=>{   //第1引数　'click'：ペ
 //マウスプレス・リリース時にmouseIsPressedを切り替え
 mycanvas.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
 document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+
 //マウス移動量の更新
 mycanvas.addEventListener('pointermove',(event)=>{
     mousemovementX = event.movementX;
@@ -98,8 +100,7 @@ function handleTouchMove(event){
             d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
             d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
 
-            //camera1.zoom *= (d2/d1-1) * 1 + 1;  //カメラのズーム量を変更
-            camera1.zoom += ( d2 / d1 - 1);
+            camera1.zoom += ( d2 / d1 - 1) * 1; //最後の定数を大きくすると変化が大きくなる
             
             camera1.updateProjectionMatrix();
 
@@ -142,14 +143,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 //3Dオブジェクトの回転
 //#############################################################
 
+//sceneaに含まれるオブジェクトを回転
 function rotateobjects_common(scenea, cameraa){
 
     //キャンバスを1点でプレスしているとき回転ベクトルを更新
     if(mouseIsPressed && !twofinger)  angularvelocity1_common.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
     let axis = angularvelocity1_common.clone().normalize();    //回転軸
-    let rad = angularvelocity1_common.length()*0.005;  //回転量
+    let rad = angularvelocity1_common.length()*0.005;  //回転量（最後の定数を大きくすると動きが大きくなる）
 
-    if(cameraa.zoom<0)  rad*=-1;
+    if(cameraa.zoom<0)  rad*=-1;    //ズーム値がマイナスのとき座標系が反転するため、回転方向を逆にする
 
     dummymesh_common.rotateOnWorldAxis(axis, rad); //ダミーメッシュを回転
 

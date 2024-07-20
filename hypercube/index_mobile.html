@@ -1,0 +1,41 @@
+<html lang="ja">
+
+  <head>
+    <title>超立方体　スマホ版</title>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width"> -->
+  </head>
+
+  <body>
+
+    <a href="../index.html" id="link1">HOME</a>
+
+    <div style="height:30px"></div>
+
+    <canvas id="canvas1" width="700" height="400"></canvas> <!--id名は"canvas1"にする-->
+
+    <div style="height:30px"></div>
+
+    <div style="height:30px"></div>
+
+    <input type="range" id="slider1" min="0" max="1" step="0.01" value="0" style="width:400px">
+
+    <div style="height:30px"></div>
+
+    <input type="range" id="slider2" min="0" max="1" step="0.01" value="0" style="width:400px">
+
+    <div style="height:30px"></div>
+
+    <input type="range" id="slider3" min="0" max="1" step="0.01" value="0" style="width:400px">
+
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+
+    <!--共通プログラム-->
+    <script src="../common_script1.js"></script>
+    <!--メインのプログラム-->
+    <script src='script1.js'></script>
+
+  </body>
+
+</html>
