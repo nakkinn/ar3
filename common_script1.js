@@ -25,6 +25,8 @@ let dummymesh_common = new THREE.Mesh();    //ダミーオブジェクト（こ�
 const mycanvas = document.getElementById("canvas1");    //idからhtmlファイルで生成したキャンバス要素を取得（htmlファイルではキャンバスのidを"canvas1"と設定する）
 mycanvas.style.touchAction = "none";    //キャンバスをタッチ時スクロールや拡大縮小が起きないようにする
 
+document.getElementById("canvas1").addEventListener("touchmove",(event)=>{event.preventDefault();},{passive:false});    //スマホ操作時、左端からスワイプした際ブラウザバッグしないようにする
+
 
 //マウスホイールイベント　カメラのズーム値を変更
 document.addEventListener('wheel', function(event) {
