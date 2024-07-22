@@ -145,13 +145,13 @@ function handleTouchEnd(){
 
 
 //要素を長押し時、右クリックメニューが出ないようにする
-// document.addEventListener('DOMContentLoaded', () => {
-//     document.querySelectorAll('html, body').forEach((element) => {
-//         element.style.userSelect = 'none';
-//         element.style.webkitUserSelect = 'none';
-//         element.style.mozUserSelect = 'none';
-//     });
-// });
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('html, body').forEach((element) => {
+        element.style.userSelect = 'none';
+        element.style.webkitUserSelect = 'none';
+        element.style.mozUserSelect = 'none';
+    });
+});
 
 
 
