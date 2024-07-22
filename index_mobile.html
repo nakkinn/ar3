@@ -1,83 +1,83 @@
-<!--
-このファイルは基本はindex.htmlと同じだが、リンク先がスマホ用のサイトにとぶ。スマホ用サイトはhtmlファイルが異なりjsファイルはPC用サイトと共通である
--->
-
 <html lang="ja">
 
   <head>
-    <title>公開講座2024　スマホ版</title>
+    <title>不思議な形　スマホ版</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    
   </head>
 
   <body>
 
-    <!--タイトル（大きめのフォント）-->
-    <h3>【公開講座 2024】多面体やメビウスの帯から広がる図形の世界を愉しむ</h3>
+    <a href="../index.html" style="font-size:25px">HOME</a>
 
-    <div style="display:flex;align-items:center">
-        <h3>スマホ版　</h3>
-        <a href="index.html">（PC版ウェブサイトを開く）</a>
+  
+ 
+  <div style="height:30px"></div>
+
+
+
+  <select id="select1" style="font-size:30px;" hidden>
+    <option value="option1">立方体から正8面体へ</option>
+    <option value="option2">正20面体から正12面体へ</option>
+  </select>
+
+  <select id="select2" style="font-size:30px;">
+    <option value="option1">1色</option>
+    <option value="option2">5色</option>
+    <option value="option3">6色</option>
+  </select>
+</p>
+
+  
+ <!--
+  <div style="height:30px"></div>
+-->
+
+    <div>
+      <input type="range" id="slider1" min="0" max="500" value="0" style="width:200px" hidden>
+            <label for="slider1" id="label1" hidden>0度</label>
+          
+    </div>
+
+    <div>
+      <input type="range" id="slider2" min="100" max="400" value="100" style="width:200px" hidden>
     </div>
     
-    <p>
-      アイテムをクリックくると、図形を動かせるページが開きます。
-      <br>
-      図形をマウスドラッグで動かしたり、スクロール操作で拡大縮小ができます
-    </p>
+    <div>    
+      <input type="range" id="slider3" min="50" max="500" value="95" style="width:200px" hidden>
+    </div>
 
+
+
+  
     <div style="height:30px"></div>
 
-    <!--文字リンク-->
-    <a href="mobius4D/index_mobile.html" style="margin:10px 10px 20px 20px">4次元を経由したメビウスの帯</a>
+    <canvas id="canvas1" style="touch-action:none"></canvas>
 
-    <!--改行-->
-    <br>
+    <script>
+      document.getElementById('canvas1').width = window.innerWidth*0.97;
+      document.getElementById('canvas1').height = window.innerHeight*0.6;
+    </script>
+    
 
-    <!--画像リンク-->
-    <a href="mobius4D/index_mobile.html">
-      <img src="thumbnail1.png" style="width:300px">
-    </a>
+    <select id="select3" style="font-size:30px;" hidden>
+      <option value="option1">正二十面体</option>
+      <option value="option2">5本平行棒10筋</option>
+      <option value="option3">正五角形6つ絡み</option>
+      <option value="option4">星型6つ絡み</option>
+      <option value="option5">3本平行棒10筋</option>
+      <option value="option8">正四面体5つ</option>
+      <option value="option6">正十二面体</option>
+      <option value="option7"></option>
+    </select>
+  </p>
 
-    <p style="margin:50px 10px 20px 20px"></p>
+     <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
 
-    <a href="henkaiten/index_mobile.html" style="margin:50px 10px 20px 20px" id="link2a">多面体の辺回転</a>
 
-    <br>
-
-    <a href="henkaiten/index_mobile.html" id="link2b">
-      <img src="thumbnail2.png" style="width:300px">
-    </a>
-
-    <p style="margin:50px 10px 20px 20px"></p>
-
-    <a href="hypercube/index_mobile.html" style="margin:50px 10px 20px 20px">超立方体</a>
-
-    <br>
-
-    <a href="hypercube/index_mobile.html">
-      <img src="thumbnail3.png" style="width:300px">
-    </a>
-
-    <p style="margin:50px 10px 20px 20px"></p>
-
-    <a href="mobius3D/index_mobile.html" style="margin:50px 10px 20px 20px">メビウスの帯</a>
-
-    <br>
-
-    <a href="mobius3D/index_mobile.html">
-      <img src="thumbnail4.png" style="width:300px">
-    </a>
-
-    <p style="margin:50px 10px 20px 20px"></p>
-
-    <a href="extra/index_mobile.html" style="margin:50px 10px 20px 20px">不思議な形</a>
-
-    <br>
-
-    <a href="extra/index_mobile.html">
-      <img src="thumbnail5.png" style="width:300px">
-    </a>
+    <!--メインのプログラム-->
+    <script src='script1.js'></script>
 
   </body>
 
