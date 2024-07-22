@@ -21,6 +21,11 @@ let dummymesh_common = new THREE.Mesh();    //ダミーオブジェクト（こ�
 //#############################################################
 
 
+document.querySelectorAll('input[type="range"]').forEach(function(input) {
+    input.style.touchAction = 'none';
+});
+
+
 //キャンバス要素
 const mycanvas = document.getElementById("canvas1");    //idからhtmlファイルで生成したキャンバス要素を取得（htmlファイルではキャンバスのidを"canvas1"と設定する）
 mycanvas.style.touchAction = "none";    //キャンバスをタッチ時スクロールや拡大縮小が起きないようにする
