@@ -112,8 +112,17 @@ function handleTouchMove(event){
         }
 
     }else if(event.touches.length==1){  //指1本で触れている、1フレーム前の座標を1点分のみ更新
-        pmouseX1 = event.touches[0].clientX;
-        pmouseY1 = event.touches[0].clientY;
+
+        if(pmouseX1==-1 || pmouseY1==-1){
+            pmouseX1 = event.touches[0].clientX;
+            pmouseY1 = event.touches[0].clientY;
+        }else{
+            mousemovementX = event.touches[0].clientX - pmouseX1;
+            mousemovementY = event.touches[0].clientY - pmouseY1;
+            pmouseX1 = event.touches[0].clientX;
+            pmouseY1 = event.touches[0].clientY;
+        }
+
     }
 }
 

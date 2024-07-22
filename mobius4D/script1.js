@@ -57,7 +57,7 @@ scene1.add(light2);
 //#############################################################
 //表示するグラフィック　
 //#############################################################
-
+console.log(curve_group);
 let path, geometry, mesh, mesh_tube_group;
 let index=10;   //複数個あるグラフィックのうち何番目のグラフィックを表示するか（スライダーで変更）
 let cutsurface;
@@ -76,7 +76,8 @@ for(let i=0; i<curve_group.length; i++){
         let thick = 0.02;
         if(k==0||k==20)    thick = 0.04;
         path = new THREE.CatmullRomCurve3(veclist(curve_group[i][k]));
-        geometry = new THREE.TubeGeometry(path, curve_group[i][k].length, thick, 16, false);
+        if(i==0 || i==curve_group.length-1)    geometry = new THREE.TubeGeometry(path, curve_group[i][k].length*2, thick, 16, false);
+        else    geometry = new THREE.TubeGeometry(path, curve_group[i][k].length, thick, 16, false);
         if(k<=20)   mesh = new THREE.Mesh(geometry, tubematerial1);
         else    mesh = new THREE.Mesh(geometry, tubematerial2);
         mesh_tube_group[i].push(mesh);
