@@ -9,6 +9,12 @@ dummymesh_common.rotation.set(2, 0, 0); //初期姿勢（x-y-z系オイラー角
 //#############################################################
 
 
+document.getElementById("canvas1").addEventListener("touchmove",(event)=>{
+        event.preventDefault();
+    },
+    {passive:false}
+)
+
 //シーン
 const scene1 = new THREE.Scene();
 
