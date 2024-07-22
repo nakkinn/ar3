@@ -4,10 +4,9 @@ const col2 = 0x0077ff;  //立方体２の色
 const col3 = 0x999999;  //その他の辺の色
 
 
-angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //回転軸初期値
+angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //回転を表すベクトル（方向が回転軸、大きさが回転速度に比例）初期値を0ベクトル以外にするとはじめから回転する
 dummymesh_common.rotation.set(-1.4, 0, 0.5);    //初期姿勢（x-y-z系オイラー角）
 
-let width1, height1;
 
 //#############################################################
 //three.js関連
@@ -24,6 +23,7 @@ const renderer1 = new THREE.WebGLRenderer({
 });
 renderer1.setClearColor(0xeeeeee);   //背景色
 
+let width1, height1;
 width1 = renderer1.domElement.width;    //キャンバスサイズの取得（カメラ設定に使う）
 height1 = renderer1.domElement.height;
 
@@ -120,9 +120,11 @@ const tube_material = [
 
 
 
-let meshgroup;
+let meshgroup = new THREE.Group();    //全てのチューブを１つにまとめたグループ　マウスドラッグ時、グループごと回転させる
+scene1.add(meshgroup);
 
 
+//meshgroupにv1とv2を結ぶ半径r1のチューブを追加　マテリアルの種類をciで指定
 function addtube(v1, v2, r1, ci){
 
     let col = 0x000000;
@@ -154,14 +156,15 @@ function addtube(v1, v2, r1, ci){
 
 function main(){
 
-    meshgroup = new THREE.Group();
+    disposeSceneMeshes(scene1, meshgroup);  //meshgroupのジオメトリ・マテリアルを破棄した後、scene1からmeshgroupを取り除く
+
+    meshgroup = new THREE.Group();  //meshgroupを再定義
 
 
-    let vts4 = new Array(hypercubevts.length);
+    let vts4 = new Array(hypercubevts.length);  //4次元座標
     for(let i=0; i<vts4.length; i++)    vts4[i] = hypercubevts[i].concat();
 
     //4次元回転
-
     let angle1 = Math.PI*Number(slider1.value);
     for(let i=0; i<vts4.length; i++){
         let tmpx = vts4[i][0];
@@ -187,8 +190,8 @@ function main(){
     }
 
 
+    //3次元座標
     let vts3 = new Array(hypercubevts.length);
-
     for(let i=0; i<hypercubevts.length; i++){
 
         let x1, y1, z1, w1;
@@ -198,14 +201,16 @@ function main(){
         z1 = vts4[i][2];
         w1 = vts4[i][3];
 
-        vts3[i] = [x1/(2.01-w1), y1/(2.01-w1), z1/(2.01-w1)]
+        vts3[i] = [x1/(2.01-w1), y1/(2.01-w1), z1/(2.01-w1)];   //stero graphic projection
     }
 
 
+    //3次元の頂点座標からチューブを生成
     for(let i=0; i<hypercubeedge.length; i++){
         let v1 = new THREE.Vector3(vts3[hypercubeedge[i][0]][0], vts3[hypercubeedge[i][0]][1], vts3[hypercubeedge[i][0]][2]);
         let v2 = new THREE.Vector3(vts3[hypercubeedge[i][1]][0], vts3[hypercubeedge[i][1]][1], vts3[hypercubeedge[i][1]][2]);
 
+        //チューブを生成　辺番号より3色に色分け 赤・青のチューブを若干太くしている
         if(i<4 || (i>=8&&i<12) || (i>=16&&i<20)) addtube(v1, v2, 0.105, 0);
         else if((i>=4&&i<8) || (i>=12&&i<16) || (i>=20&&i<24))  addtube(v1, v2, 0.105, 1);
         else    addtube(v1, v2, 0.1, 2);
@@ -214,12 +219,12 @@ function main(){
     }
 
 
-    scene1.add(meshgroup);
+    scene1.add(meshgroup);  //scene1にmeshgroupを追加する
 
 }
 
 
-main();
+main(); //チューブ（超立方体のグラフィック）の生成
 
 
 
@@ -229,25 +234,16 @@ main();
 //#############################################################
 
 //スライダーのつまみが動かされたとき、オブジェクトを一度破棄して生成し直す
-slider1.addEventListener('input',(event)=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    scene1.add(meshgroup);
+slider1.addEventListener('input',()=>{
+    main(); //チューブ（超立方体のグラフィック）の生成
 });
 
-slider2.addEventListener('input',(event)=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
+slider2.addEventListener('input',()=>{
     main();
-    scene1.add(meshgroup);
 });
 
-slider3.addEventListener('input',(event)=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
+slider3.addEventListener('input',()=>{
     main();
-    scene1.add(meshgroup);
 });
 
 
@@ -264,26 +260,24 @@ animate();
 
 
 
-
-// グループに含まれる全ての子要素のジオメトリとマテリアルを破棄する関数
-function disposeGroup(group) {
-    group.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-            // メッシュのジオメトリとマテリアルを破棄
-            if (child.geometry) {
-                child.geometry.dispose();
-            }
-            if (child.material) {
-                // マテリアルがArrayの場合はそれぞれ破棄する
-                if (Array.isArray(child.material)) {
-                    child.material.forEach(mat => mat.dispose());
-                } else {
-                    child.material.dispose();
-                }
-            }
+//シーンに含まれる全てのメッシュのジオメトリ・マテリアルを破棄した後、メッシュを取り除く
+function disposeSceneMeshes(scene, group) {
+    // グループ内の全てのメッシュを削除
+    group.children.forEach((mesh) => {
+      if (mesh.geometry) {
+        mesh.geometry.dispose(); // ジオメトリを削除
+      }
+      if (mesh.material) {
+        if (Array.isArray(mesh.material)) {
+          // マルチマテリアルの場合
+          mesh.material.forEach((material) => material.dispose());
+        } else {
+          mesh.material.dispose(); // マテリアルを削除
         }
+      }
     });
+  
+    // グループをシーンから削除
+    scene.remove(group);
 }
-
-
-
+  

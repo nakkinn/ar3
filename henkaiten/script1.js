@@ -1,7 +1,6 @@
-let width1, height1;    //キャンバスサイズ
-
-angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //回転軸初期値
+angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //回転を表すベクトル（方向が回転軸、大きさが回転速度に比例）初期値を0ベクトル以外にするとはじめから回転する
 dummymesh_common.rotation.set(0.4, 0.2, 0); //初期姿勢（x-y-z系オイラー角）
+
 
 //#############################################################
 //three.js関連
@@ -19,6 +18,7 @@ const renderer1 = new THREE.WebGLRenderer({
 });
 renderer1.setClearColor(0xeeeeee);   //背景色
 
+let width1, height1;    //キャンバスサイズ
 width1 = renderer1.domElement.width;    //キャンバスサイズの取得（カメラ設定に使う）
 height1 = renderer1.domElement.height;
 
@@ -26,7 +26,7 @@ height1 = renderer1.domElement.height;
 
 // カメラ
 const camera1 = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);   //直交投影カメラ
-//const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
+
 camera1.position.set(0,0,20);  //カメラ初期位置
 
 let aspectratio1 = width1 / height1;
@@ -68,42 +68,48 @@ scene1.add(light2);
 //表示するグラフィック
 //#############################################################
 
-const tetra_vts = [[2, 2, 2], [-2, -2, 2], [2, -2, -2], [-2, 2, -2]];
+const tetra_vts = [[2, 2, 2], [-2, -2, 2], [2, -2, -2], [-2, 2, -2]];   
 const tetra_edge = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
 
-const cube_vts = [[2, 2, 2], [2, -2, 2], [-2, -2, 2], [-2, 2, 2], [2, 2, -2], [2, -2, -2], [-2, -2, -2], [-2, 2, -2]];
+//立方体　頂点座標・辺の頂点番号リスト
+const cube_vts = [[2, 2, 2], [2, -2, 2], [-2, -2, 2], [-2, 2, 2], [2, 2, -2], [2, -2, -2], [-2, -2, -2], [-2, 2, -2]];  
 const cube_edge = [[0,1],[0,3],[0,4],[1,2],[1,5],[2,3],[2,6],[3,7],[4,5],[4,7],[5,6],[6,7]];
 
+//正二十面体　頂点座標・辺の頂点番号リスト
 const ico_vts = [[3.23607, 2., 0.], [3.23607, -2., 0.], [-3.23607, -2., 0.], [-3.23607, 2., 0.], [0., 3.23607, 2.], [0., 3.23607, -2.], [0., -3.23607, -2.], [0., -3.23607, 2.], [2., 0., 3.23607], [-2., 0., 3.23607], [-2., 0., -3.23607], [2., 0., -3.23607]];
 const ico_edge = [[0,1],[0,4],[0,5],[0,8],[0,11],[1,6],[1,7],[1,8],[1,11],[2,3],[2,6],[2,7],[2,9],[2,10],[3,4],[3,5],[3,9],[3,10],[4,5],[4,8],[4,9],[5,10],[5,11],[6,7],[6,10],[6,11],[7,8],[7,9],[8,9],[10,11]]
 
-let vts = [];
-let edge = [];
 
+let vts = [];   //頂点座標
+let edge = [];  //辺の頂点番号
+
+//はじめは正二十面体のデータを使う
 vts = new Array(ico_vts.length);
 for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
 edge = new Array(ico_edge.length);
 for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
 
 
-const slider1 = document.getElementById('slider1');
-const slider2 = document.getElementById('slider2');
-const slider3 = document.getElementById('slider3');
-
-const check1 = document.getElementById('check1');
-const select1 = document.getElementById('select1');
-const select2 = document.getElementById('select2');
-const select3 = document.getElementById('select3');
-
-select1.value = 'option2';
-select2.value = '6cola';
+const slider1 = document.getElementById('slider1');     //角度スライダー
+const slider2 = document.getElementById('slider2');     //太さスライダー
+const slider3 = document.getElementById('slider3');     //長さスライダー
 
 
+const select1 = document.getElementById('select1');     //基本となる多面体セレクトボックス
+const select2 = document.getElementById('select2');     //配色セレクトボックス
+const select3 = document.getElementById('select3');     //顕著な図形セレクトボックス
+
+select1.value = 'option2';  //基本となる多面体の初期値を正二十面体から正十二面体にする（2つ目の選択肢）
+select2.value = '6cola';    //配色の初期値
+
+
+//角度・太さ・長さの変数定義　初期値をスライダーの値を使って決定
 let rotate_angle = -Math.PI/2*Number(slider1.value);
 let tube_thick = Number(slider2.value)*0.6 + 0.1;
 let tube_length = Number(slider3.value)*5;
 
 
+//10種類のマテリアル
 let tube_material = [
     new THREE.MeshLambertMaterial({ color: 0xff7700, side:THREE.DoubleSide}),
     new THREE.MeshLambertMaterial({ color: 0xff40cc, side:THREE.DoubleSide}),
@@ -115,19 +121,22 @@ let tube_material = [
     new THREE.MeshLambertMaterial({ color: 0x00aa22, side:THREE.DoubleSide}),
     new THREE.MeshLambertMaterial({ color: 0x2200cc, side:THREE.DoubleSide}),
     new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side:THREE.DoubleSide}),
-]
-
-let meshgroup;
+];
 
 
 
+let meshgroup = new THREE.Group();  //全てのチューブを１つにまとめたグループ　マウスドラッグ時、グループごと回転させる
+scene1.add(meshgroup);
+
+
+
+//meshgroupにv1とv2を結ぶ半径r1のチューブを追加　マテリアルの種類をciで指定
 function addtube(v1, v2, r1, ci){
 
     let tube_path = new THREE.CatmullRomCurve3([v1, v2]);
     let tube_geomtry = new THREE.TubeGeometry(tube_path, 4, r1, 16, false);
     let tube = new THREE.Mesh(tube_geomtry, tube_material[ci]);
     meshgroup.add(tube); 
-
 
     let sphere_geometry, sphere1, sphere2;
 
@@ -138,15 +147,23 @@ function addtube(v1, v2, r1, ci){
     sphere2.position.copy(v2);
     meshgroup.add(sphere1);
     meshgroup.add(sphere2);
+
 }
 
 
-main();
-
+//すでにあるmeshgroupを破棄、角度・太さ・長さを更新した後、meshgroupを生成し直す
 function main(){
 
-    meshgroup = new THREE.Group();
+    disposeSceneMeshes(scene1, meshgroup);  //meshgroupのジオメトリ・マテリアルを破棄した後、scene1からmeshgroupを取り除く
 
+    meshgroup = new THREE.Group();  //meshgroupを再定義
+
+    rotate_angle = -Math.PI/2*Number(slider1.value);    //角度・太さ・長さを更新　Number(slider.value)は0から1の値
+    tube_thick = Number(slider2.value)*0.6 + 0.1;
+    tube_length = Number(slider3.value)*5;
+
+
+    //多面体の辺の数だけループを回してチューブを生成する
     for(let i=0; i<edge.length; i++){
 
         let x1, y1, z1, x2, y2, z2;
@@ -157,13 +174,14 @@ function main(){
         y2 = vts[edge[i][1]][1];
         z2 = vts[edge[i][1]][2];
 
-        let v1a = new THREE.Vector3(x1, y1, z1);
-        let v2a = new THREE.Vector3(x2, y2, z2);
+        let v1a = new THREE.Vector3(x1, y1, z1);    //辺の片側の頂点位置
+        let v2a = new THREE.Vector3(x2, y2, z2);    //辺の片側の頂点位置
 
-        let va = new THREE.Vector3((x1+x2)/2, (y1+y2)/2, (z1+z2)/2);    //辺の重心
+        let va = new THREE.Vector3((x1+x2)/2, (y1+y2)/2, (z1+z2)/2);    //辺の中点
 
         let v1b, v2b, v1c, v2c;
 
+        //辺の2頂点を中点を中心にrotate_angleだけ回転させる
         v1b = v1a.clone().sub(va);
         v1b.applyAxisAngle(va.clone().normalize(), rotate_angle);
         v1b.add(va);
@@ -177,7 +195,8 @@ function main(){
     
         let cl=0;
 
-        if(select1.value=='option1' || select2.value=='option1'){
+        //辺番号と配色のセレクトボックスの値で辺の色を決定する
+        if(select1.value=='option1' || select2.value=='option1'){   //立方体モードまたは単色モードのとき
 
             cl = 4;
 
@@ -191,7 +210,6 @@ function main(){
             if(i==4 || i==7 || i==9 || i==21 || i==27)    cl = 4;
             if(i==5 || i==15 || i==20 || i==26 || i==29)    cl = 5;
             
-
         }else if(select2.value == '6colb'){
 
             //5角形6個
@@ -239,12 +257,18 @@ function main(){
         }
         
 
-        addtube(v1c, v2c, tube_thick, cl);
+        addtube(v1c, v2c, tube_thick, cl);  //meshgroupにチューブを追加する
     }
 
-    scene1.add(meshgroup);
+    scene1.add(meshgroup);  //sceneにmeshgroupを追加する
+
+    let kakudo = -rotate_angle / Math.PI * 180; //角度（度数法）
+    document.getElementById('label1').textContent = Math.round(kakudo) + '度'; //表示する角度の値を更新
 
 }
+
+
+main();
 
 
 //#############################################################
@@ -253,88 +277,86 @@ function main(){
 
 const label1 = document.getElementById('label1');
 
+
+//角度スライダー
 slider1.addEventListener('input',()=>{
-    rotate_angle = -Math.PI/2*Number(slider1.value);
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
     main();
-    select3.value = 'null';
-    let kakudo = -rotate_angle / Math.PI * 180;
-    label1.textContent = Math.round(kakudo) + '度';
+    select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
 });
 
+//太さスライダー
 slider2.addEventListener('input',()=>{
-    tube_thick = Number(slider2.value)*0.6 + 0.1;
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
     main();
     select3.value = 'null';
 });
 
+//長さスライダー
 slider3.addEventListener('input',()=>{
-    tube_length = Number(slider3.value)*5;
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
     main();
     select3.value = 'null';
 });
 
 
 
+//基本となる多面体を変更時の処理
+select1.addEventListener('change',()=>{
 
-select1.addEventListener('change',(event)=>{
-    if(event.target.value=='option1'){
+    if(select1.value=='option1'){   //基本となる多面体が立方体
+
+        //頂点リスト・辺インデックスリストを立方体のものに置き換える
         vts = new Array(cube_vts.length);
         for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
         edge = new Array(cube_edge.length);
         for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
-        disposeGroup(meshgroup);
-        scene1.remove(meshgroup);
-        main();
-        camera1.zoom *= 1.25;
-        camera1.updateProjectionMatrix();
 
-        let hide_elements_array = document.getElementsByClassName("hideElement");
+        main(); //チューブの再生成
+
+        camera1.zoom *= 1.25;   //大きめに表示
+        camera1.updateProjectionMatrix();   //カメラ情報の変更を適用
+
+        let hide_elements_array = document.getElementsByClassName("hideElement");   //classが"hideElement"のhtml要素のリストを取得する
         for(let i=0; i<hide_elements_array.length; i++){
-            hide_elements_array[i].hidden = true;
+            hide_elements_array[i].hidden = true;   //classが"hideElement"のhtml要素を非表示にする
         }
-    }else{
+
+    }else{  //基本となる多面体が正二十面体
+
+        //頂点リスト・辺インデックスリストを正二十面体のものに置き換える
         vts = new Array(ico_vts.length);
         for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
         edge = new Array(ico_edge.length);
         for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
-        disposeGroup(meshgroup);
-        scene1.remove(meshgroup);
-        main();
-        camera1.zoom *= 0.8;
-        camera1.updateProjectionMatrix();
 
-        let hide_elements_array = document.getElementsByClassName("hideElement");
+        main(); 
+
+        camera1.zoom *= 0.8;
+        camera1.updateProjectionMatrix();   
+
+        let hide_elements_array = document.getElementsByClassName("hideElement");   
         for(let i=0; i<hide_elements_array.length; i++){
-            hide_elements_array[i].hidden = false;
+            hide_elements_array[i].hidden = false;  //classが"hideElement"のhtml要素を表示する
         }
     }
 });
 
 
 
-
-
+//色セレクトボックス変更時の処理
 select2.addEventListener('change',()=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
+    main(); //チューブの再生成
 });
 
 
 
+//顕著に表れる図形セレクトボックス変更時の処理
 select3.addEventListener('input',()=>{
 
+    //スライダーの値を更新
     if(select3.value=='ico'){
         slider1.value = 0;
         slider2.value = 0.16;
         slider3.value = 0.18;
-        update1();
+        main();
     }
 
     if(select3.value=='triangle'){
@@ -342,7 +364,7 @@ select3.addEventListener('input',()=>{
         slider2.value = 0.2;
         slider3.value = 0.56;
         select2.value = '10cola';
-        update1();
+        main();
     }
 
     if(select3.value=='5parallel'){
@@ -350,7 +372,7 @@ select3.addEventListener('input',()=>{
         slider2.value = 0.35;
         slider3.value = 0.26;
         select2.value = '6cola';
-        update1();
+        main();
     }
 
     if(select3.value=='pentagon'){
@@ -358,7 +380,7 @@ select3.addEventListener('input',()=>{
         slider2.value = 0.26;
         slider3.value = 0.23;
         select2.value = '6colb';
-        update1();
+        main();
     }
 
     if(select3.value=='star'){
@@ -366,7 +388,7 @@ select3.addEventListener('input',()=>{
         slider2.value = 0.26;
         slider3.value = 0.98;
         select2.value = '6colb';
-        update1();
+        main();
     }
 
     if(select3.value=='3parallel'){
@@ -374,7 +396,7 @@ select3.addEventListener('input',()=>{
         slider2.value = 0.2;
         slider3.value = 0.26;
         select2.value = '10colb';
-        update1();
+        main();
     }
 
     if(select3.value=='tetra'){
@@ -382,29 +404,17 @@ select3.addEventListener('input',()=>{
         slider2.value = 0.23;
         slider3.value = 0.45;
         select2.value = '5col';
-        update1();
+        main();
     }
 
     if(select3.value=='dodeca'){
         slider1.value = 1;
         slider2.value = 0.18;
         slider3.value = 0.12;
-        update1();
+        main();
     }
 
 });
-
-
-function update1(){
-    rotate_angle = -Math.PI/2*Number(slider1.value);
-    tube_thick = Number(slider2.value)*0.6 + 0.1;
-    tube_length = Number(slider3.value)*5;
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    let kakudo = -rotate_angle / Math.PI * 180;
-    label1.textContent = Math.round(kakudo) + '度';
-}
 
 
 
@@ -414,7 +424,7 @@ function animate(){
 
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
-    rotateobjects_common(scene1, camera1);
+    rotateobjects_common(scene1, camera1);  //オブジェクトの回転
 
     renderer1.render(scene1, camera1);  //レンダリング（CG描画）
 }
@@ -423,24 +433,24 @@ animate();
 
 
 
-// グループに含まれる全ての子要素のジオメトリとマテリアルを破棄する関数
-function disposeGroup(group) {
-    group.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-            // メッシュのジオメトリとマテリアルを破棄
-            if (child.geometry) {
-                child.geometry.dispose();
-            }
-            if (child.material) {
-                // マテリアルがArrayの場合はそれぞれ破棄する
-                if (Array.isArray(child.material)) {
-                    child.material.forEach(mat => mat.dispose());
-                } else {
-                    child.material.dispose();
-                }
-            }
-        }
-    });
-}
+//シーンに含まれる全てのメッシュのジオメトリ・マテリアルを破棄した後、メッシュを取り除く
+function disposeSceneMeshes(scene, group) {
+  // グループ内の全てのメッシュを削除
+  group.children.forEach((mesh) => {
+    if (mesh.geometry) {
+      mesh.geometry.dispose(); // ジオメトリを削除
+    }
+    if (mesh.material) {
+      if (Array.isArray(mesh.material)) {
+        // マルチマテリアルの場合
+        mesh.material.forEach((material) => material.dispose());
+      } else {
+        mesh.material.dispose(); // マテリアルを削除
+      }
+    }
+  });
 
+  // グループをシーンから削除
+  scene.remove(group);
+}
 

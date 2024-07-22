@@ -1,8 +1,7 @@
-let width1, height1;    //キャンバスサイズ
 
 //common_script1.jsで定義した変数の初期値設定
-angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
-dummymesh_common.rotation.set(2, 0, 0);
+angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //回転を表すベクトル（方向が回転軸、大きさが回転速度に比例）初期値を0ベクトル以外にするとはじめから回転する
+dummymesh_common.rotation.set(2, 0, 0); //初期姿勢（x-y-z系オイラー角）
 
 
 //#############################################################
@@ -21,6 +20,8 @@ const renderer1 = new THREE.WebGLRenderer({
 });
 renderer1.setClearColor(0xeeeeee);   //背景色
 
+
+let width1, height1;    //キャンバスサイズ
 width1 = renderer1.domElement.width;    //キャンバスサイズの取得（カメラ設定に使う）
 height1 = renderer1.domElement.height;
 
@@ -149,7 +150,7 @@ function animate(){
 
     requestAnimationFrame(animate); //この関数自身を呼び出すことでこの関数内の処理が繰り返される
 
-    rotateobjects_common(scene1, camera1);
+    rotateobjects_common(scene1, camera1);  //オブジェクトを回転
 
     renderer1.render(scene1, camera1);  //レンダリング
 }

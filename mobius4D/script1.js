@@ -4,11 +4,10 @@ let surfacecolor = 0xd9ee85;    //曲面の色
 let surfacealpha = 0.7; //曲面の透明度
 let backgroundcolor = 0xeeeeee; //背景色
 
+angularvelocity1_common = new THREE.Vector3(0, 0.2, 0);    //回転を表すベクトル（方向が回転軸、大きさが回転速度に比例）初期値を0ベクトル以外にするとはじめから回転する
+dummymesh_common.rotation.set(-1.5, 0, 0);  //初期姿勢（x-y-z系オイラー角）
 
-let width1, height1;    //キャンバスサイズ
-
-angularvelocity1_common = new THREE.Vector3(0, 0.2, 0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
-dummymesh_common.rotation.set(-1.5, 0, 0);
+const spherecut_radius = 4; //球面カット半径
 
 //#############################################################
 //three.js関連
@@ -26,12 +25,12 @@ const renderer1 = new THREE.WebGLRenderer({
 });
 renderer1.setClearColor(0xeeeeee);   //背景色
 
+let width1, height1;    //キャンバスサイズ
 width1 = renderer1.domElement.width;    //キャンバスサイズの取得（カメラ設定に使う）
 height1 = renderer1.domElement.height;
 
 
 // カメラ
-//const camera1 = new THREE.OrthographicCamera(-2, 2, 2, -2, 1, 10);   //直交投影カメラ
 const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,5);  //カメラ初期位置
 camera1.zoom = 1;   //カメラズーム量（オブジェクトが画面に表示されない場合は、これを調整すると表示されることがある）
@@ -55,51 +54,47 @@ scene1.add(light2);
 
 
 
-
-
 //#############################################################
 //表示するグラフィック　
 //#############################################################
 
-let path, geometry, mesh, mesh_tube_group, index=10;
+let path, geometry, mesh, mesh_tube_group;
+let index=10;   //複数個あるグラフィックのうち何番目のグラフィックを表示するか（スライダーで変更）
 let cutsurface;
 let cuttube;
 
+//チューブのマテリアル2種
 let tubematerial1 = new THREE.MeshLambertMaterial({ color: tubecolor1, side:THREE.DoubleSide});
 let tubematerial2 = new THREE.MeshLambertMaterial({ color: tubecolor2, side:THREE.DoubleSide});
 
 mesh_tube_group = new Array(curve_group.length);
 for(let i=0; i<mesh_tube_group.length; i++)   mesh_tube_group[i] = [];
 
+//チューブ群のメッシュの生成　data.jsのcurve_groupを参照
 for(let i=0; i<curve_group.length; i++){
-
     for(let k=0; k<curve_group[i].length; k++){
         let thick = 0.02;
         if(k==0||k==20)    thick = 0.04;
-        path = new THREE.CatmullRomCurve3(veclist(curve_group[i][k],1));
+        path = new THREE.CatmullRomCurve3(veclist(curve_group[i][k]));
         geometry = new THREE.TubeGeometry(path, curve_group[i][k].length, thick, 16, false);
         if(k<=20)   mesh = new THREE.Mesh(geometry, tubematerial1);
         else    mesh = new THREE.Mesh(geometry, tubematerial2);
         mesh_tube_group[i].push(mesh);
     }
-
 }
-
-console.log(mesh_tube_group[0]);
-
-//scene1.add(mesh_tube_group[index]);
 
 
 let geometry_surface, material_surface, mesh_surface;
 let mesh_surface_group = new Array(vts2.length);
 
-let index0 = [];
-let index2 = [];
-let index3 = [];
+let index0 = [];    //空のポリゴンインデックス
+let index2 = [];    //標準メビウスの帯のポリゴンインデックス
+let index3 = [];    //中央で割いた標準メビウスの帯のポリゴンインデックス
 
 
 for(let i=0; i<index1.length; i+=3){
 
+    //標準メビウスの帯のポリゴンインデックス設定
     let a1 = 240*4;
     if(9600/2-a1<=i && i<9600/2+a1){
         index2.push(index1[i]);
@@ -107,7 +102,7 @@ for(let i=0; i<index1.length; i+=3){
         index2.push(index1[i+2]);
     }
 
-
+    //中央で割いた標準メビウスの帯のポリゴンインデックス設定
     let a2 = 240*8;
     if((a2<=i&&i<9600/2-a2) || (9600/2+a2<=i&&i<9600-a2)){
         index3.push(index1[i]);
@@ -117,9 +112,11 @@ for(let i=0; i<index1.length; i+=3){
 }
 
 
+//曲面のマテリアル
 material_surface = new THREE.MeshPhongMaterial({color:surfacecolor, side:THREE.DoubleSide, transparent:true, opacity:surfacealpha});
 
 
+//曲面のメッシュの生成（21種類）
 for(let i=0; i<vts2.length; i++){
 
     geometry_surface = new THREE.BufferGeometry();
@@ -128,23 +125,18 @@ for(let i=0; i<vts2.length; i++){
     geometry_surface.computeVertexNormals();
 
     mesh_surface_group[i] = new THREE.Mesh(geometry_surface, material_surface);
-    //mesh_surface_group[i].scale.set(5,5,5);
 
 }
 
-
-//scene1.add(mesh_surface_group[index]);
-cutsurface = spherecut(mesh_surface_group[index], 3);
+//index番目の曲面にspherecutを行い、scene1に追加
+cutsurface = spherecut(mesh_surface_group[index], spherecut_radius);
 scene1.add(cutsurface);
 
-
+//チューブにspherecutを行い、scene1に追加
 for(let i=0; i<mesh_tube_group[index].length; i++){
-    scene1.add(spherecut(mesh_tube_group[index][i], 3));
+    scene1.add(spherecut(mesh_tube_group[index][i], spherecut_radius));
 }
 
-// cuttube = spherecut(mesh_tube_group[index]);
-// cuttube.scale.set(5,5,5);
-// scene1.add(cuttube);
 
 
 //#############################################################
@@ -154,24 +146,24 @@ for(let i=0; i<mesh_tube_group[index].length; i++){
 
 const slider1 = document.getElementById('slider1');
 
-scene1.traverse(()=>{
-
-});
-
+//スライダーのつまみを動かしたときの処理
 slider1.addEventListener('input',()=>{
-    disposeSceneMeshes(scene1);
-    index = Math.round(Number(slider1.value)*(mesh_surface_group.length-1));
-    scene1.add(spherecut(mesh_surface_group[index], 3));
-    for(let i=0; i<mesh_tube_group[index].length; i++){
-        scene1.add(spherecut(mesh_tube_group[index][i], 3));
+    disposeSceneMeshes(scene1); //scene1からメッシュのマテリアル・ジオメトリを破棄した後、メッシュをscene1から取り除く
+    index = Math.round(Number(slider1.value)*(mesh_surface_group.length-1));    //スライダーの値からindexを決定
+    scene1.add(spherecut(mesh_surface_group[index], spherecut_radius)); //index番目の曲面に対してspherecutを行い、scene1に追加
+    for(let i=0; i<mesh_tube_group[index].length; i++){ //index番目のチューブ群に対して、spherecutを行い、scene1に追加
+        scene1.add(spherecut(mesh_tube_group[index][i], spherecut_radius));
     }
 });
 
 
-const select1 = document.getElementById('select1');
-select1.value = 'option2';
+const select1 = document.getElementById('select1'); //曲面の種類を選択するセレクトボックス
+select1.value = 'option2';  //セレクトボックスの初期値を「曲面全体」にする
+
+//セレクトボックス変更時の処理
 select1.addEventListener('change',(event)=>{
 
+    //ポリゴンインデックスをindex0に設定し、ジオメトリを設定しなおす
     if(event.target.value=='option1'){
         for(let i=0; i<vts2.length; i++){
             mesh_surface_group[i].geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(index0),1));
@@ -200,17 +192,17 @@ select1.addEventListener('change',(event)=>{
         }
     }
 
-    disposeSceneMeshes(scene1);
-    index = Math.round(Number(slider1.value)*(mesh_surface_group.length-1));
-    scene1.add(spherecut(mesh_surface_group[index], 3));
+
+    disposeSceneMeshes(scene1); //scene1からメッシュ及びそのジオメトリ、マテリアルを破棄する
+    index = Math.round(Number(slider1.value)*(mesh_surface_group.length-1));    //スライダー値からindexを再設定
+
+    //曲面・チューブ群をそれぞれ球面カットしたものをscene1に追加する
+    scene1.add(spherecut(mesh_surface_group[index], spherecut_radius));    
     for(let i=0; i<mesh_tube_group[index].length; i++){
-        scene1.add(spherecut(mesh_tube_group[index][i], 3));
+        scene1.add(spherecut(mesh_tube_group[index][i], spherecut_radius));
     }
     
 });
-
-
-
 
 
 
@@ -229,11 +221,11 @@ animate();
 
 
 
-
-function veclist(arg, sc){
+//ポイントリストをthree.vectorのリストに変換する
+function veclist(arg){
     let result = [];
     for(let i=0; i<arg.length; i++){
-        result.push(new THREE.Vector3(arg[i][0]*sc, arg[i][1]*sc, arg[i][2]*sc));
+        result.push(new THREE.Vector3(arg[i][0], arg[i][1], arg[i][2]));
     }
     return result;
 }
@@ -241,7 +233,7 @@ function veclist(arg, sc){
 
 
 
-
+//メッシュと球の半径を入力　入力したメッシュを球面カットしたメッシュを出力する
 function spherecut(mesh1, r1){
 
     let vtsa;
@@ -268,8 +260,6 @@ function spherecut(mesh1, r1){
         x3 = vtsa[indexa[i+2]*3];
         y3 = vtsa[indexa[i+2]*3+1];
         z3 = vtsa[indexa[i+2]*3+2];
-    
-        
     
         let flag1 = x1*x1 + y1*y1 + z1*z1 <= r1*r1;
         let flag2 = x2*x2 + y2*y2 + z2*z2 <= r1*r1;
@@ -402,35 +392,32 @@ function spherecut(mesh1, r1){
 }
 
 
+//シーンに含まれる全てのメッシュのジオメトリ・マテリアルを破棄した後、メッシュを取り除く
 function disposeSceneMeshes(scene) {
+    
+
     const meshesToRemove = [];
 
     scene.traverse((object) => {
         if (object.isMesh) {
-            // Dispose geometry
             if (object.geometry) {
                 object.geometry.dispose();
             }
 
-            // Dispose materials
             if (object.material) {
                 if (Array.isArray(object.material)) {
-                    // If material is an array
                     object.material.forEach((material) => {
                         material.dispose();
                     });
                 } else {
-                    // If material is a single object
                     object.material.dispose();
                 }
             }
 
-            // Add the mesh to the list of meshes to remove
             meshesToRemove.push(object);
         }
     });
 
-    // Remove the meshes from the scene after traversal
     meshesToRemove.forEach((mesh) => {
         scene.remove(mesh);
     });

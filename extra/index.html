@@ -1,0 +1,87 @@
+<html lang="ja">
+
+  <head>
+    <title>不思議な形</title>
+    <meta charset="UTF-8">
+    
+  </head>
+
+  <body>
+
+    <a href="../index.html" id="link1">HOME</a>
+
+  
+ 
+  <div style="height:30px"></div>
+
+
+
+  <select id="select1" style="font-size:30px;" hidden>
+    <option value="option1">立方体から正8面体へ</option>
+    <option value="option2">正20面体から正12面体へ</option>
+  </select>
+
+  <select id="select2" style="font-size:30px;">
+    <option value="option1">1色</option>
+    <option value="option2">5色</option>
+    <option value="option3">6色</option>
+  </select>
+</p>
+
+  
+ <!--
+  <div style="height:30px"></div>
+-->
+
+    <div>
+      <label for="slider1">回転</label>
+      <input type="range" id="slider1" min="0" max="500" value="0" style="width:200px">
+            <label for="slider1" id="label1">0度</label>
+          
+    </div>
+
+    <div style="height:0px"></div>
+
+    <div>
+      <label for="slider2">太さ</label>
+      <input type="range" id="slider2" min="100" max="400" value="100" style="width:200px">
+    </div>
+
+    <div style="height:0px"></div>
+    
+    <div>    
+      <label for="slider3">長さ</label>
+      <input type="range" id="slider3" min="50" max="500" value="95" style="width:200px">
+    </div>
+
+
+
+  
+    <div style="height:30px"></div>
+
+    <canvas id="canvas1" width="500" height="500"></canvas>
+
+
+    <select id="select3" style="font-size:30px;" hidden>
+      <option value="option1">正二十面体</option>
+      <option value="option2">5本平行棒10筋</option>
+      <option value="option3">正五角形6つ絡み</option>
+      <option value="option4">星型6つ絡み</option>
+      <option value="option5">3本平行棒10筋</option>
+      <option value="option8">正四面体5つ</option>
+      <option value="option6">正十二面体</option>
+      <option value="option7"></option>
+    </select>
+</p>
+
+     <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+    <!--three.js追加アドオン　マウスドラッグによる視点操作-->
+    <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
+
+    <!--メインのプログラム-->
+    <script src='script1.js'></script>
+
+  </body>
+
+</html>
