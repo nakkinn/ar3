@@ -21,7 +21,7 @@ let dummymesh_common = new THREE.Mesh();    //ダミーオブジェクト（こ�
 //#############################################################
 
 
-document.querySelectorAll('input[type="range"]').forEach(function(input) {
+document.querySelectorAll('input[type="range"]').forEach(function(input) {  //スライダー操作時、画面スクロールが起きないようにする
     input.style.touchAction = 'none';
 });
 
@@ -145,13 +145,13 @@ function handleTouchEnd(){
 
 
 //要素を長押し時、右クリックメニューが出ないようにする
-document.addEventListener('DOMContentLoaded', (event) => {
-    document.querySelectorAll('html, body').forEach((element) => {
-        element.style.userSelect = 'none';
-        element.style.webkitUserSelect = 'none';
-        element.style.mozUserSelect = 'none';
-    });
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//     document.querySelectorAll('html, body').forEach((element) => {
+//         element.style.userSelect = 'none';
+//         element.style.webkitUserSelect = 'none';
+//         element.style.mozUserSelect = 'none';
+//     });
+// });
 
 
 
