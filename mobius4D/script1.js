@@ -129,13 +129,12 @@ for(let i=0; i<vts2.length; i++){
 
 }
 
-//index番目の曲面にspherecutを行い、scene1に追加
-cutsurface = spherecut(mesh_surface_group[index], spherecut_radius);
-scene1.add(cutsurface);
+//scene1にindex番目の曲面を追加
+scene1.add(mesh_surface_group[index]);
 
-//チューブにspherecutを行い、scene1に追加
+//scene1にindex番目のチューブ群を追加
 for(let i=0; i<mesh_tube_group[index].length; i++){
-    scene1.add(spherecut(mesh_tube_group[index][i], spherecut_radius));
+    scene1.add(mesh_tube_group[index][i]);
 }
 
 
