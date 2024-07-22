@@ -32,7 +32,7 @@ mycanvas.style.touchAction = "none";    //キャンバスをタッチ時スク�
 
 
 //スマホ操作時、左端からスワイプした際ブラウザバッグしないようにする・iphoneで長押し時拡大鏡が出ないようにする
-//document.getElementById("canvas1").addEventListener("touchmove",(event)=>{event.preventDefault();},{passive:false});    
+document.getElementById("canvas1").addEventListener("touchmove",(event)=>{event.preventDefault();},{passive:false});    
 
 
 //マウスホイールイベント　カメラのズーム値を変更
