@@ -25,6 +25,8 @@ document.querySelectorAll('input[type="range"]').forEach(function(input) {  //�
     input.style.touchAction = 'none';
 });
 
+document.addEventListener("dblclick", function(e){ e.preventDefault();}, { passive: false });   //スマホのダブルタップで拡大鏡が開くのを禁止する
+
 
 //キャンバス要素
 const mycanvas = document.getElementById("canvas1");    //idからhtmlファイルで生成したキャンバス要素を取得（htmlファイルではキャンバスのidを"canvas1"と設定する）
