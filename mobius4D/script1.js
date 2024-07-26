@@ -220,7 +220,7 @@ for(let i=0; i<mesh_tube_group[index].length; i++){
     scene1.add(mesh_tube_group[index][i]);
 }
 
-console.log(JSON.stringify(curve_group[5][6]));
+
 
 //#############################################################
 //入力や操作に関する処理

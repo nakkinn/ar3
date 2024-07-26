@@ -11,13 +11,25 @@
 
     <h3>多面体の辺回転</h3>
 
-    <p>
-      多面体の全ての辺を中点で固定して一斉に回転させます。
-      <br>
-      スライダーで辺の回転量・太さ・長さを調整できます。
-      <br>
-      グラフィックスをつまんで回したり、マウスホイールでサイズを調整してください。
-    </p>
+
+    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label">説明を閉じる</summary>
+      <p>
+        多面体の全ての辺を中点で固定して一斉に回転させます。
+        <br>
+        スライダーで辺の回転量・太さ・長さを調整できます。
+        <br>
+        グラフィックスをつまんで回したり、マウスホイールでサイズを調整してください。
+      </p>
+
+    </details>
+
+    <script>
+      document.getElementById('mydetail').addEventListener('toggle',(target)=>{
+        if(target.newState=='open') document.getElementById('summary_label').textContent = '説明を閉じる'
+        else  document.getElementById('summary_label').textContent = '説明を開く';
+      });
+    </script>
 
 
     <div style="display:flex;align-items:center;">

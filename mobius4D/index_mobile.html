@@ -24,11 +24,21 @@
 
     </div>
 
-    <p style="font-size:20px">
-      4次元空間に固定したメビウスの帯を立体射影で3次元空間に射影します。
-      スライダーで射影する方向を変えると3次元空間内で様々に姿を変えます。<br>
-      グラフィックスをつまんで回したり、2本指操作でサイズを調整してください。
-    </p>
+    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label" style="font-size:25px">説明を閉じる</summary>
+      <p style="font-size:20px">
+        4次元空間に固定したメビウスの帯を立体射影で3次元空間に射影します。
+        スライダーで射影する方向を変えると3次元空間内で様々に姿を変えます。<br>
+        グラフィックスをつまんで回したり、2本指操作でサイズを調整してください。
+      </p>
+    </details>
+
+    <script>
+      document.getElementById('mydetail').addEventListener('toggle',(target)=>{
+        if(target.newState=='open') document.getElementById('summary_label').textContent = '説明を閉じる'
+        else  document.getElementById('summary_label').textContent = '説明を開く';
+      });
+    </script>
 
     <input type="range" id="slider1" min="0" max="1" step="0.01" value="0.5" style="width:28%; transform:scale(3); margin-left:36%; margin-bottom:50px; margin-top:50px">
 

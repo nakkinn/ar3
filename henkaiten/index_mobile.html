@@ -11,15 +11,27 @@
 
     <h3 style="font-size:35px">多面体の辺回転</h3>
 
-    <!--スマホ用に文字を大きめに設定-->
-    <p style="font-size:20px">
-      多面体の全ての辺を中点で固定して一斉に回転させます。
-      <br>
-      スライダーで辺の回転量・太さ・長さを調整できます。
-      <br>
-      グラフィックスをつまんで回したり、2本指操作でサイズを調整してください。
-    </p>
 
+    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label" style="font-size:25px">説明を閉じる</summary>
+      
+      <!--スマホ用に文字を大きめに設定-->
+      <p style="font-size:20px">
+        多面体の全ての辺を中点で固定して一斉に回転させます。
+        <br>
+        スライダーで辺の回転量・太さ・長さを調整できます。
+        <br>
+        グラフィックスをつまんで回したり、2本指操作でサイズを調整してください。
+      </p>
+
+    </details>
+
+    <script>
+      document.getElementById('mydetail').addEventListener('toggle',(target)=>{
+        if(target.newState=='open') document.getElementById('summary_label').textContent = '説明を閉じる'
+        else  document.getElementById('summary_label').textContent = '説明を開く';
+      });
+    </script>
 
     <div style="display:flex;align-items:center;">
 

@@ -12,23 +12,35 @@
 
     <h3>超立方体</h3>
 
-    <p>
-      超立方体を立体射影で3次元空間に射影します。<br>
-      スライダーで射影する方向を変えると3次元空間で様々に姿を変えます。<br>
-      グラフィックスをつまんで回したり、スクロール操作でサイズを調整してください。
-    </p>
+    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label">説明を閉じる</summary>
 
-    <input type="range" id="slider1" min="0" max="1" step="0.01" value="0" style="width:400px">
+      <p>
+        超立方体を立体射影で3次元空間に射影します。<br>
+        スライダーで射影する方向を変えると3次元空間で様々に姿を変えます。<br>
+        グラフィックスをつまんで回したり、スクロール操作でサイズを調整してください。
+      </p>
 
-    <div style="height:10px"></div>
+    </details>
 
-    <input type="range" id="slider2" min="0" max="1" step="0.01" value="0" style="width:400px">
+    <script>
+      document.getElementById('mydetail').addEventListener('toggle',(target)=>{
+        if(target.newState=='open') document.getElementById('summary_label').textContent = '説明を閉じる'
+        else  document.getElementById('summary_label').textContent = '説明を開く';
+      });
+    </script>
 
-    <div style="height:10px"></div>
+    <input type="range" id="slider1" min="0" max="1" step="0.01" value="0" style="width:400px;margin-left:30px">
 
-    <input type="range" id="slider3" min="0" max="1" step="0.01" value="0" style="width:400px">
+    <div style="height:20px"></div>
 
-    <div style="height:10px"></div>
+    <input type="range" id="slider2" min="0" max="1" step="0.01" value="0" style="width:400px;margin-left:30px">
+
+    <div style="height:20px"></div>
+
+    <input type="range" id="slider3" min="0" max="1" step="0.01" value="0" style="width:400px;margin-left:30px">
+
+    <div style="height:20px"></div>
 
     <canvas id="canvas1" width="400" height="400"></canvas> <!--id名は"canvas1"にする-->
 
