@@ -65,7 +65,7 @@ let cuttube;
 
 //チューブのマテリアル2種
 let tubematerial1 = new THREE.MeshLambertMaterial({ color: tubecolor1, side:THREE.DoubleSide});
-let tubematerial2 = new THREE.MeshLambertMaterial({ color: tubecolor2, side:THREE.DoubleSide});
+let tubematerial2 = new THREE.MeshLambertMaterial({ color: tubecolor2, side:THREE.DoubleSide, flatShading:true});
 
 mesh_tube_group = new Array(curve_group.length);
 for(let i=0; i<mesh_tube_group.length; i++)   mesh_tube_group[i] = [];
@@ -75,13 +75,96 @@ for(let i=0; i<curve_group.length; i++){
     for(let k=0; k<curve_group[i].length; k++){
         let thick = 0.02;
         if(k==0||k==20)    thick = 0.04;
-        path = new THREE.CatmullRomCurve3(veclist(curve_group[i][k]));
-        if(i==0 || i==curve_group.length-1)    geometry = new THREE.TubeGeometry(path, curve_group[i][k].length*2, thick, 16, false);
-        else    geometry = new THREE.TubeGeometry(path, curve_group[i][k].length, thick, 16, false);
+
+        //path = new THREE.CatmullRomCurve3(veclist(curve_group[i][k]));
+        //geometry = new THREE.TubeGeometry(path, curve_group[i][k].length*2, thick, 16, false);
+        geometry = makeTubeC(curve_group[i][k], thick, 8);
+
         if(k<=20)   mesh = new THREE.Mesh(geometry, tubematerial1);
         else    mesh = new THREE.Mesh(geometry, tubematerial2);
+
         mesh_tube_group[i].push(mesh);
     }
+}
+
+//ポイントリストからチューブのジオメトリを生成
+function makeTubeC(plist, radius, n){
+
+    let vts = [];
+    let index = [];
+
+    let ring = new Array(n);
+
+    let x1 = plist[0][0];
+    let y1 = plist[0][1];
+    let z1 = plist[0][2];
+    let x2 = plist[1][0];
+    let y2 = plist[1][1];
+    let z2 = plist[1][2];
+
+    let vr = new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize();
+    let v1 = new THREE.Vector3(x2-x1, y2-y1, z2-z1);
+    let v2 = v1.clone().cross(vr).normalize().multiplyScalar(radius);
+
+    for(let i=0; i<n; i++){
+        let v3 = v2.clone().applyAxisAngle(v1.clone().normalize(), 2*Math.PI/n*i);
+        ring[i] = new THREE.Vector3(v3.x, v3.y, v3.z);
+    }
+
+
+    for(let i=0; i<ring.length; i++){
+        vts.push(ring[i].x+x1, ring[i].y+y1, ring[i].z+z1);
+    }
+
+
+    for(let k=0; k<plist.length-2; k++){
+
+        let x1 = plist[k][0];
+        let y1 = plist[k][1];
+        let z1 = plist[k][2];
+        let x2 = plist[k+1][0];
+        let y2 = plist[k+1][1];
+        let z2 = plist[k+1][2];
+        let x3 = plist[k+2][0];
+        let y3 = plist[k+2][1];
+        let z3 = plist[k+2][2];
+
+
+        let v12 = new THREE.Vector3(x1-x2, y1-y2, z1-z2);
+        let v32 = new THREE.Vector3(x3-x2, y3-y2, z3-z2);
+        let vc = v12.clone().cross(v32).normalize();
+
+        let angle = v12.angleTo(v32);
+        if(angle>Math.PI/2)   angle = Math.PI - angle;
+        
+        for(let i=0; i<ring.length; i++){
+            ring[i].applyAxisAngle(vc, -angle/2);
+            vts.push(ring[i].x+x2, ring[i].y+y2, ring[i].z+z2);
+            ring[i].applyAxisAngle(vc, -angle/2);
+        }
+    }
+
+    for(let i=0; i<ring.length; i++){
+        vts.push(ring[i].x+plist[plist.length-1][0], ring[i].y+plist[plist.length-1][1], ring[i].z+plist[plist.length-1][2]);
+    }
+
+
+    for(let i=0; i<plist.length-1; i++) for(let j=0; j<n; j++){
+        index.push(n*i+j, n*i+(j+1)%n, n*(i+1)+j, n*(i+1)+(j+1)%n, n*(i+1)+j, n*i+(j+1)%n);
+    }
+
+    let geometry1 = new THREE.BufferGeometry();
+    geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts),3));
+    geometry1.computeVertexNormals();
+    geometry1.setIndex(new THREE.BufferAttribute(new Uint16Array(index),1));
+    geometry1.computeVertexNormals();
+
+    //let material1 = new THREE.MeshNormalMaterial({side:THREE.DoubleSide, flatShading:false});
+
+    //let mesh1 = new THREE.Mesh(geometry1, material1);
+
+    return geometry1;
+
 }
 
 
@@ -137,7 +220,7 @@ for(let i=0; i<mesh_tube_group[index].length; i++){
     scene1.add(mesh_tube_group[index][i]);
 }
 
-
+console.log(JSON.stringify(curve_group[5][6]));
 
 //#############################################################
 //入力や操作に関する処理
