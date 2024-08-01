@@ -9,8 +9,7 @@
 
   <body>
 
-
-
+    <!--キャンバス-->
     <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
 
     <script>  
@@ -24,7 +23,8 @@
 
     <div style="height:20px"></div>
 
-    <input type="range" id="slider1" min='0' max='1' step='0.01' value='1' style="width:min(90%,400px); margin-left:min(5%,30px); margin-right:30px">
+    <!--曲面を変化させるスライダー-->
+    <input type="range" id="slider1" min='0' max='1' step='0.01' value='1' data-parameter="t1 = #" style="width:min(90%,400px); margin-left:min(5%,30px); margin-right:30px">
 
     <div style="height:20px"></div>
 
@@ -32,11 +32,15 @@
     <!--外部ライブラリ-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>  
     
-    <script src="common_cgweb1.js"></script>  
+
+    <!--自作プログラム-->
+    <script src="../common_cgweb1.js"></script>  <!--ver8-->
 
     <script src = "data1.js"></script>
     
-    <script src='custom_script1.js'></script>
+    <script src = 'custom_script1.js'></script> <!--custom_script1とcustom_script2の2種類が使用可能-->
+    
+
   </body>
 
 </html>

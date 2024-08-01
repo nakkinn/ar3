@@ -1,3 +1,21 @@
+let disp1 = new Array(index_vcurve2.length);
+for(let i=0; i<disp1.length; i++)    disp1[i] = 1; 
+
+
+const slider1 = document.getElementById("slider1");
+slider1.addEventListener("input",()=>{
+
+    for(let j=0; j<disp1.length; j++){
+        if( 1-j/7.6 < t1 ){
+            disp1[j] = true;
+        }else{
+            disp1[j] = false;
+        }
+    }
+
+});
+
+
 //オブジェクトの回転ベクトルを設定（ベクトルの向き：回転軸, ベクトルの大きさ：回転速度に比例）
 setAngularVelocityC(0, 0, 0);     
 
@@ -21,15 +39,16 @@ addDirectionalLightC(0xffffff, 0.3, -1, -2, 1);
 
 
 //オブジェクトの追加
-let sc1 = 1.3;  //スケール
+let sc1 = 1.3;
 
-addTubeC(vts2, index_boundary1, 0.03, {color:0x0044ff, scale:sc1}); //境界チューブ
+addTubeC(vts2, index_boundary1, 0.03, {color:0x0044ff, scale:sc1});
 
-addTubeC(vts2, index_ucurve1, 0.015, {color:0xffaa69, scale:sc1});  //境界線に垂直に交わるカーブ
+addTubeC(vts2, index_ucurve1, 0.015, {color:0xffaa69, scale:sc1});
 
-addTubeC(vts2, index_vcurve2, 0.015, {color:0x96e3ff, scale:sc1});  //境界線に平行なカーブ
+for(let i=0; i<index_vcurve2.length; i++)   addTubeC(vts1, [index_vcurve2[i]], 0.015, {color:0x96e3ff, scale:sc1, visible:'disp1['+i+']'});
 
-addMeshC(vts2, index1, {color:0xd9ee85, opacity:0.8, scale:sc1});   //曲面
+
+addMeshC(vts2, index1, {color:0xd9ee85, opacity:0.8, scale:sc1});
 
 
 
