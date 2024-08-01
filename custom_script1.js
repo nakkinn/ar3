@@ -1,9 +1,25 @@
 let t1 = 1;
 
+let disp1 = new Array(index_vcurve2.length);
+for(let i=0; i<disp1.length; i++)    disp1[i] = 1; 
+
+console.log(disp1.length);
 
 const slider1 = document.getElementById("slider1");
 slider1.addEventListener("input",()=>{
     t1 = Number(slider1.value);
+
+    for(let j=0; j<disp1.length; j++){
+
+        if( 1-j/7.6 < t1 ){
+            disp1[j] = true;
+        }else{
+            disp1[j] = false;
+        }
+
+
+    }
+
     updateObjectC();
 });
 
@@ -30,15 +46,16 @@ addDirectionalLightC(0xffffff, 0.7, 1, 1, 1);   //第1引数：光の色, 第2�
 addDirectionalLightC(0xffffff, 0.3, -1, -2, 1);
 
 
-
 //オブジェクトの追加
 addTubeC(vts1, index_boundary1, 0.03, {color:0x0044ff});
 
 addTubeC(vts1, index_ucurve1, 0.015, {color:0xff4400});
 
-addTubeC(vts1, index_vcurve1, 0.015, {color:0xffffff});
+for(let i=0; i<index_vcurve2.length; i++)   addTubeC(vts2, [index_vcurve2[i]], 0.015, {color:0xffffff, visible:'disp1['+i+']'});
+
 
 addMeshC(vts1, index1, {color:0xd9ee85, opacity:0.8});
+
 
 
 
