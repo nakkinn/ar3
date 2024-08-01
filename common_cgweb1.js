@@ -1,4 +1,4 @@
-//ver6
+//ver7
 
 //このjsファイルは基本的に編集しない
 
@@ -295,7 +295,7 @@ function animateC(){
 //シーンにオブジェクトを追加する    引数：シーン, 頂点リスト, ポリゴンインデックスリスト, オプション
 function addMeshC(vtsa, indexa, optiona){
 
-    const defaultoption = {color:0xffffff, scale:1, rotation:[0,0,0], opacity:1, flatshade:false, wireframe:false, spherecutradius:-1, side:0}; //デフォルトのオプション
+    const defaultoption = {color:0xffffff, scale:1, rotation:[0,0,0], opacity:1, visible:true, flatshade:false, wireframe:false, spherecutradius:-1, side:0}; //デフォルトのオプション
     optiona = {...defaultoption, ...optiona};   //デフォルトオプションと引数で渡されたオプションのマージ（引数のオプションを優先）
 
     let geometry1 = new THREE.BufferGeometry(); //ジオメトリの生成
@@ -332,6 +332,7 @@ function addMeshC(vtsa, indexa, optiona){
     let mesh1 = new THREE.Mesh(geometry1, material1);   //メッシュ（ジオメトリ＋マテリアル）の生成
     mesh1.scale.set(optiona.scale, optiona.scale, optiona.scale);   //スケールの設定
     mesh1.rotation.set(optiona.rotation[0], optiona.rotation[1], optiona.rotation[2]);  //姿勢の設定
+    mesh1.visible = getvalueC(optiona.visible);
 
     //メッシュに頂点リスト・ポリゴンインデックスリスト・オプション情報を付与（メッシュを後で更新するのに使用）
     mesh1.vtsstring = vtsa;
@@ -347,7 +348,7 @@ function addMeshC(vtsa, indexa, optiona){
 function addTubeC(vtsa, indexa, radius, optiona){
 
 
-    const defaultoption = {color:0xffffff, scale:1, rotation:[0,0,0], opacity:1, flatshade:false, wireframe:false, spherecutradius:-1, side:0, radialsegment:8}; //デフォルトのオプション
+    const defaultoption = {color:0xffffff, scale:1, rotation:[0,0,0], opacity:1, visible:true, flatshade:false, wireframe:false, spherecutradius:-1, side:0, ball:false, radialsegment:8}; //デフォルトのオプション
     optiona = {...defaultoption, ...optiona};   //デフォルトオプションと引数で渡されたオプションのマージ（引数のオプションを優先）
 
 
@@ -383,6 +384,7 @@ function addTubeC(vtsa, indexa, radius, optiona){
 
         mesh1.scale.set(optiona.scale, optiona.scale, optiona.scale);   //スケールの設定
         mesh1.rotation.set(optiona.rotation[0], optiona.rotation[1], optiona.rotation[2]);  //姿勢の設定
+        mesh1.visible = getvalueC(optiona.visible);
 
         let x1, y1, z1, x2, y2, z2;
         x1 = vts2[i][0][0];
@@ -402,35 +404,46 @@ function addTubeC(vtsa, indexa, radius, optiona){
         mesh1.originalOption = optiona;
         mesh1.className = "tubeC";
 
-        // let geometry2 = new THREE.SphereGeometry(radius, 16, 16);
-        // for(let j=0; j<geometry2.attributes.position.array.length; j++){
-        //     if(j%3==0)  geometry2.attributes.position.array[j] += x1;
-        //     if(j%3==1)  geometry2.attributes.position.array[j] += y1;
-        //     if(j%3==2)  geometry2.attributes.position.array[j] += z1;
-        // }
-        // let mesh2 = new THREE.Mesh(geometry2, material1);
-        // mesh2.scale.set(optiona.scale, optiona.scale, optiona.scale);   //スケールの設定
-        // mesh2.rotation.set(optiona.rotation[0], optiona.rotation[1], optiona.rotation[2]);  //姿勢の設定
-        // mesh2.className = 'ballC';
-        // mesh2.center_pos = [x1, y1, z1];
-        // mesh2.vtsstring = "[" + vts_str[indexa[i][0]*3] + "," + vts_str[indexa[i][0]*3+1] + "," + vts_str[indexa[i][0]*3+2] +  "]";
-
-        // let geometry3 = new THREE.SphereGeometry(radius, 16, 16);
-        // for(let j=0; j<geometry3.attributes.position.array.length; j++){
-        //     if(j%3==0)  geometry3.attributes.position.array[j] += x2;
-        //     if(j%3==1)  geometry3.attributes.position.array[j] += y2;
-        //     if(j%3==2)  geometry3.attributes.position.array[j] += z2;
-        // }
-        // let mesh3 = new THREE.Mesh(geometry3, material1);
-        // mesh3.scale.set(optiona.scale, optiona.scale, optiona.scale);   //スケールの設定
-        // mesh3.rotation.set(optiona.rotation[0], optiona.rotation[1], optiona.rotation[2]);  //姿勢の設定
-        // mesh3.className = 'ballC';
-        // mesh3.center_pos = [x2, y2, z2];
-        // mesh3.vtsstring = "[" + vts_str[indexa[i][indexa[i].length-1]*3] + "," + vts_str[indexa[i][indexa[i].length-1]*3+1] + "," + vts_str[indexa[i][indexa[i].length-1]*3+2] +  "]";
+        console.log(optiona.opacity);
 
         scene1.add( mesh1 );
-        // scene1.add( mesh2 );
-        // scene1.add( mesh3 );
+
+        if(optiona.ball){
+
+            let geometry2 = new THREE.SphereGeometry(radius, 16, 16);
+            for(let j=0; j<geometry2.attributes.position.array.length; j++){
+                if(j%3==0)  geometry2.attributes.position.array[j] += x1;
+                if(j%3==1)  geometry2.attributes.position.array[j] += y1;
+                if(j%3==2)  geometry2.attributes.position.array[j] += z1;
+            }
+            let mesh2 = new THREE.Mesh(geometry2, material1);
+            mesh2.scale.set(optiona.scale, optiona.scale, optiona.scale);   //スケールの設定
+            mesh2.rotation.set(optiona.rotation[0], optiona.rotation[1], optiona.rotation[2]);  //姿勢の設定
+            mesh2.visible = getvalueC(optiona.visible);
+            mesh2.className = 'ballC';
+            mesh2.center_pos = [x1, y1, z1];
+            mesh2.vtsstring = "[" + vts_str[indexa[i][0]*3] + "," + vts_str[indexa[i][0]*3+1] + "," + vts_str[indexa[i][0]*3+2] +  "]";
+
+            let geometry3 = new THREE.SphereGeometry(radius, 16, 16);
+            for(let j=0; j<geometry3.attributes.position.array.length; j++){
+                if(j%3==0)  geometry3.attributes.position.array[j] += x2;
+                if(j%3==1)  geometry3.attributes.position.array[j] += y2;
+                if(j%3==2)  geometry3.attributes.position.array[j] += z2;
+            }
+            let mesh3 = new THREE.Mesh(geometry3, material1);
+            mesh3.scale.set(optiona.scale, optiona.scale, optiona.scale);   //スケールの設定
+            mesh3.rotation.set(optiona.rotation[0], optiona.rotation[1], optiona.rotation[2]);  //姿勢の設定
+            mesh3.visible = getvalueC(optiona.visible);
+            mesh3.className = 'ballC';
+            mesh3.center_pos = [x2, y2, z2];
+            mesh3.vtsstring = "[" + vts_str[indexa[i][indexa[i].length-1]*3] + "," + vts_str[indexa[i][indexa[i].length-1]*3+1] + "," + vts_str[indexa[i][indexa[i].length-1]*3+2] +  "]";
+
+            scene1.add( mesh2 );
+            scene1.add( mesh3 );
+
+        }
+
+
     }
 
 
@@ -488,6 +501,17 @@ function updateObjectC(){
 
     scene1.traverse((object)=>{
 
+        if(object.className != undefined){
+            //マテリアルの更新
+            object.material.color.set(getvalueC(object.originalOption.color));  //色の更新
+            object.material.opacity = getvalueC(object.originalOption.opacity); //透明度の更新
+            object.material.flatShading = getvalueC(object.originalOption.flatshade);   //フラットシェードの設定
+
+            object.material.needsUpdate = true;
+
+            object.visible = getvalueC(object.originalOption.visible);
+        }
+
         if(object.className == 'meshC'){
 
             //ジオメトリの更新
@@ -498,13 +522,6 @@ function updateObjectC(){
             }else{  //球面カットを行わない場合
                 object.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(eval(object.vtsstring).flat()), 3));    //頂点座標の更新
             }
-
-            //マテリアルの更新
-            object.material.color.set(getvalueC(object.originalOption.color));  //色の更新
-            object.material.opacity = getvalueC(object.originalOption.opacity); //透明度の更新
-            object.material.flatShading = getvalueC(object.originalOption.flatshade);   //フラットシェードの設定
-
-            object.material.needsUpdate = true;
 
             //object.geometry.getAttribute('position').needsUpdate = true;
             object.geometry.computeVertexNormals(); //頂点の法線ベクトルの更新
