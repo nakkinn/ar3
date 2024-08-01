@@ -34,6 +34,8 @@ addDirectionalLightC(0xffffff, 0.3, -1, -2, 1);
 //オブジェクトの追加
 addTubeC(vts1, index_boundary1, 0.03, {color:0x0044ff});
 
+addTubeC(vts1, index_ucurve1, 0.01, {color:0xff4400});
+
 addMeshC(vts1, index1, {color:0xd9ee85, opacity:0.8});
 
 
