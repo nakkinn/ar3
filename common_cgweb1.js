@@ -1,4 +1,4 @@
-//ver7
+//ver8
 
 //このjsファイルは基本的に編集しない
 
@@ -73,6 +73,8 @@ let mousemovementX=0, mousemovementY=0; //マウス移動量
 
 let angularvelocity1 = new THREE.Vector3(0, 0, 0);  //オブジェクトの回転軸　大きさが回転速度に比例する
 
+
+let myfunclist = [];    //animate関数内で行う処理
 
 const mycanvas = document.getElementById('3d_graphic_canvas');
 
@@ -190,6 +192,41 @@ function handleTouchEndC(){
 
 
 
+//パラメータスライダー
+
+let rangeElements = document.querySelectorAll('input[type="range"]');   //rangeタイプの入力要素を全て取得
+
+for(let i=0; i<rangeElements.length; i++){
+
+    let tmp1 = rangeElements[i].getAttribute("data-parameter");
+    let parameter;
+
+    if(tmp1 != null){
+        tmp1 = tmp1.split(" ").join("");  //空白を取り除く
+        parameter = tmp1.split("=")[0];  //変数
+        let formula = tmp1.split("=")[1];    //関係式
+        window[parameter] = eval(formula.split("#").join(rangeElements[i].value));
+
+        rangeElements[i].addEventListener("input",()=>{
+            eval(rangeElements[i].getAttribute("data-parameter").split("#").join(rangeElements[i].value));
+            updateObjectC();
+        });
+    }
+
+    let tmp3 = rangeElements[i].getAttribute("data-anime");
+
+    if(tmp3!=null){
+        myfunclist.push(()=>{
+            rangeElements[i].value = Number(rangeElements[i].value) + 0.01;
+            if(rangeElements[i].value==1)    rangeElements[i].value = 0;
+            eval(rangeElements[i].getAttribute("data-parameter").split("#").join(rangeElements[i].value));
+            updateObjectC();
+        });
+    }
+
+}
+
+
 //#############################################################
 //自作関数
 //#############################################################
@@ -270,6 +307,8 @@ function animateC(){
 
     requestAnimationFrame(animateC); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
+    myfunclist.forEach(func => func());
+
     if(mouseIsPressed && !twofinger)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
     let axis = angularvelocity1.clone().normalize();
     let rad = angularvelocity1.length()*0.007;
@@ -288,6 +327,7 @@ function animateC(){
     });
 
 
+
     renderer1.render(scene1, camera1);  //レンダリング
 }
 
@@ -302,7 +342,7 @@ function addMeshC(vtsa, indexa, optiona){
 
     if(getvalueC(optiona.spherecutradius)!=-1){ //球面カットを行う場合
         let vts_original = eval(vtsa).flat();
-        let tmp = spherecutC(vts_original, tripolyC(indexa), getvalueC(optiona.spherecutradius));   //球面カット後のgraphic complexを算出
+        let tmp = spherecutC(vts_original, tripolyC(indexa).flat(), getvalueC(optiona.spherecutradius));   //球面カット後のgraphic complexを算出
         geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts_original.length * 2), 3));    //頂点数の2倍のサイズの配列を仮に頂点リストとして設定（後に頂点数が増えたときのために使用メモリに余裕を持たせる）
         geometry1.setIndex(new THREE.BufferAttribute(new Uint16Array(tmp[1]), 1));  //ポリゴンインデックスリストを設定
         geometry1.computeVertexNormals();   //頂点の法線ベクトル設定
@@ -311,7 +351,7 @@ function addMeshC(vtsa, indexa, optiona){
         
     }else{  //球面カットを行わない場合
         geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(eval(vtsa).flat()), 3));  //頂点座標の設定
-        geometry1.setIndex(new THREE.BufferAttribute(new Uint16Array(tripolyC(indexa)),1)); //ポリゴンインデックスの設定
+        geometry1.setIndex(new THREE.BufferAttribute(new Uint16Array(tripolyC(indexa).flat()),1)); //ポリゴンインデックスの設定
         geometry1.computeVertexNormals();   //頂点の法線ベクトル設定
     }
 
@@ -336,7 +376,7 @@ function addMeshC(vtsa, indexa, optiona){
 
     //メッシュに頂点リスト・ポリゴンインデックスリスト・オプション情報を付与（メッシュを後で更新するのに使用）
     mesh1.vtsstring = vtsa;
-    mesh1.originalindex = indexa;
+    mesh1.originalindex = tripolyC(indexa);
     mesh1.originalOption = optiona;
     mesh1.className = 'meshC';
     
@@ -403,8 +443,6 @@ function addTubeC(vtsa, indexa, radius, optiona){
         mesh1.radius = radius;
         mesh1.originalOption = optiona;
         mesh1.className = "tubeC";
-
-        console.log(optiona.opacity);
 
         scene1.add( mesh1 );
 
@@ -497,8 +535,6 @@ function addObjectFromGC1C(gc, polygon_color_set, edge_color, scale, tuberadius,
 //scene1に含まれるオブジェクトの形状を更新する
 function updateObjectC(){
 
-    let flag1 = true;
-
     scene1.traverse((object)=>{
 
         if(object.className != undefined){
@@ -513,9 +549,8 @@ function updateObjectC(){
         }
 
         if(object.className == 'meshC'){
-
             //ジオメトリの更新
-            if(getvalueC(object.originalOption.spherecutradius)!=-1 && object.originOption.spherecutradius!=undefined){   //球面カットを行う場合
+            if(getvalueC(object.originalOption.spherecutradius)!=-1 && object.originalOption.spherecutradius!=undefined){   //球面カットを行う場合
                 let tmp = spherecutC(eval(object.vtsstring).flat(), object.originalindex.flat(), getvalueC(object.originalOption.spherecutradius)); //球面カット後の頂点リスト、ポリゴンインデックスリストを求める
                 object.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(tmp[0]), 3));   //頂点座標の更新
                 object.geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(tmp[1]), 1));    //ポリゴンインデックスリストの更新
@@ -726,7 +761,7 @@ function tripolyC(list){
     let result = [];
     for(let i=0; i<list.length; i++){ //三角ポリゴンに変換
         for(let j=0; j<list[i].length-2; j++){
-            result.push(list[i][0], list[i][1+j], list[i][2+j]);
+            result.push([list[i][0], list[i][1+j], list[i][2+j]]);
         }
     }
     return result;
