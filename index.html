@@ -1,80 +1,41 @@
+
 <html lang="ja">
-  <!--v23-->
+
   <head>
-    <title>公開講座2024 PC版</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
   </head>
+
 
   <body>
 
-    <!--タイトル（大きめのフォント）-->
-    <h3>【公開講座 2024】多面体やメビウスの帯から広がる図形の世界を愉しむ</h3>
+    <div style="height:20px"></div>
 
-    <div style="display:flex;align-items:center">
-      <h3>PC版　</h3>
-      <a href="index_mobile.html">（スマホ版ウェブサイトを開く）</a>
-    </div>
+    <input type="range" id="slider1" min='0' max='1' step='0.01' value='0.5' style="width:min(90%,400px); margin-left:min(5%,30px); margin-right:30px">
 
-    <p>
-      アイテムをクリックすると、図形を動かせるページが開きます。
-      <br>
-      図形をマウスドラッグで動かしたり、スクロール操作で拡大縮小ができます。
-    </p>
+    <div style="height:20px"></div>
 
-    <div style="height:30px"></div>
+    <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
+
+    <script>  
+      let canvas1 = document.getElementById('3d_graphic_canvas'); 
+      let size = Math.min(600, window.innerWidth);
+      canvas1.width = size * window.devicePixelRatio; 
+      canvas1.height = size * window.devicePixelRatio;
+      canvas1.style.width = size;
+      canvas1.style.height = size;
+    </script>
+
+
+
+    <!--外部ライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>  
     
-    <a href="mobius4D/index.html" style="margin:10px 10px 20px 20px">4次元を経由したメビウスの帯</a>
+    <script src="common_cgweb1.js"></script>  
 
-    <!--改行-->
-    <br>
-
-    <!--画像リンク-->
-    <a href="mobius4D/index.html">
-      <img src="thumbnail1.png" style="width:300px">
-    </a>
-
-    <p style="margin:50px 10px 20px 20px"></p>
-
-    <a href="henkaiten/index.html" style="margin:50px 10px 20px 20px" id="link2a">多面体の辺回転</a>
-
-    <br>
-
-    <a href="henkaiten/index.html" id="link2b">
-      <img src="thumbnail2.png" style="width:300px">
-    </a>
-
-    <p style="margin:50px 10px 20px 20px"></p>
-
-    <a href="hypercube/index.html" style="margin:50px 10px 20px 20px">超立方体</a>
-
-    <br>
-
-    <a href="hypercube/index.html">
-      <img src="thumbnail3.png" style="width:300px">
-    </a>
-
-    <p style="margin:50px 10px 20px 20px"></p>
-
-    <a href="mobius3D/index.html" style="margin:50px 10px 20px 20px">メビウスの帯</a>
-
-    <br>
-
-    <a href="mobius3D/index.html">
-      <img src="thumbnail4.png" style="width:300px">
-    </a>
-
-    <p style="margin:50px 10px 20px 20px"></p>
-
-    <a href="extra/index.html" style="margin:50px 10px 20px 20px">不思議な形</a>
-
-    <br>
-
-    <a href="extra/index.html">
-      <img src="thumbnail5.png" style="width:300px">
-    </a>
-
-
+    <script src = "data1.js"></script>
+    
+    <script src='custom_script1.js'></script>
   </body>
 
 </html>
