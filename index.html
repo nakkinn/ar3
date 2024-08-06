@@ -1,45 +1,52 @@
+<!--ver9-->
+<!--2024年8月　明和高校　数学夏の学校-->
 
 <html lang="ja">
 
   <head>
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1">  
+    <title>目次</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
-
 
   <body>
 
-    <!--キャンバス-->
-    <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
+    <h2>数学で作る展開図</h2>
 
-    <script>  
-      let canvas1 = document.getElementById('3d_graphic_canvas'); 
-      let size = Math.min(600, window.innerWidth);
-      canvas1.width = size * window.devicePixelRatio; 
-      canvas1.height = size * window.devicePixelRatio;
-      canvas1.style.width = size;
-      canvas1.style.height = size;
-    </script>
+    <a href="dod/index.html">多面体</a>  <!--リンクの生成-->
 
-    <div style="height:20px"></div>
-
-    <!--曲面を変化させるスライダー-->
-    <input type="range" id="slider1" min='0' max='1' step='0.01' value='1' data-parameter="t1 = #" style="width:min(90%,400px); margin-left:min(5%,30px); margin-right:30px">
-
-    <div style="height:20px"></div>
-
-
-    <!--外部ライブラリ-->
-    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>  
+    <div style="height:30px"></div>
     
+    <a href="tetra5/index.html">相貫体</a>
 
-    <!--自作プログラム-->
-    <script src="common_cgweb1.js"></script>  <!--ver8-->
+    <div style="height:30px"></div>
 
-    <script src = "data1.js"></script>
+    <a href="cylinder2/index.html">円柱交差</a>
+
+    <div style="height:30px"></div>
+
+    <a href="cylinder_cylinder/index.html">円柱・円錐交差</a>
+
+    <div style="height:30px"></div>
     
-    <script src = 'custom_script2.js'></script> <!--custom_script1とcustom_script2の2種類が使用可能-->
-    
+    <a href="mobius3D/index.html">メビウスの帯</a>
+
+    <div style="height:30px"></div>
+
+    <a href="mobius4D/index.html">4次元を経由したメビウスの帯</a>
+
+    <div style="height:30px"></div>
+
+    <a href="polyhedra.pdf">多面体 (PDF)</a>
+
+    <div style="height:30px"></div>
+
+    <a href="polyhedraNet.pdf">多面体の展開図 (PDF)</a>
+
+    <div style="height:30px"></div>
+
+    <a href="extrapoly.pdf">多面体の展開図2 (PDF)</a>
+
 
   </body>
 

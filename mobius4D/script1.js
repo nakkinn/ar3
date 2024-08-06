@@ -175,20 +175,23 @@ let index0 = [];    //空のポリゴンインデックス
 let index2 = [];    //標準メビウスの帯のポリゴンインデックス
 let index3 = [];    //中央で割いた標準メビウスの帯のポリゴンインデックス
 
+console.log(index1.length/10);
+let a2 = 240*8*4;
+console.log(9600/2*4+a2);
+console.log(9600*4-a2);
 
 for(let i=0; i<index1.length; i+=3){
 
     //標準メビウスの帯のポリゴンインデックス設定
-    let a1 = 240*4;
-    if(9600/2-a1<=i && i<9600/2+a1){
+    if(index1.length*0.4<=i && i<index1.length*0.6){
         index2.push(index1[i]);
         index2.push(index1[i+1]);
         index2.push(index1[i+2]);
     }
 
     //中央で割いた標準メビウスの帯のポリゴンインデックス設定
-    let a2 = 240*8;
-    if((a2<=i&&i<9600/2-a2) || (9600/2+a2<=i&&i<9600-a2)){
+    let a2 = 240*8*4;
+    if((index1.length*0.2<=i&&i<index1.length*0.3) || (index1.length*0.7<=i&&i<index1.length*0.8)){
         index3.push(index1[i]);
         index3.push(index1[i+1]);
         index3.push(index1[i+2]);
